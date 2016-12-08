@@ -1,0 +1,30 @@
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
+    }
+  }
+}
+
+[":frodo-api", ":frodo-plugin"].each { name ->
+  project(name) {
+    apply plugin: 'maven'
+    apply plugin: 'java'
+    apply plugin: 'com.novoda.bintray-release'
+    apply from: "../buildsystem/deploy.gradle"
+
+    targetCompatibility = JavaVersion.VERSION_1_7
+    sourceCompatibility = JavaVersion.VERSION_1_7
+
+    //noinspection GroovyAssignabilityCheck
+    task sourcesJar(type: Jar, dependsOn: classes) {
+      classifier = 'sources'
+      from sourceSets.main.allSource
+    }
+
+    artifacts {
+      archives jar
+      archives sourcesJar
+    }
+  }
+}

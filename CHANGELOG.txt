@@ -1,0 +1,6 @@
+----------------------------------------------------------
+VERSION 0.9.0
+----------------------------------------------------------
+FEATURE: @RxLogObservable Logging Scope.
+FEATURE: @RxLogObservable Logging Scope.
+FEATURE: Disable frodo via Gradle configuration.
