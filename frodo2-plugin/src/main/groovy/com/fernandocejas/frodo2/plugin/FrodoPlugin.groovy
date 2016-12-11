@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo.plugin
+package com.fernandocejas.frodo2.plugin
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
@@ -24,12 +24,12 @@ class FrodoPlugin implements Plugin<Project> {
     }
 
     project.dependencies {
-      compile "com.fernandocejas.frodo:frodo-api:0.9.0"
+      compile "com.fernandocejas.frodo2:frodo2-api:0.9.0"
       debugCompile "org.aspectj:aspectjrt:1.8.6"
-      debugCompile "com.fernandocejas.frodo:frodo-runtime:0.9.0"
+      debugCompile "com.fernandocejas.frodo2:frodo2-runtime:0.9.0"
     }
 
-    project.extensions.create('frodo', FrodoEnablerExtension)
+    project.extensions.create('frodo2', FrodoEnablerExtension)
     final def log = project.logger
 
     def variants = getProjectVariants project
@@ -37,8 +37,8 @@ class FrodoPlugin implements Plugin<Project> {
       if (!variant.buildType.isDebuggable()) {
         log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
         return; //Only weaving on Debug version of the app/library.
-      } else if (!project.frodo.enabled) {
-        log.debug("Frodo is not enabled.")
+      } else if (!project.frodo2.enabled) {
+        log.debug("Frodo2 is not enabled.")
         return;
       }
 

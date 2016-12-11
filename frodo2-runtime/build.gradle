@@ -29,7 +29,7 @@ dependencies {
   compile "org.jetbrains:annotations:$project.annotationsVersion"
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
   compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
-  compile project(':frodo-api')
+  compile project(':frodo2-api')
 
   testCompile "junit:junit:$project.junitVersion"
   testCompile "org.assertj:assertj-core:$project.assertJVersion"
@@ -113,7 +113,7 @@ task install(type: Exec, dependsOn: assemble) {
           "-DartifactId=${project.name}",
           "-Dversion=${project.version}",
           "-Dpackaging=aar",
-          "-Dfile=build/outputs/aar/frodo-runtime-${project.version}.aar"]
+          "-Dfile=build/outputs/aar/frodo2-runtime-${project.version}.aar"]
 }
 
 publish {

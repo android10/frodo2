@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo.plugin
+package com.fernandocejas.frodo2.plugin
 
 class FrodoEnablerExtension {
   def enabled = true

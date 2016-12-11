@@ -35,52 +35,52 @@ task cleanFrodo(type: Exec) {
 
 task installFrodoApi(type: Exec) {
   description = 'Assembles and installs Frodo Api in the local maven repository.'
-  commandLine './gradlew', '-p', 'frodo-api/', 'assemble', 'install'
+  commandLine './gradlew', '-p', 'frodo2-api/', 'assemble', 'install'
 }
 
 task installFrodoRuntime(type: Exec) {
   description = 'Assembles and installs Frodo Core Runtime Library in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo-runtime/", "assembleDebug", "install", "-x", "lint"
+  commandLine "./gradlew", "-p", "frodo2-runtime/", "assembleDebug", "install", "-x", "lint"
 }
 
 task installFrodoPlugin(type: Exec) {
   description = 'Assembles and installs Frodo Gradle Plugin in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo-plugin/", "build", "install"
+  commandLine "./gradlew", "-p", "frodo2-plugin/", "build", "install"
 }
 
 task installFrodoAndroidSample(type: Exec,
     dependsOn: ['installFrodoApi', 'installFrodoRuntime', 'installFrodoPlugin']) {
   description = 'Assembles and installs Frodo Example Android application.'
-  commandLine "./gradlew", "clean", "-p", "frodo-android-sample/", "assembleDebug", "installDebug"
+  commandLine "./gradlew", "clean", "-p", "frodo2-android-sample/", "assembleDebug", "installDebug"
 }
 installFrodoAndroidSample.mustRunAfter('installFrodoApi', 'installFrodoRuntime',
     'installFrodoPlugin')
 
 task runUnitTests(
-    dependsOn: [':frodo-runtime:cleanTestDebugUnitTest', ':frodo-runtime:testDebugUnitTest']) {
+    dependsOn: [':frodo2-runtime:cleanTestDebugUnitTest', ':frodo2-runtime:testDebugUnitTest']) {
   description = 'Run unit tests for frodo runtime.'
 }
 
-task publishFrodoPlugin(type: Exec, dependsOn: ['frodo-plugin:javadocJar']) {
+task publishFrodoPlugin(type: Exec, dependsOn: ['frodo2-plugin:javadocJar']) {
   description = 'Publishes Frodo Gradle Plugin.'
-  commandLine "./gradlew", "-p", "frodo-plugin/", "build", "bintrayUpload",
+  commandLine "./gradlew", "-p", "frodo2-plugin/", "build", "bintrayUpload",
       "-PbintrayUser=$System.env.BINTRAY_USERNAME",
       "-PbintrayKey=$System.env.BINTRAY_KEY",
       "-PdryRun=false"
 }
 
-task publishFrodoApi(type: Exec, dependsOn: ['frodo-api:javadocJar']) {
+task publishFrodoApi(type: Exec, dependsOn: ['frodo2-api:javadocJar']) {
   description = 'Publishes Frodo Library Api.'
-  commandLine "./gradlew", "-p", "frodo-api/", "build", "bintrayUpload",
+  commandLine "./gradlew", "-p", "frodo2-api/", "build", "bintrayUpload",
       "-PbintrayUser=$System.env.BINTRAY_USERNAME",
       "-PbintrayKey=$System.env.BINTRAY_KEY",
       "-PdryRun=false"
 }
 
 task publishFrodoRuntime(type: Exec,
-    dependsOn: ['frodo-runtime:androidSourcesJar', 'frodo-runtime:androidJavadocsJar']) {
+    dependsOn: ['frodo2-runtime:androidSourcesJar', 'frodo2-runtime:androidJavadocsJar']) {
   description = 'Publishes Frodo Core Runtime Library.'
-  commandLine "./gradlew", "-p", "frodo-runtime/", "build", "bintrayUpload",
+  commandLine "./gradlew", "-p", "frodo2-runtime/", "build", "bintrayUpload",
       "-PbintrayUser=$System.env.BINTRAY_USERNAME",
       "-PbintrayKey=$System.env.BINTRAY_KEY",
       "-PdryRun=false"
