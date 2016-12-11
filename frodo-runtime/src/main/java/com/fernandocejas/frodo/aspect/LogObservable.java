@@ -1,18 +1,18 @@
 package com.fernandocejas.frodo.aspect;
 
 import com.fernandocejas.frodo.annotation.RxLogObservable;
+import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.internal.observable.FrodoObservable;
 import com.fernandocejas.frodo.internal.observable.LoggableObservableFactory;
-import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.internal.observable.ObservableInfo;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
+import io.reactivex.Observable;
 import java.lang.annotation.Annotation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import rx.Observable;
 
 @Aspect
 public class LogObservable {

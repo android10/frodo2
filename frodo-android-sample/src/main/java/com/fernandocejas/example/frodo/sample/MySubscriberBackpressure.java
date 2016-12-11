@@ -1,10 +1,9 @@
 package com.fernandocejas.example.frodo.sample;
 
-import com.fernandocejas.frodo.annotation.RxLogSubscriber;
-import rx.Subscriber;
+import io.reactivex.subscribers.DisposableSubscriber;
 
-@RxLogSubscriber
-public class MySubscriberBackpressure extends Subscriber<Integer> {
+//@RxLogSubscriber
+public class MySubscriberBackpressure extends DisposableSubscriber<Integer> {
 
   @Override
   public void onStart() {
@@ -22,9 +21,9 @@ public class MySubscriberBackpressure extends Subscriber<Integer> {
   }
 
   @Override
-  public void onCompleted() {
-    if (!isUnsubscribed()) {
-      unsubscribe();
+  public void onComplete() {
+    if (!isDisposed()) {
+      dispose();
     }
   }
 }

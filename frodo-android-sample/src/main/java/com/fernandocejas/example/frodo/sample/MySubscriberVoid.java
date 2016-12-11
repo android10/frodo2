@@ -1,11 +1,10 @@
 package com.fernandocejas.example.frodo.sample;
 
-import com.fernandocejas.frodo.annotation.RxLogSubscriber;
-import rx.Subscriber;
+import io.reactivex.subscribers.DisposableSubscriber;
 
-@RxLogSubscriber
-public class MySubscriberVoid extends Subscriber<Void> {
-  @Override public void onCompleted() {
+//@RxLogSubscriber
+public class MySubscriberVoid extends DisposableSubscriber<Void> {
+  @Override public void onComplete() {
     //empty
   }
 

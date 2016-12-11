@@ -2,7 +2,7 @@ package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
-import rx.Observable;
+import io.reactivex.Observable;
 
 @SuppressWarnings("unchecked") class LogNothingObservable extends LoggableObservable {
 

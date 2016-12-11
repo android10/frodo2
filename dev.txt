@@ -19,10 +19,10 @@ New Frodo version (TODO: automate these tasks)
 
 4. Create a tag on github:
 - git tag
-- git tag -a v0.8.4 -m "Release version 0.8.4"
+- git tag -a v0.9.0 -m "Release version 0.9.0"
 - git tag
-- git show v0.8.4
-- git push origin v0.8.4
+- git show v0.9.0
+- git push origin v0.9.0
 
 5. Release Notes: and description in both Github and Bintray.
 - Frodo wiki on github: https://github.com/android10/frodo/wiki

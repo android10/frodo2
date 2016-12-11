@@ -4,6 +4,7 @@ import com.fernandocejas.frodo.annotation.RxLogObservable;
 import com.fernandocejas.frodo.core.strings.Strings;
 import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
+import io.reactivex.Observable;
 import java.lang.annotation.Annotation;
 
 @SuppressWarnings("unchecked")
@@ -24,7 +25,7 @@ public class FrodoObservable {
     this.observableFactory = observableFactory;
   }
 
-  public rx.Observable getObservable() throws Throwable {
+  public Observable getObservable() throws Throwable {
     messageManager.printObservableInfo(observableInfo);
     final Class observableType = joinPoint.getGenericReturnTypes().get(0);
     final Annotation annotation = joinPoint.getAnnotation(RxLogObservable.class);

@@ -1,10 +1,9 @@
 package com.fernandocejas.example.frodo.sample;
 
-import com.fernandocejas.frodo.annotation.RxLogSubscriber;
-import rx.Subscriber;
+import io.reactivex.subscribers.DisposableSubscriber;
 
-@RxLogSubscriber
-public class MySubscriber extends Subscriber<String> {
+//@RxLogSubscriber
+public class MySubscriber extends DisposableSubscriber<String> {
   @Override
   public void onNext(String value) {
     //empty
@@ -16,7 +15,7 @@ public class MySubscriber extends Subscriber<String> {
   }
 
   @Override
-  public void onCompleted() {
+  public void onComplete() {
     //empty
   }
 }

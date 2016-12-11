@@ -28,7 +28,7 @@ apply plugin: 'com.novoda.bintray-release'
 dependencies {
   compile "org.jetbrains:annotations:$project.annotationsVersion"
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile "io.reactivex:rxjava:$project.rxJavaVersion"
+  compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
   compile project(':frodo-api')
 
   testCompile "junit:junit:$project.junitVersion"

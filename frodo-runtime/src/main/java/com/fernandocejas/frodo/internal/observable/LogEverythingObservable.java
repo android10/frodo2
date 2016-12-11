@@ -4,10 +4,11 @@ import com.fernandocejas.frodo.internal.Counter;
 import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.internal.StopWatch;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
-import rx.Notification;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Action1;
+import io.reactivex.Notification;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 
 @SuppressWarnings("unchecked") class LogEverythingObservable extends LoggableObservable {
 
@@ -20,43 +21,38 @@ import rx.functions.Action1;
     final StopWatch stopWatch = new StopWatch();
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Observable<T>) joinPoint.proceed())
-        .doOnSubscribe(new Action0() {
-          @Override
-          public void call() {
+        .doOnSubscribe(new Consumer<Disposable>() {
+          @Override public void accept(Disposable disposable) {
             stopWatch.start();
             messageManager.printObservableOnSubscribe(observableInfo);
           }
         })
-        .doOnEach(new Action1<Notification<? super T>>() {
-          @Override public void call(Notification<? super T> notification) {
+        .doOnEach(new Consumer<Notification<T>>() {
+          @Override public void accept(Notification<T> notification) {
             if (!observableInfo.getSubscribeOnThread().isPresent()
                 && (notification.isOnNext() || notification.isOnError())) {
               observableInfo.setSubscribeOnThread(Thread.currentThread().getName());
             }
           }
         })
-        .doOnNext(new Action1<T>() {
-          @Override
-          public void call(T value) {
+        .doOnNext(new Consumer<T>() {
+          @Override public void accept(T value) {
             emittedItems.increment();
             messageManager.printObservableOnNextWithValue(observableInfo, value);
           }
         })
-        .doOnError(new Action1<Throwable>() {
-          @Override
-          public void call(Throwable throwable) {
+        .doOnError(new Consumer<Throwable>() {
+          @Override public void accept(Throwable throwable) {
             messageManager.printObservableOnError(observableInfo, throwable);
           }
         })
-        .doOnCompleted(new Action0() {
-          @Override
-          public void call() {
+        .doOnComplete(new Action() {
+          @Override public void run() {
             messageManager.printObservableOnCompleted(observableInfo);
           }
         })
-        .doOnTerminate(new Action0() {
-          @Override
-          public void call() {
+        .doOnTerminate(new Action() {
+          @Override public void run() {
             stopWatch.stop();
             observableInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
             observableInfo.setTotalEmittedItems(emittedItems.tally());
@@ -64,9 +60,8 @@ import rx.functions.Action1;
             messageManager.printObservableItemTimeInfo(observableInfo);
           }
         })
-        .doOnUnsubscribe(new Action0() {
-          @Override
-          public void call() {
+        .doOnDispose(new Action() {
+          @Override public void run() {
             if (!observableInfo.getObserveOnThread().isPresent()) {
               observableInfo.setObserveOnThread(Thread.currentThread().getName());
             }

@@ -4,7 +4,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "com.fernandocejas.frodo:frodo-plugin:$project.version"
+//    classpath "com.fernandocejas.frodo:frodo-plugin:$project.version"
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
   }
 }
@@ -15,13 +15,13 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.fernandocejas.frodo'
+//apply plugin: 'com.fernandocejas.frodo'
 
 //By default frodo is ON on debug build variants, although
 //we can enable-disable it with this configuration.
-frodo {
-  enabled = true
-}
+//frodo {
+//  enabled = true
+//}
 
 android {
   buildToolsVersion project.buildToolsVersion
@@ -56,6 +56,6 @@ android {
 }
 
 dependencies {
-  compile 'io.reactivex:rxjava:1.0.14'
-  compile 'io.reactivex:rxandroid:0.25.0'
+  compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+  compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 }
