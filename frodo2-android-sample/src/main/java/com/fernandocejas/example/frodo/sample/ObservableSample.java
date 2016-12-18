@@ -1,5 +1,6 @@
 package com.fernandocejas.example.frodo.sample;
 
+import com.fernandocejas.frodo.annotation.RxLogObservable;
 import io.reactivex.Observable;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +10,7 @@ public class ObservableSample {
   }
 
   //@RxLogObservable(EVERYTHING)
+  @RxLogObservable
   public Observable<Integer> numbers() {
     return Observable.just(1, 2);
   }

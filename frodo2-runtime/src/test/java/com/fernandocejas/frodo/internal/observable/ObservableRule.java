@@ -5,12 +5,12 @@ import com.fernandocejas.frodo.internal.MessageManager;
 import com.fernandocejas.frodo.joinpoint.FrodoProceedingJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestProceedingJoinPoint;
+import io.reactivex.Observable;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import rx.Observable;
 
 class ObservableRule implements TestRule {
 

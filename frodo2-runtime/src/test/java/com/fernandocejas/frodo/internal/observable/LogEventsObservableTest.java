@@ -1,13 +1,13 @@
 package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.internal.MessageManager;
+import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.observers.TestSubscriber;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
@@ -19,20 +19,20 @@ public class LogEventsObservableTest {
   @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
 
   private LogEventsObservable loggableObservable;
-  private TestSubscriber subscriber;
+  private TestObserver observer;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    subscriber = new TestSubscriber();
+    observer = new TestObserver();
     loggableObservable =
         new LogEventsObservable(observableRule.joinPoint(), messageManager, observableRule.info());
   }
 
   @Test
   public void shouldLogOnlyObservableEvents() throws Throwable {
-    loggableObservable.get(observableRule.stringType()).subscribe(subscriber);
+    loggableObservable.get(observableRule.stringType()).subscribe(observer);
 
     verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class));
     verify(messageManager).printObservableOnNext(any(ObservableInfo.class));

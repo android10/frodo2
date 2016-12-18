@@ -26,10 +26,10 @@ public class SamplesActivity extends Activity {
     public void onClick(View v) {
       final ObservableSample observableSample = new ObservableSample();
       executeExampleOne(observableSample);
-      executeExampleTwo(observableSample);
-      executeExampleThree(observableSample);
-      executeExampleFour(observableSample);
-      executeExampleFive(observableSample);
+      //executeExampleTwo(observableSample);
+      //executeExampleThree(observableSample);
+      //executeExampleFour(observableSample);
+      //executeExampleFive(observableSample);
     }
   };
 

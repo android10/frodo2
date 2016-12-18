@@ -8,13 +8,6 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 
-  private final View.OnClickListener loadExamplesClickListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      Intent intent = new Intent(MainActivity.this, SamplesActivity.class);
-      startActivity(intent);
-    }
-  };
   private Button btnLoadExamples;
 
   @Override
@@ -28,4 +21,12 @@ public class MainActivity extends Activity {
     btnLoadExamples = (Button) findViewById(R.id.btnLoadExamples);
     btnLoadExamples.setOnClickListener(loadExamplesClickListener);
   }
+
+  private final View.OnClickListener loadExamplesClickListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      Intent intent = new Intent(MainActivity.this, SamplesActivity.class);
+      startActivity(intent);
+    }
+  };
 }

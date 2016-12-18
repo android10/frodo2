@@ -4,7 +4,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-//    classpath "com.fernandocejas.frodo2:frodo2-plugin:$project.version"
+    classpath "com.fernandocejas.frodo2:frodo2-plugin:$project.version"
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
   }
 }
@@ -15,13 +15,13 @@ repositories {
 }
 
 apply plugin: 'com.android.application'
-//apply plugin: 'com.fernandocejas.frodo2'
+apply plugin: 'com.fernandocejas.frodo2'
 
-//By default frodo is ON on debug build variants, although
+//By default frodo2 is ON on debug build variants, although
 //we can enable-disable it with this configuration.
-//frodo {
-//  enabled = true
-//}
+frodo2 {
+  enabled = true
+}
 
 android {
   buildToolsVersion project.buildToolsVersion

@@ -1,11 +1,11 @@
 package com.fernandocejas.frodo.joinpoint;
 
+import io.reactivex.Observable;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.aspectj.lang.reflect.SourceLocation;
 import org.aspectj.runtime.internal.AroundClosure;
-import rx.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

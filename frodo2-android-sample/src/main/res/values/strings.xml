@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name">Frodo</string>
+  <string name="app_name">Frodo2</string>
   <string name="url">http://www.fernandocejas.com/</string>
   <string name="url_github">https://github.com/android10/frodo</string>
 
-  <string name="activity_title_examples">Frodo Examples</string>
+  <string name="activity_title_examples">Frodo2 Examples</string>
 
-  <string name="btn_text_load_examples">Load Frodo Samples</string>
+  <string name="btn_text_load_examples">Load Frodo2 Samples</string>
   <string name="btn_text_sample_rx_log_observable">Rx Log Observable</string>
   <string name="btn_text_sample_rx_log_subscriber">Rx Log Subscriber</string>
 

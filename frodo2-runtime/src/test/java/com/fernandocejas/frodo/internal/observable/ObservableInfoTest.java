@@ -1,14 +1,13 @@
 package com.fernandocejas.frodo.internal.observable;
 
 import com.fernandocejas.frodo.core.optional.Optional;
-import com.fernandocejas.frodo.internal.observable.ObservableInfo;
 import com.fernandocejas.frodo.joinpoint.FrodoJoinPoint;
 import com.fernandocejas.frodo.joinpoint.TestJoinPoint;
+import io.reactivex.Observable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import rx.Observable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
