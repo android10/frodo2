@@ -3,7 +3,6 @@ package com.fernandocejas.frodo.internal.observable;
 import com.fernandocejas.frodo.internal.MessageManager;
 import io.reactivex.observers.TestObserver;
 import java.lang.annotation.Annotation;
-import java.util.Collections;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +47,7 @@ public class FrodoObservableTest {
   public void shouldBuildObservable() throws Throwable {
     frodoObservable.getObservable().subscribe(observer);
 
-    observer.assertValues(Collections.singletonList(ObservableRule.OBSERVABLE_STREAM_VALUE));
+    observer.assertResult(ObservableRule.OBSERVABLE_STREAM_VALUE);
     observer.assertNoErrors();
     observer.assertComplete();
   }

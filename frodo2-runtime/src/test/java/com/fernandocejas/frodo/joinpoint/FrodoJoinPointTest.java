@@ -59,9 +59,10 @@ public class FrodoJoinPointTest {
 
   @Test
   public void shouldReturnCorrectGenericReturnType() {
-    final TestJoinPoint testJoinPoint = new TestJoinPoint.Builder(MyDummyClass.class, "buildDummyObservable")
-        .withReturnType(Observable.class)
-        .build();
+    final TestJoinPoint testJoinPoint =
+        new TestJoinPoint.Builder(MyDummyClass.class, "buildDummyObservable")
+            .withReturnType(Observable.class)
+            .build();
     final FrodoJoinPoint frodoJoinPoint = new FrodoJoinPoint(testJoinPoint);
 
     assertThat(frodoJoinPoint.getGenericReturnTypes()).isEqualTo(
@@ -101,6 +102,10 @@ public class FrodoJoinPointTest {
 
   private static class MyDummyClass {
     public MyDummyClass() {
+    }
+
+    public Observable buildDummyObservable() {
+      return Observable.empty();
     }
 
     @Override public String toString() {
