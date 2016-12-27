@@ -3,6 +3,7 @@ buildscript {
     maven {
       url  "http://dl.bintray.com/android10/maven"
     }
+    mavenLocal()
   }
 }
 
@@ -10,6 +11,7 @@ repositories {
   maven {
     url  "http://dl.bintray.com/android10/maven"
   }
+  mavenLocal()
 }
 
 apply plugin: 'groovy'

@@ -10,8 +10,6 @@ if (JavaVersion.current().isJava8Compatible()) {
   project(name) {
     apply plugin: 'maven'
     apply plugin: 'java'
-    apply plugin: 'com.novoda.bintray-release'
-    apply from: "../buildsystem/deploy.gradle"
 
     targetCompatibility = JavaVersion.VERSION_1_7
     sourceCompatibility = JavaVersion.VERSION_1_7

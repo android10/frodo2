@@ -16,7 +16,7 @@ class MessageBuilder {
   private static final String TEXT_ENCLOSING_SYMBOL = "'";
   private static final String LOG_ENCLOSING_OPEN = "[";
   private static final String LOG_ENCLOSING_CLOSE = "]";
-  private static final String LIBRARY_LABEL = "Frodo => ";
+  private static final String LIBRARY_LABEL = "Frodo2 => ";
   private static final String CLASS_LABEL = LOG_START + "InClass" + VALUE_SEPARATOR;
   private static final String METHOD_LABEL = LOG_START + "Method" + VALUE_SEPARATOR;
   private static final String TIME_LABEL = LOG_START + "Time" + VALUE_SEPARATOR;

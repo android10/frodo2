@@ -9,6 +9,7 @@ buildscript {
     maven {
       url  "http://dl.bintray.com/android10/maven"
     }
+    mavenLocal()
   }
   dependencies {
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
@@ -20,10 +21,10 @@ repositories {
   maven {
     url  "http://dl.bintray.com/android10/maven"
   }
+  mavenLocal()
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 dependencies {
   compile "org.jetbrains:annotations:$project.annotationsVersion"
@@ -114,15 +115,6 @@ task install(type: Exec, dependsOn: assemble) {
           "-Dversion=${project.version}",
           "-Dpackaging=aar",
           "-Dfile=build/outputs/aar/frodo2-runtime-${project.version}.aar"]
-}
-
-publish {
-  userOrg = project.user
-  groupId = project.group
-  artifactId = project.name
-  publishVersion = project.version
-  desc = 'Library based on Aspects for Logging RxJava Objects based on Gradle Plugin.'
-  website = project.website
 }
 
 task androidJavadocs(type: Javadoc) {
