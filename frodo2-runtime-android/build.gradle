@@ -1,0 +1,136 @@
+import com.android.build.gradle.LibraryPlugin
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+
+buildscript {
+  repositories {
+    jcenter()
+    maven {
+      url  "http://dl.bintray.com/android10/maven"
+    }
+    mavenLocal()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
+    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
+  }
+}
+
+repositories {
+  maven {
+    url  "http://dl.bintray.com/android10/maven"
+  }
+  mavenLocal()
+}
+
+apply plugin: 'com.android.library'
+
+dependencies {
+  compile "org.jetbrains:annotations:$project.annotationsVersion"
+  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
+  compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
+  compile project(':frodo2-api')
+
+  testCompile "junit:junit:$project.junitVersion"
+  testCompile "org.assertj:assertj-core:$project.assertJVersion"
+  testCompile "org.mockito:mockito-core:$project.mockitoVersion"
+  testCompile "org.robolectric:robolectric:$project.robolectricVersion"
+}
+
+android {
+  buildToolsVersion project.buildToolsVersion
+  compileSdkVersion Integer.parseInt(project.compileSdkVersion)
+
+  defaultConfig {
+    versionName project.version
+    minSdkVersion Integer.parseInt(project.minSdkVersion)
+    targetSdkVersion Integer.parseInt(project.targetSdkVersion)
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  compileOptions {
+    targetCompatibility JavaVersion.VERSION_1_7
+    sourceCompatibility JavaVersion.VERSION_1_7
+  }
+}
+
+android.libraryVariants.all { variant ->
+  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
+
+  //Compile aspects
+  JavaCompile javaCompile = variant.javaCompile
+  javaCompile.doLast {
+    String[] args = ["-showWeaveInfo",
+                     "-1.5",
+                     "-inpath", javaCompile.destinationDir.toString(),
+                     "-aspectpath", javaCompile.classpath.asPath,
+                     "-d", javaCompile.destinationDir.toString(),
+                     "-classpath", javaCompile.classpath.asPath,
+                     "-bootclasspath", plugin.project.android.bootClasspath.join(
+        File.pathSeparator)]
+
+    final MessageHandler handler = new MessageHandler(true);
+    final def log = project.logger
+    new Main().run(args, handler)
+    for (IMessage message : handler.getMessages(null, true)) {
+      switch (message.getKind()) {
+        case IMessage.ABORT:
+        case IMessage.ERROR:
+        case IMessage.FAIL:
+          log.error message.message, message.thrown
+          break;
+        case IMessage.INFO:
+          log.info message.message, message.thrown
+          break;
+        case IMessage.DEBUG:
+          log.debug message.message, message.thrown
+          break;
+      }
+    }
+  }
+
+  //Change aar file name: add version name only for debug version (development)
+  if (variant.name == 'debug') {
+    variant.outputs.each { output ->
+      if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
+        def file = output.outputFile
+        def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
+        output.outputFile = new File(file.parent, fileName)
+      }
+    }
+  }
+}
+
+//Install in maven local repository
+task install(type: Exec, dependsOn: assemble) {
+  description = "Installs Frodo generated artifact in the local maven repository."
+  executable = 'mvn'
+  args = ["install:install-file",
+          "-DgroupId=${project.group}",
+          "-DartifactId=${project.name}",
+          "-Dversion=${project.version}",
+          "-Dpackaging=aar",
+          "-Dfile=build/outputs/aar/frodo2-runtime-android-${project.version}.aar"]
+}
+
+task androidJavadocs(type: Javadoc) {
+  source = android.sourceSets.main.java.srcDirs
+  //noinspection GroovyAssignabilityCheck
+  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+  classifier = 'javadoc'
+  //noinspection GroovyAssignabilityCheck
+  from androidJavadocs.destinationDir
+}
+
+task androidSourcesJar(type: Jar) {
+  classifier = 'sources'
+  //noinspection GroovyAssignabilityCheck
+  from android.sourceSets.main.java.srcDirs
+}

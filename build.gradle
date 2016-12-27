@@ -35,9 +35,14 @@ task installFrodoApi(type: Exec) {
   commandLine './gradlew', '-p', 'frodo2-api/', 'assemble', 'install'
 }
 
-task installFrodoRuntime(type: Exec) {
-  description = 'Assembles and installs Frodo Core Runtime Library in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo2-runtime/", "assembleDebug", "install", "-x", "lint"
+task installFrodoRuntimeAndroid(type: Exec) {
+  description = 'Assembles and installs Frodo Core Android Runtime Library in the local maven repository.'
+  commandLine "./gradlew", "-p", "frodo2-runtime-android/", "assembleDebug", "install", "-x", "lint"
+}
+
+task installFrodoRuntimeJava(type: Exec) {
+  description = 'Assembles and installs Frodo Core Java Runtime Library in the local maven repository.'
+  commandLine "./gradlew", "-p", "frodo2-runtime-java/", "build", "install"
 }
 
 task installFrodoPlugin(type: Exec) {
@@ -46,11 +51,17 @@ task installFrodoPlugin(type: Exec) {
 }
 
 task installFrodoAndroidSample(type: Exec,
-    dependsOn: ['installFrodoApi', 'installFrodoRuntime', 'installFrodoPlugin']) {
+    dependsOn: ['installFrodoApi',
+                'installFrodoRuntimeAndroid',
+                'installFrodoRuntimeJava',
+                'installFrodoPlugin']) {
   description = 'Assembles and installs Frodo Example Android application.'
   commandLine "./gradlew", "clean", "-p", "frodo2-android-sample/", "assembleDebug", "installDebug"
 }
-installFrodoAndroidSample.mustRunAfter('installFrodoApi', 'installFrodoRuntime',
+installFrodoAndroidSample.mustRunAfter(
+    'installFrodoApi',
+    'installFrodoRuntimeAndroid',
+    'installFrodoRuntimeJava',
     'installFrodoPlugin')
 
 task runUnitTests(

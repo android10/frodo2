@@ -26,7 +26,7 @@ class FrodoPlugin implements Plugin<Project> {
     project.dependencies {
       compile "com.fernandocejas.frodo2:frodo2-api:0.9.0"
       debugCompile "org.aspectj:aspectjrt:1.8.6"
-      debugCompile "com.fernandocejas.frodo2:frodo2-runtime:0.9.0"
+      debugCompile "com.fernandocejas.frodo2:frodo2-runtime-android:0.9.0"
     }
 
     project.extensions.create('frodo2', FrodoEnablerExtension)

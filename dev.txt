@@ -8,9 +8,9 @@ New Frodo version (TODO: automate these tasks)
 - https://github.com/novoda/bintray-release
 - https://github.com/novoda/bintray-release/issues/19
 
-3. Generate and upload javadoc and sources manually on bintray for frodo2-runtime:
-- ./gradlew -p frodo2-runtime/ androidJavadocsJar
-- ./gradlew -p frodo2-runtime/ androidSourcesJar
+3. Generate and upload javadoc and sources manually on bintray for frodo2-runtime-android:
+- ./gradlew -p frodo2-runtime-android/ androidJavadocsJar
+- ./gradlew -p frodo2-runtime-android/ androidSourcesJar
 - https://bintray.com/android10/maven
 
 3. Delete any local frodo repository and try the plugin with a new clean android project.
@@ -48,7 +48,7 @@ POSSIBLE ISSUE #1
 FAILURE: Build failed with an exception.
 
 * What went wrong:
-Execution failed for task ':frodo2-runtime:install'.
+Execution failed for task ':frodo2-runtime-android:install'.
 > A problem occurred starting process 'command 'mvn''
 
 - Solution: Stop Gradle by executing: './gradlew --stop'

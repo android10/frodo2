@@ -1,0 +1,28 @@
+buildscript {
+  repositories {
+    maven {
+      url  "http://dl.bintray.com/android10/maven"
+    }
+    mavenLocal()
+  }
+}
+
+repositories {
+  maven {
+    url  "http://dl.bintray.com/android10/maven"
+  }
+  mavenLocal()
+}
+
+dependencies {
+  compile "org.jetbrains:annotations:$project.annotationsVersion"
+  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
+  compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
+  compile project(':frodo2-api')
+}
+
+//noinspection GroovyAssignabilityCheck
+task javadocJar(type: Jar, dependsOn: ['javadoc']) {
+  classifier = 'javadoc'
+  from 'build/docs/javadoc'
+}
