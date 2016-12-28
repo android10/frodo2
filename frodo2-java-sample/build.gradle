@@ -1,0 +1,24 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
+}
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
+
+apply plugin: 'application'
+
+//noinspection GroovyUnusedAssignment
+mainClassName = "com.fernandocejas.example.frodo2.Main"
+
+run{
+  standardInput = System.in
+}
+
+dependencies {
+  compile 'io.reactivex.rxjava2:rxjava:2.0.2'
+}

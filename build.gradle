@@ -64,6 +64,20 @@ installFrodoAndroidSample.mustRunAfter(
     'installFrodoRuntimeJava',
     'installFrodoPlugin')
 
+task runFrodoJavaSample(type: Exec,
+    dependsOn: ['installFrodoApi',
+                'installFrodoRuntimeAndroid',
+                'installFrodoRuntimeJava',
+                'installFrodoPlugin']) {
+  description = 'Assembles and installs Frodo Example Java application.'
+  commandLine "./gradlew", "clean", "-p", "frodo2-java-sample/", "run", "-q"
+}
+runFrodoJavaSample.mustRunAfter(
+    'installFrodoApi',
+    'installFrodoRuntimeAndroid',
+    'installFrodoRuntimeJava',
+    'installFrodoPlugin')
+
 task runUnitTests(
     dependsOn: [':frodo2-runtime:cleanTestDebugUnitTest', ':frodo2-runtime:testDebugUnitTest']) {
   description = 'Run unit tests for frodo runtime.'
