@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2;
+package com.fernandocejas.frodo2.android;
 
 import android.content.Context;
 import android.content.SharedPreferences;

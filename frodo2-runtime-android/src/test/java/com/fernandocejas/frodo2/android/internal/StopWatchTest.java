@@ -1,6 +1,5 @@
-package com.fernandocejas.frodo2.internal;
+package com.fernandocejas.frodo2.android.internal;
 
-import com.fernandocejas.frodo2.android.internal.StopWatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

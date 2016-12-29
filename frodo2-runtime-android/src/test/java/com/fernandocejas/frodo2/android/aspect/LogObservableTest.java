@@ -1,8 +1,7 @@
-package com.fernandocejas.frodo2.aspect;
+package com.fernandocejas.frodo2.android.aspect;
 
-import com.fernandocejas.frodo2.android.aspect.LogObservable;
-import com.fernandocejas.frodo2.joinpoint.TestJoinPoint;
-import com.fernandocejas.frodo2.joinpoint.TestProceedingJoinPoint;
+import com.fernandocejas.frodo2.android.joinpoint.TestJoinPoint;
+import com.fernandocejas.frodo2.android.joinpoint.TestProceedingJoinPoint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

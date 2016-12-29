@@ -1,6 +1,5 @@
-package com.fernandocejas.frodo2.joinpoint;
+package com.fernandocejas.frodo2.android.joinpoint;
 
-import com.fernandocejas.frodo2.android.joinpoint.FrodoProceedingJoinPoint;
 import java.util.Observable;
 import org.junit.Before;
 import org.junit.Test;

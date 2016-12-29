@@ -1,10 +1,9 @@
-package com.fernandocejas.frodo2.internal.observable;
+package com.fernandocejas.frodo2.android.internal.observable;
 
 import com.fernandocejas.frodo2.android.internal.MessageManager;
-import com.fernandocejas.frodo2.android.internal.observable.ObservableInfo;
 import com.fernandocejas.frodo2.android.joinpoint.FrodoProceedingJoinPoint;
-import com.fernandocejas.frodo2.joinpoint.TestJoinPoint;
-import com.fernandocejas.frodo2.joinpoint.TestProceedingJoinPoint;
+import com.fernandocejas.frodo2.android.joinpoint.TestJoinPoint;
+import com.fernandocejas.frodo2.android.joinpoint.TestProceedingJoinPoint;
 import io.reactivex.Observable;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;

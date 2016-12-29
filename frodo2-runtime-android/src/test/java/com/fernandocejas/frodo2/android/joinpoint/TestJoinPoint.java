@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.joinpoint;
+package com.fernandocejas.frodo2.android.joinpoint;
 
 import java.lang.reflect.Method;
 import java.util.Observable;

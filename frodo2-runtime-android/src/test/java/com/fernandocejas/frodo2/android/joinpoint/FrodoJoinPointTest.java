@@ -1,6 +1,5 @@
-package com.fernandocejas.frodo2.joinpoint;
+package com.fernandocejas.frodo2.android.joinpoint;
 
-import com.fernandocejas.frodo2.android.joinpoint.FrodoJoinPoint;
 import io.reactivex.Observable;
 import java.util.Arrays;
 import java.util.Collections;

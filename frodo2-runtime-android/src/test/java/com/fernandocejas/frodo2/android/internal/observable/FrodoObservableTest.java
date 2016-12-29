@@ -1,8 +1,6 @@
-package com.fernandocejas.frodo2.internal.observable;
+package com.fernandocejas.frodo2.android.internal.observable;
 
 import com.fernandocejas.frodo2.android.internal.MessageManager;
-import com.fernandocejas.frodo2.android.internal.observable.FrodoObservable;
-import com.fernandocejas.frodo2.android.internal.observable.ObservableInfo;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Rule;
