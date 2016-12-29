@@ -13,24 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.frodo2.plugin
+package com.fernandocejas.frodo2.plugin.config
 
-import com.fernandocejas.frodo2.plugin.config.BuildFactory
-import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class FrodoPlugin implements Plugin<Project> {
-  @Override
-  void apply(Project project) {
-    createExtensions project
-    configureProject project
+public abstract class Build {
+
+  protected def project
+
+  public Build(Project project) {
+    this.project = project
+    setupRepositories()
+    setupDependencies()
   }
 
-  static def createExtensions(Project project) {
-    project.extensions.create('frodo2', FrodoEnablerExtension)
+  private void setupRepositories() {
+    this.project.buildscript.repositories.maven {
+      url "http://dl.bintray.com/android10/maven"
+    }
+
+    this.project.repositories.maven {
+      url "http://dl.bintray.com/android10/maven"
+    }
   }
 
-  static def configureProject(Project project) {
-    new BuildFactory().create(project).configure()
+  private void setupDependencies() {
+    project.dependencies {
+      compile "com.fernandocejas.frodo2:frodo2-api:0.9.0"
+    }
   }
+
+  abstract void configure()
 }

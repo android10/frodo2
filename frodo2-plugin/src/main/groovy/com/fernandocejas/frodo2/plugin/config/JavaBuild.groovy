@@ -13,16 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.fernandocejas.frodo2.plugin
+package com.fernandocejas.frodo2.plugin.config
 
-class FrodoEnablerExtension {
-  def enabled = true
+import org.gradle.api.Project
 
-  def setEnabled(boolean enabled) {
-    this.enabled = enabled
+class JavaBuild extends Build {
+
+  JavaBuild(Project project) {
+    super(project)
   }
 
-  def getEnabled() {
-    return enabled;
+  @Override
+  void configure() {
+    //TODO: setup java
   }
 }

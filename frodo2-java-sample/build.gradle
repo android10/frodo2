@@ -1,16 +1,22 @@
 buildscript {
   repositories {
+    mavenLocal()
     mavenCentral()
     jcenter()
+  }
+  dependencies {
+    classpath "com.fernandocejas.frodo2:frodo2-plugin:$project.version"
   }
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
   jcenter()
 }
 
 apply plugin: 'application'
+apply plugin: 'com.fernandocejas.frodo2'
 
 //noinspection GroovyUnusedAssignment
 mainClassName = "com.fernandocejas.example.frodo2.Main"
@@ -22,3 +28,4 @@ run{
 dependencies {
   compile 'io.reactivex.rxjava2:rxjava:2.0.2'
 }
+

@@ -15,6 +15,7 @@
  */
 package com.fernandocejas.example.frodo2;
 
+import com.fernandocejas.frodo2.annotation.RxLogObservable;
 import io.reactivex.Observable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -23,8 +24,13 @@ class ObservableSample {
   ObservableSample() {}
 
   void execute() {
-    final Observable<String> observable = Observable.just("Silvia", "Yanina", "Fernando");
+    final Observable<String> observable = buildObservable();
     observable.subscribeWith(new MyObserver());
+  }
+
+  @RxLogObservable
+  private Observable<String> buildObservable() {
+    return Observable.just("Silvia", "Yanina", "Fernando");
   }
 
   private static class MyObserver extends DisposableObserver<String> {
