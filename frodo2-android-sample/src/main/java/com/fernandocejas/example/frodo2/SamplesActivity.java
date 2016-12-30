@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import com.fernandocejas.example.frodo.R;
 import com.fernandocejas.example.frodo2.sample.MyObserver;
 import com.fernandocejas.example.frodo2.sample.ObservableSample;
 import io.reactivex.Observable;

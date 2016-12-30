@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import com.fernandocejas.example.frodo.R;
 
 public class MainActivity extends Activity {
 
@@ -26,7 +25,7 @@ public class MainActivity extends Activity {
   private final View.OnClickListener loadExamplesClickListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      Intent intent = new Intent(MainActivity.this, SamplesActivity.class);
+      final Intent intent = new Intent(MainActivity.this, SamplesActivity.class);
       startActivity(intent);
     }
   };
