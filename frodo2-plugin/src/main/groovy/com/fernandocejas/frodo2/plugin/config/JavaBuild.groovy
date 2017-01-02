@@ -43,6 +43,7 @@ class JavaBuild extends Build {
                        "-XnoInline",
                        "-Xlint:warning",
                        "-inpath", javaCompile.destinationDir.toString(),
+                       "-inpath", javaCompile.inputs.files.asPath.toString(),
                        "-aspectpath", javaCompile.classpath.asPath,
                        "-d", javaCompile.destinationDir.toString(),
                        "-classpath", javaCompile.classpath.asPath]
