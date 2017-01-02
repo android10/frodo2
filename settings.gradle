@@ -1,6 +1,7 @@
-include ':frodo2-android-sample'
-include ':frodo2-java-sample'
 include ':frodo2-plugin'
 include ':frodo2-api'
 include ':frodo2-runtime-android'
 include ':frodo2-runtime-java'
+include ':frodo2-android-sample'
+include ':frodo2-java-sample'
+

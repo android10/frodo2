@@ -36,7 +36,7 @@ class ObservableSample {
   private static class MyObserver extends DisposableObserver<String> {
 
     @Override public void onNext(String value) {
-      System.out.println(this.getClass().getSimpleName() + ": item ---> " + value);
+      //no op
     }
 
     @Override public void onError(Throwable e) {

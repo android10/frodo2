@@ -18,6 +18,10 @@ repositories {
 apply plugin: 'application'
 apply plugin: 'com.fernandocejas.frodo2'
 
+compileJava {
+  sourceCompatibility = JavaVersion.VERSION_1_8
+}
+
 //noinspection GroovyUnusedAssignment
 mainClassName = "com.fernandocejas.example.frodo2.Main"
 

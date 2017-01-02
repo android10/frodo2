@@ -5,8 +5,7 @@ import io.reactivex.Observable;
 
 public class ObservableSample {
 
-  public ObservableSample() {
-  }
+  public ObservableSample() {}
 
   @RxLogObservable
   public Observable<Integer> numbers() {
