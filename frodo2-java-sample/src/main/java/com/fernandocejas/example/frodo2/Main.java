@@ -17,6 +17,7 @@ package com.fernandocejas.example.frodo2;
 
 public class Main {
   public static void main(String[] args) {
+    System.out.println("Frodo2 Java Example...");
     new ObservableSample().execute();
   }
 }

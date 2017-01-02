@@ -25,59 +25,6 @@ task wrapper(type: Wrapper) {
   gradleVersion = project.gradleVersion
 }
 
-task cleanFrodo(type: Exec) {
-  description = 'Cleans all Frodo projects.'
-  commandLine './gradlew', 'clean'
-}
-
-task installFrodoApi(type: Exec) {
-  description = 'Assembles and installs Frodo Api in the local maven repository.'
-  commandLine './gradlew', '-p', 'frodo2-api/', 'assemble', 'install'
-}
-
-task installFrodoRuntimeAndroid(type: Exec) {
-  description = 'Assembles and installs Frodo Core Android Runtime Library in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo2-runtime-android/", "assembleDebug", "install", "-x", "lint"
-}
-
-task installFrodoRuntimeJava(type: Exec) {
-  description = 'Assembles and installs Frodo Core Java Runtime Library in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo2-runtime-java/", "build", "install"
-}
-
-task installFrodoPlugin(type: Exec) {
-  description = 'Assembles and installs Frodo Gradle Plugin in the local maven repository.'
-  commandLine "./gradlew", "-p", "frodo2-plugin/", "build", "install"
-}
-
-task installFrodoAndroidSample(type: Exec,
-    dependsOn: ['installFrodoApi',
-                'installFrodoRuntimeAndroid',
-                'installFrodoRuntimeJava',
-                'installFrodoPlugin']) {
-  description = 'Assembles and installs Frodo Example Android application.'
-  commandLine "./gradlew", "clean", "-p", "frodo2-android-sample/", "assembleDebug", "installDebug"
-}
-installFrodoAndroidSample.mustRunAfter(
-    'installFrodoApi',
-    'installFrodoRuntimeAndroid',
-    'installFrodoRuntimeJava',
-    'installFrodoPlugin')
-
-task runFrodoJavaSample(type: Exec,
-    dependsOn: ['installFrodoApi',
-                'installFrodoRuntimeAndroid',
-                'installFrodoRuntimeJava',
-                'installFrodoPlugin']) {
-  description = 'Assembles and installs Frodo Example Java application.'
-  commandLine "./gradlew", "clean", "-p", "frodo2-java-sample/", "run", "-q"
-}
-runFrodoJavaSample.mustRunAfter(
-    'installFrodoApi',
-    'installFrodoRuntimeAndroid',
-    'installFrodoRuntimeJava',
-    'installFrodoPlugin')
-
 task runUnitTests(
     dependsOn: [':frodo2-runtime:cleanTestDebugUnitTest', ':frodo2-runtime:testDebugUnitTest']) {
   description = 'Run unit tests for frodo runtime.'

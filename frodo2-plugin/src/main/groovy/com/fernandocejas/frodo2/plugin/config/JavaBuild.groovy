@@ -11,8 +11,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ * limitations under the License.*/
 package com.fernandocejas.frodo2.plugin.config
 
 import org.aspectj.bridge.IMessage
@@ -35,19 +34,8 @@ class JavaBuild extends Build {
       compile "com.fernandocejas.frodo2:frodo2-runtime-java:0.9.0"
     }
 
-
     final def log = project.logger
     final JavaCompile javaCompile = project.compileJava
-
-    System.println "\n" + " -inpath --->> " + javaCompile.destinationDir.toString()
-    System.println "\n" + " -inpath --->> " + javaCompile.dependencyCacheDir.toString()
-    System.println "\n" + " -inpath --->> " + javaCompile.path.toString()
-    System.println "\n" + " -aspectpath --->> " + javaCompile.classpath.asPath
-    System.println("\n" + " -d --->> " + javaCompile.destinationDir.toString())
-    System.println "\n" + " -classpath --->> " + javaCompile.classpath.asPath
-    System.println "\n" + " -bootclasspath --->> " + System.getProperty("sun.boot.class.path")
-    System.println "\n" + " -compileArgs --->> " + javaCompile.options.compilerArgs.toString()
-    System.println "\n"
 
     javaCompile.doLast {
       String[] args = ["-showWeaveInfo",
