@@ -18,7 +18,7 @@ package com.fernandocejas.frodo2.plugin.config
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskInstantiationException
 
-public class BuildFactory {
+class BuildFactory {
 
   private static final String ANDROID_APP = 'com.android.application'
   private static final String ANDROID_LIBRARY = 'com.android.library'
@@ -27,7 +27,7 @@ public class BuildFactory {
 
   private BuildFactory() {}
 
-  public static def create(Project project) {
+  static def create(Project project) {
     if (project.pluginManager.hasPlugin(ANDROID_APP) ||
         project.pluginManager.hasPlugin(ANDROID_LIBRARY)) {
       new AndroidBuild(project)

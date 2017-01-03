@@ -14,7 +14,9 @@
  * limitations under the License.*/
 package com.fernandocejas.frodo2.plugin.config
 
+import com.fernandocejas.frodo2.plugin.aspect.AspectCompiler
 import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.tasks.compile.JavaCompile
 
 class JavaBuild extends Build {
@@ -41,7 +43,7 @@ class JavaBuild extends Build {
                              "-aspectpath", javaCompile.classpath.asPath,
                              "-d", javaCompile.destinationDir.toString(),
                              "-classpath", javaCompile.classpath.asPath]
-      compileAspects(args)
+      new AspectCompiler(logger).compile(args)
     }
   }
 }

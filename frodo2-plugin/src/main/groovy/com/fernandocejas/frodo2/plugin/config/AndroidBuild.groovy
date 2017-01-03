@@ -15,6 +15,7 @@
 package com.fernandocejas.frodo2.plugin.config
 
 import com.android.build.gradle.AppPlugin
+import com.fernandocejas.frodo2.plugin.aspect.AspectCompiler
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 
@@ -51,7 +52,7 @@ class AndroidBuild extends Build {
                                "-d", javaCompile.destinationDir.toString(),
                                "-classpath", javaCompile.classpath.asPath,
                                "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
-        compileAspects(args)
+        new AspectCompiler(logger).compile(args)
       }
     }
   }

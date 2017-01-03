@@ -11,16 +11,12 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ * limitations under the License.*/
 package com.fernandocejas.frodo2.plugin.config
 
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
 import org.gradle.api.Project
 
-public abstract class Build {
+abstract class Build {
 
   protected def project
 
@@ -47,28 +43,4 @@ public abstract class Build {
   }
 
   abstract void configure()
-
-  void compileAspects(String[] compilerArgs) {
-    final def log = project.logger
-    final MessageHandler handler = new MessageHandler(true);
-    new Main().run(compilerArgs, handler);
-    for (IMessage message : handler.getMessages(null, true)) {
-      switch (message.getKind()) {
-        case IMessage.ABORT:
-        case IMessage.ERROR:
-        case IMessage.FAIL:
-          log.error message.message, message.thrown
-          break;
-        case IMessage.WARNING:
-          log.warn message.message, message.thrown
-          break;
-        case IMessage.INFO:
-          log.info message.message, message.thrown
-          break;
-        case IMessage.DEBUG:
-          log.debug message.message, message.thrown
-          break;
-      }
-    }
-  }
 }
