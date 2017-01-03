@@ -70,8 +70,7 @@ android.libraryVariants.all { variant ->
                      "-aspectpath", javaCompile.classpath.asPath,
                      "-d", javaCompile.destinationDir.toString(),
                      "-classpath", javaCompile.classpath.asPath,
-                     "-bootclasspath", plugin.project.android.bootClasspath.join(
-        File.pathSeparator)]
+                     "-bootclasspath", plugin.project.android.bootClasspath.join(File.pathSeparator)]
 
     final MessageHandler handler = new MessageHandler(true);
     final def log = project.logger

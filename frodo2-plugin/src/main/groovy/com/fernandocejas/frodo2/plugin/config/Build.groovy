@@ -15,6 +15,9 @@
  */
 package com.fernandocejas.frodo2.plugin.config
 
+import org.aspectj.bridge.IMessage
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
 import org.gradle.api.Project
 
 public abstract class Build {
@@ -44,4 +47,28 @@ public abstract class Build {
   }
 
   abstract void configure()
+
+  void compileAspects(String[] compilerArgs) {
+    final def log = project.logger
+    final MessageHandler handler = new MessageHandler(true);
+    new Main().run(compilerArgs, handler);
+    for (IMessage message : handler.getMessages(null, true)) {
+      switch (message.getKind()) {
+        case IMessage.ABORT:
+        case IMessage.ERROR:
+        case IMessage.FAIL:
+          log.error message.message, message.thrown
+          break;
+        case IMessage.WARNING:
+          log.warn message.message, message.thrown
+          break;
+        case IMessage.INFO:
+          log.info message.message, message.thrown
+          break;
+        case IMessage.DEBUG:
+          log.debug message.message, message.thrown
+          break;
+      }
+    }
+  }
 }

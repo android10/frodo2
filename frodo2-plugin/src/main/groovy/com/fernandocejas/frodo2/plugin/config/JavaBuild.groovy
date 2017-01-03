@@ -14,9 +14,6 @@
  * limitations under the License.*/
 package com.fernandocejas.frodo2.plugin.config
 
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
 import org.gradle.api.Project
 import org.gradle.api.tasks.compile.JavaCompile
 
@@ -28,46 +25,23 @@ class JavaBuild extends Build {
 
   @Override
   void configure() {
-
     project.dependencies {
       compile "org.aspectj:aspectjrt:1.8.6"
       compile "com.fernandocejas.frodo2:frodo2-runtime-java:0.9.0"
     }
 
-    final def log = project.logger
     final JavaCompile javaCompile = project.compileJava
-
     javaCompile.doLast {
-      String[] args = ["-showWeaveInfo",
-                       "-1.5",
-                       "-XnoInline",
-                       "-Xlint:warning",
-                       "-inpath", javaCompile.destinationDir.toString(),
-                       "-inpath", javaCompile.inputs.files.asPath.toString(),
-                       "-aspectpath", javaCompile.classpath.asPath,
-                       "-d", javaCompile.destinationDir.toString(),
-                       "-classpath", javaCompile.classpath.asPath]
-
-      final MessageHandler handler = new MessageHandler(true);
-      new Main().run(args, handler);
-      for (IMessage message : handler.getMessages(null, true)) {
-        switch (message.getKind()) {
-          case IMessage.ABORT:
-          case IMessage.ERROR:
-          case IMessage.FAIL:
-            log.error message.message, message.thrown
-            break;
-          case IMessage.WARNING:
-            log.warn message.message, message.thrown
-            break;
-          case IMessage.INFO:
-            log.info message.message, message.thrown
-            break;
-          case IMessage.DEBUG:
-            log.debug message.message, message.thrown
-            break;
-        }
-      }
+      final String[] args = ["-showWeaveInfo",
+                             "-1.5",
+                             "-XnoInline",
+                             "-Xlint:warning",
+                             "-inpath", javaCompile.destinationDir.toString(),
+                             "-inpath", javaCompile.inputs.files.asPath.toString(),
+                             "-aspectpath", javaCompile.classpath.asPath,
+                             "-d", javaCompile.destinationDir.toString(),
+                             "-classpath", javaCompile.classpath.asPath]
+      compileAspects(args)
     }
   }
 }
