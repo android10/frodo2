@@ -1,9 +1,9 @@
-package com.fernandocejas.frodo2.java.internal.observable;
+package com.fernandocejas.frodo2.logger.internal.observable;
 
-import com.fernandocejas.frodo2.java.internal.Counter;
-import com.fernandocejas.frodo2.java.internal.MessageManager;
-import com.fernandocejas.frodo2.java.internal.StopWatch;
-import com.fernandocejas.frodo2.java.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.internal.Counter;
+import com.fernandocejas.frodo2.logger.internal.StopWatch;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -15,7 +15,7 @@ class LogEverythingObservable extends LoggableObservable {
   private final ObservableInfo observableInfo;
 
   LogEverythingObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager,
-      ObservableInfo observableInfo) {
+                          ObservableInfo observableInfo) {
     super(joinPoint, messageManager);
     this.observableInfo = observableInfo;
   }

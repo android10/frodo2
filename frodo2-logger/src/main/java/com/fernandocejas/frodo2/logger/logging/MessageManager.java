@@ -1,23 +1,19 @@
-package com.fernandocejas.frodo2.java.internal;
+package com.fernandocejas.frodo2.logger.logging;
 
-import com.fernandocejas.frodo2.java.internal.observable.ObservableInfo;
+import com.fernandocejas.frodo2.logger.internal.observable.ObservableInfo;
 
 public class MessageManager {
 
   private final MessageBuilder messageBuilder;
-  private final DebugLog debugLog;
+  private final Logger logger;
 
-  public MessageManager() {
-    this(new MessageBuilder(), new DebugLog());
-  }
-
-  public MessageManager(MessageBuilder messageBuilder, DebugLog debugLog) {
+  public MessageManager(MessageBuilder messageBuilder, Logger logger) {
     this.messageBuilder = messageBuilder;
-    this.debugLog = debugLog;
+    this.logger = logger;
   }
 
   private void printMessage(String tag, String message) {
-    debugLog.log(tag, message);
+    logger.log(tag, message);
   }
 
   public void printObservableInfo(ObservableInfo observableInfo) {

@@ -19,14 +19,8 @@ repositories {
 }
 
 dependencies {
+  compile "org.jetbrains:annotations:$project.annotationsVersion"
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
   compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
   compile project(':frodo2-api')
-  compile project(':frodo2-logger')
-}
-
-//noinspection GroovyAssignabilityCheck
-task javadocJar(type: Jar, dependsOn: ['javadoc']) {
-  classifier = 'javadoc'
-  from 'build/docs/javadoc'
 }

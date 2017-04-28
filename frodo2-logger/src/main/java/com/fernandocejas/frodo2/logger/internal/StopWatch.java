@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.java.internal;
+package com.fernandocejas.frodo2.logger.internal;
 
 import java.util.concurrent.TimeUnit;
 

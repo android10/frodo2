@@ -1,8 +1,10 @@
 package com.fernandocejas.frodo2.java.aspect;
 
-import com.fernandocejas.frodo2.java.internal.MessageManager;
-import com.fernandocejas.frodo2.java.internal.observable.FrodoObservable;
-import com.fernandocejas.frodo2.java.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.java.logging.JavaLog;
+import com.fernandocejas.frodo2.logger.internal.observable.FrodoObservable;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.logging.MessageBuilder;
+import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import io.reactivex.Observable;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -23,7 +25,7 @@ public class LogObservable {
   @Around("methodAnnotatedWithRxLogObservable(joinPoint)")
   public Object weaveAroundJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
     final FrodoProceedingJoinPoint proceedingJoinPoint = new FrodoProceedingJoinPoint(joinPoint);
-    final MessageManager messageManager = new MessageManager();
+    final MessageManager messageManager = new MessageManager(new MessageBuilder(), new JavaLog());
     return new FrodoObservable(proceedingJoinPoint, messageManager).getObservable();
   }
 }

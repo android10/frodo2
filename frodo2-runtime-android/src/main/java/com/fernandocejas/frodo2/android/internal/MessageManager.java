@@ -1,17 +1,18 @@
 package com.fernandocejas.frodo2.android.internal;
 
 import com.fernandocejas.frodo2.android.internal.observable.ObservableInfo;
+import com.fernandocejas.frodo2.android.logging.AndroidLog;
 
 public class MessageManager {
 
   private final MessageBuilder messageBuilder;
-  private final DebugLog debugLog;
+  private final AndroidLog debugLog;
 
   public MessageManager() {
-    this(new MessageBuilder(), new DebugLog());
+    this(new MessageBuilder(), new AndroidLog());
   }
 
-  public MessageManager(MessageBuilder messageBuilder, DebugLog debugLog) {
+  public MessageManager(MessageBuilder messageBuilder, AndroidLog debugLog) {
     this.messageBuilder = messageBuilder;
     this.debugLog = debugLog;
   }

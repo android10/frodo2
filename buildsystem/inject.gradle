@@ -6,7 +6,7 @@ if (JavaVersion.current().isJava8Compatible()) {
   }
 }
 
-[":frodo2-api", ":frodo2-plugin", ":frodo2-runtime-java"].each { name ->
+[":frodo2-api", ":frodo2-plugin", ":frodo2-runtime-java", ":frodo2-logger"].each { name ->
   project(name) {
     apply plugin: 'maven'
     apply plugin: 'java'

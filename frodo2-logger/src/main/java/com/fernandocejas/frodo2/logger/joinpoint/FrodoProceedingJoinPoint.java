@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.java.joinpoint;
+package com.fernandocejas.frodo2.logger.joinpoint;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 

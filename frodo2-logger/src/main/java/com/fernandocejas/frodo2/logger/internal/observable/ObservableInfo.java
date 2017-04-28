@@ -1,6 +1,6 @@
-package com.fernandocejas.frodo2.java.internal.observable;
+package com.fernandocejas.frodo2.logger.internal.observable;
 
-import com.fernandocejas.frodo2.java.joinpoint.FrodoJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
 
 public class ObservableInfo {
   private final FrodoJoinPoint joinPoint;

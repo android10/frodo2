@@ -1,7 +1,7 @@
-package com.fernandocejas.frodo2.java.internal.observable;
+package com.fernandocejas.frodo2.logger.internal.observable;
 
-import com.fernandocejas.frodo2.java.internal.MessageManager;
-import com.fernandocejas.frodo2.java.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import io.reactivex.Observable;
 
 abstract class LoggableObservable {

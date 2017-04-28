@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Class used to build different messages that will be shown in debug mode
  */
-class MessageBuilder {
+public class MessageBuilder {
 
   private static final String LOG_START = "@";
   private static final String SEPARATOR = " :: ";

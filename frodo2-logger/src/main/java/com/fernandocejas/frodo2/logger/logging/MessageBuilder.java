@@ -1,13 +1,14 @@
-package com.fernandocejas.frodo2.java.internal;
+package com.fernandocejas.frodo2.logger.logging;
 
-import com.fernandocejas.frodo2.java.internal.observable.ObservableInfo;
-import com.fernandocejas.frodo2.java.joinpoint.FrodoJoinPoint;
+import com.fernandocejas.frodo2.logger.internal.observable.ObservableInfo;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
+
 import java.util.List;
 
 /**
  * Class used to build different messages that will be shown in debug mode
  */
-class MessageBuilder {
+public class MessageBuilder {
 
   private static final String LOG_START = "@";
   private static final String SEPARATOR = " :: ";
@@ -31,7 +32,7 @@ class MessageBuilder {
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
 
-  MessageBuilder() {}
+  public MessageBuilder() {}
 
   String buildObservableInfoMessage(ObservableInfo observableInfo) {
     final FrodoJoinPoint joinPoint = observableInfo.getJoinPoint();
