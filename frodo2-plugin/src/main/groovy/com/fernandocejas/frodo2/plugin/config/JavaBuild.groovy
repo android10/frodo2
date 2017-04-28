@@ -16,7 +16,6 @@ package com.fernandocejas.frodo2.plugin.config
 
 import com.fernandocejas.frodo2.plugin.aspect.AspectCompiler
 import org.gradle.api.Project
-import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.tasks.compile.JavaCompile
 
 class JavaBuild extends Build {
@@ -30,6 +29,11 @@ class JavaBuild extends Build {
     project.dependencies {
       compile "org.aspectj:aspectjrt:1.8.6"
       compile "com.fernandocejas.frodo2:frodo2-runtime-java:0.9.0"
+    }
+
+    if (!project.frodo2.enabled) {
+      project.logger.debug('Frodo2 is not enabled.')
+      return;
     }
 
     final JavaCompile javaCompile = project.compileJava
