@@ -1,7 +1,7 @@
-package com.fernandocejas.frodo2.logger.internal.observable;
+package com.fernandocejas.frodo2.logger.observable;
 
-import com.fernandocejas.frodo2.logger.internal.Counter;
-import com.fernandocejas.frodo2.logger.internal.StopWatch;
+import com.fernandocejas.frodo2.logger.logging.Counter;
+import com.fernandocejas.frodo2.logger.logging.StopWatch;
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import io.reactivex.Observable;

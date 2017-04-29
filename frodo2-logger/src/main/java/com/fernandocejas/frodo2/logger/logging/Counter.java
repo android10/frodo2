@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.internal;
+package com.fernandocejas.frodo2.logger.logging;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

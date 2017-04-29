@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.internal.observable;
+package com.fernandocejas.frodo2.logger.observable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
 
