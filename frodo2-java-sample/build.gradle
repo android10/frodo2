@@ -18,6 +18,12 @@ repositories {
 apply plugin: 'application'
 apply plugin: 'com.fernandocejas.frodo2'
 
+//By default frodo2 is ON, although
+//we can enable-disable it with this configuration.
+frodo2 {
+  enabled = true
+}
+
 compileJava {
   sourceCompatibility = JavaVersion.VERSION_1_8
 }

@@ -32,23 +32,20 @@ class JavaBuild extends Build {
       compile "com.fernandocejas.frodo2:frodo2-logger:$FRODO_VERSION"
     }
 
-    if (!project.frodo2.enabled) {
-      project.logger.debug('Frodo2 is not enabled.')
-      return;
-    }
-
     final JavaCompile javaCompile = project.compileJava
     javaCompile.doLast {
-      final String[] args = ["-showWeaveInfo",
-                             "-1.5",
-                             "-XnoInline",
-                             "-Xlint:warning",
-                             "-inpath", javaCompile.destinationDir.toString(),
-                             "-inpath", javaCompile.inputs.files.asPath.toString(),
-                             "-aspectpath", javaCompile.classpath.asPath,
-                             "-d", javaCompile.destinationDir.toString(),
-                             "-classpath", javaCompile.classpath.asPath]
-      new AspectCompiler(logger).compile(args)
+      if (project.frodo2.enabled) {
+        final String[] args = ["-showWeaveInfo",
+                               "-1.5",
+                               "-XnoInline",
+                               "-Xlint:warning",
+                               "-inpath", javaCompile.destinationDir.toString(),
+                               "-inpath", javaCompile.inputs.files.asPath.toString(),
+                               "-aspectpath", javaCompile.classpath.asPath,
+                               "-d", javaCompile.destinationDir.toString(),
+                               "-classpath", javaCompile.classpath.asPath]
+        new AspectCompiler(logger).compile(args)
+      }
     }
   }
 }
