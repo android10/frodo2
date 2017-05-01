@@ -28,9 +28,9 @@ class AndroidBuild extends Build {
   @Override
   void configure() {
     project.dependencies {
-      debugCompile "org.aspectj:aspectjrt:1.8.6"
-      debugCompile "com.fernandocejas.frodo2:frodo2-runtime-android:0.9.0"
-      debugCompile "com.fernandocejas.frodo2:frodo2-logger:0.9.0"
+      debugCompile "org.aspectj:aspectjrt:$ASPECTJ_VERSION"
+      debugCompile "com.fernandocejas.frodo2:frodo2-runtime-android:$FRODO_VERSION"
+      debugCompile "com.fernandocejas.frodo2:frodo2-logger:$FRODO_VERSION"
     }
 
     final def log = project.logger

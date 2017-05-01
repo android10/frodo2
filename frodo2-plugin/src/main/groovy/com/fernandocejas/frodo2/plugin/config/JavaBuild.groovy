@@ -27,9 +27,9 @@ class JavaBuild extends Build {
   @Override
   void configure() {
     project.dependencies {
-      compile "org.aspectj:aspectjrt:1.8.6"
-      compile "com.fernandocejas.frodo2:frodo2-runtime-java:0.9.0"
-      compile "com.fernandocejas.frodo2:frodo2-logger:0.9.0"
+      compile "org.aspectj:aspectjrt:$ASPECTJ_VERSION"
+      compile "com.fernandocejas.frodo2:frodo2-runtime-java:$FRODO_VERSION"
+      compile "com.fernandocejas.frodo2:frodo2-logger:$FRODO_VERSION"
     }
 
     if (!project.frodo2.enabled) {
