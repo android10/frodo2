@@ -1,7 +1,7 @@
 package com.fernandocejas.frodo2.android.logging;
 
 import android.util.Log;
-import com.fernandocejas.frodo2.logger.logging.Logger;
+import com.fernandocejas.frodo2.logging.Logger;
 
 /**
  * Wrapper around {@link android.util.Log}

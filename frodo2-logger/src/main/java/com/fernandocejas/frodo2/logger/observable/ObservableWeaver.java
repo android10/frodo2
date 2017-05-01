@@ -1,7 +1,7 @@
 package com.fernandocejas.frodo2.logger.observable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
-import com.fernandocejas.frodo2.logger.logging.Logger;
+import com.fernandocejas.frodo2.logging.Logger;
 import com.fernandocejas.frodo2.logger.logging.MessageBuilder;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import io.reactivex.Observable;

@@ -1,6 +1,6 @@
 package com.fernandocejas.frodo2.java.logging;
 
-import com.fernandocejas.frodo2.logger.logging.Logger;
+import com.fernandocejas.frodo2.logging.Logger;
 
 public class JavaLog implements Logger {
 

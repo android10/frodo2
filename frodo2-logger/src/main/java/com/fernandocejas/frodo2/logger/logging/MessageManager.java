@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.logging;
 
 import com.fernandocejas.frodo2.logger.observable.ObservableInfo;
+import com.fernandocejas.frodo2.logging.Logger;
 
 public class MessageManager {
 

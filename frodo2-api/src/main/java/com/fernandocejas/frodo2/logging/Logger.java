@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.logging;
+package com.fernandocejas.frodo2.logging;
 
 /**
  * Copyright (C) 2017 android10.org Open Source Project
