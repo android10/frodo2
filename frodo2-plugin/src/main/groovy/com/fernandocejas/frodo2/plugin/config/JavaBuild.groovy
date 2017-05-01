@@ -29,6 +29,7 @@ class JavaBuild extends Build {
     project.dependencies {
       compile "org.aspectj:aspectjrt:1.8.6"
       compile "com.fernandocejas.frodo2:frodo2-runtime-java:0.9.0"
+      compile "com.fernandocejas.frodo2:frodo2-logger:0.9.0"
     }
 
     if (!project.frodo2.enabled) {

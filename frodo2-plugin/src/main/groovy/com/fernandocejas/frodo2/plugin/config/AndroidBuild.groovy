@@ -30,6 +30,7 @@ class AndroidBuild extends Build {
     project.dependencies {
       debugCompile "org.aspectj:aspectjrt:1.8.6"
       debugCompile "com.fernandocejas.frodo2:frodo2-runtime-android:0.9.0"
+      debugCompile "com.fernandocejas.frodo2:frodo2-logger:0.9.0"
     }
 
     final def log = project.logger
