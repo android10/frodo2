@@ -10,35 +10,35 @@ public class ObservableInfo {
   private long totalExecutionTime;
   private int totalEmittedItems;
 
-  public ObservableInfo(FrodoJoinPoint joinPoint) {
+  ObservableInfo(FrodoJoinPoint joinPoint) {
     this.joinPoint = joinPoint;
   }
 
-  public String getClassSimpleName() {
+  public String classSimpleName() {
     return joinPoint.getClassSimpleName();
   }
 
-  public String getMethodName() {
+  public String methodName() {
     return joinPoint.getMethodName();
   }
 
-  public FrodoJoinPoint getJoinPoint() {
+  public FrodoJoinPoint joinPoint() {
     return joinPoint;
   }
 
-  public String getSubscribeOnThread() {
+  public String subscribeOnThread() {
     return subscribeOnThread;
   }
 
-  public String getObserveOnThread() {
+  public String observeOnThread() {
     return observeOnThread;
   }
 
-  public long getTotalExecutionTime() {
+  public long totalExecutionTime() {
     return totalExecutionTime;
   }
 
-  public int getTotalEmittedItems() {
+  public int totalEmittedItems() {
     return totalEmittedItems;
   }
 

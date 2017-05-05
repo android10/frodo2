@@ -37,6 +37,6 @@ public class ObservableWeaver {
       throws Throwable {
     final FrodoProceedingJoinPoint proceedingJoinPoint = new FrodoProceedingJoinPoint(joinPoint);
     final MessageManager messageManager = new MessageManager(new MessageBuilder(), logger);
-    return new FrodoObservable(proceedingJoinPoint, messageManager).getObservable();
+    return new FrodoObservable(proceedingJoinPoint, messageManager).observable();
   }
 }

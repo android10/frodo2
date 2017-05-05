@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.logging;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import org.jetbrains.annotations.NotNull;
 
 public class Counter implements Comparable<Counter> {
 
@@ -33,7 +34,7 @@ public class Counter implements Comparable<Counter> {
   }
 
   @Override
-  public int compareTo(Counter that) {
+  public int compareTo(@NotNull Counter that) {
     final int thisValue = count.intValue();
     final int thatValue = that.count.intValue();
 

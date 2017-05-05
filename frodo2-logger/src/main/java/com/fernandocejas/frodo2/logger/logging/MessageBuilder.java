@@ -29,20 +29,23 @@ public class MessageBuilder {
   private static final String LABEL_OBSERVABLE_ON_ERROR = "onError()";
   private static final String LABEL_OBSERVABLE_ON_COMPLETED = "onCompleted()";
   private static final String LABEL_OBSERVABLE_ON_TERMINATE = "onTerminate()";
+  private static final String LABEL_OBSERVABLE_ON_UNSUBSCRIBE = "onUnsubscribe()";
+  private static final String LABEL_OBSERVABLE_SUBSCRIBE_ON = LOG_START + "SubscribeOn" + VALUE_SEPARATOR;
+  private static final String LABEL_SUBSCRIBER_OBSERVE_ON = LOG_START + "ObserveOn" + VALUE_SEPARATOR;
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
 
   public MessageBuilder() {}
 
   String buildObservableInfoMessage(ObservableInfo observableInfo) {
-    final FrodoJoinPoint joinPoint = observableInfo.getJoinPoint();
+    final FrodoJoinPoint joinPoint = observableInfo.joinPoint();
     final StringBuilder message = buildObservableSB();
     message.append(SEPARATOR);
     message.append(CLASS_LABEL);
-    message.append(observableInfo.getClassSimpleName());
+    message.append(observableInfo.classSimpleName());
     message.append(SEPARATOR);
     message.append(METHOD_LABEL);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(buildMethodSignatureWithValues(joinPoint));
     message.append(LOG_ENCLOSING_CLOSE);
 
@@ -52,7 +55,7 @@ public class MessageBuilder {
   String buildObservableOnSubscribeMessage(ObservableInfo observableInfo) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_SUBSCRIBE);
     message.append(LOG_ENCLOSING_CLOSE);
@@ -63,7 +66,7 @@ public class MessageBuilder {
   <T> String buildObservableOnNextWithValueMessage(ObservableInfo observableInfo, T value) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_NEXT);
     message.append(VALUE_SEPARATOR);
@@ -76,7 +79,7 @@ public class MessageBuilder {
   String buildObservableOnErrorMessage(ObservableInfo observableInfo, String errorMessage) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_ERROR);
     message.append(VALUE_SEPARATOR);
@@ -91,7 +94,7 @@ public class MessageBuilder {
   String buildObservableOnCompletedMessage(ObservableInfo observableInfo) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_COMPLETED);
     message.append(LOG_ENCLOSING_CLOSE);
@@ -102,7 +105,7 @@ public class MessageBuilder {
   String buildObservableOnTerminateMessage(ObservableInfo observableInfo) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(LABEL_OBSERVABLE_ON_TERMINATE);
     message.append(LOG_ENCLOSING_CLOSE);
@@ -110,12 +113,23 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableItemTimeInfoMessage(ObservableInfo observableInfo) {
-    final int totalEmittedItems = observableInfo.getTotalEmittedItems();
-    final long totalExecutionTime = observableInfo.getTotalExecutionTime();
+  String buildObservableOnUnsubscribeMessage(ObservableInfo observableInfo) {
     final StringBuilder message = buildObservableSB();
     message.append(METHOD_SEPARATOR);
-    message.append(observableInfo.getMethodName());
+    message.append(observableInfo.methodName());
+    message.append(VALUE_SEPARATOR);
+    message.append(LABEL_OBSERVABLE_ON_UNSUBSCRIBE);
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildObservableItemTimeInfoMessage(ObservableInfo observableInfo) {
+    final int totalEmittedItems = observableInfo.totalEmittedItems();
+    final long totalExecutionTime = observableInfo.totalExecutionTime();
+    final StringBuilder message = buildObservableSB();
+    message.append(METHOD_SEPARATOR);
+    message.append(observableInfo.methodName());
     message.append(VALUE_SEPARATOR);
     message.append(EMITTED_ELEMENTS_LABEL);
     message.append(totalEmittedItems);
@@ -124,6 +138,27 @@ public class MessageBuilder {
     message.append(TIME_LABEL);
     message.append(totalExecutionTime);
     message.append(TIME_MILLIS);
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildObservableThreadInfoMessage(ObservableInfo observableInfo) {
+    final String subscribeOnThread = observableInfo.subscribeOnThread();
+    final String observeOnThread = observableInfo.observeOnThread();
+    final StringBuilder message = buildObservableSB();
+    message.append(METHOD_SEPARATOR);
+    message.append(observableInfo.methodName());
+    message.append(VALUE_SEPARATOR);
+    if (subscribeOnThread != null) {
+      message.append(LABEL_OBSERVABLE_SUBSCRIBE_ON);
+      message.append(subscribeOnThread);
+    }
+    if (observeOnThread != null) {
+      message.append(SEPARATOR);
+      message.append(LABEL_SUBSCRIBER_OBSERVE_ON);
+      message.append(observeOnThread);
+    }
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();

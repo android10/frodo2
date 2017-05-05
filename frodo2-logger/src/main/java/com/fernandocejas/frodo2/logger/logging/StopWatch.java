@@ -14,7 +14,7 @@ public class StopWatch {
     //empty
   }
 
-  public void reset() {
+  private void reset() {
     startTime = 0;
     endTime = 0;
     elapsedTime = 0;
