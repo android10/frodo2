@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.java.logging;
+package com.fernandocejas.frodo2.java;
 
 import com.fernandocejas.frodo2.logging.Logger;
 

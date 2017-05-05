@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.android.logging;
+package com.fernandocejas.frodo2.android;
 
 import android.util.Log;
 import com.fernandocejas.frodo2.logging.Logger;
@@ -6,9 +6,9 @@ import com.fernandocejas.frodo2.logging.Logger;
 /**
  * Wrapper around {@link android.util.Log}
  */
-public class AndroidLog implements Logger {
+class AndroidLog implements Logger {
 
-  public AndroidLog() {}
+  AndroidLog() {}
 
   public void log(String tag, String message) {
     Log.d(tag, message);

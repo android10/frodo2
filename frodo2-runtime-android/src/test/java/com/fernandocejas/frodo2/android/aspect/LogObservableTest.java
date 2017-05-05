@@ -1,5 +1,6 @@
 package com.fernandocejas.frodo2.android.aspect;
 
+import com.fernandocejas.frodo2.android.LogObservable;
 import com.fernandocejas.frodo2.android.joinpoint.TestJoinPoint;
 import com.fernandocejas.frodo2.android.joinpoint.TestProceedingJoinPoint;
 import org.junit.Test;

@@ -1,6 +1,5 @@
-package com.fernandocejas.frodo2.android.aspect;
+package com.fernandocejas.frodo2.android;
 
-import com.fernandocejas.frodo2.android.logging.AndroidLog;
 import com.fernandocejas.frodo2.logger.observable.ObservableWeaver;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
