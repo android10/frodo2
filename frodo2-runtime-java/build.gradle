@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
   compile project(':frodo2-api')
   compile project(':frodo2-logger')
 }

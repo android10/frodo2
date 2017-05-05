@@ -31,11 +31,6 @@ dependencies {
   compile "org.aspectj:aspectjrt:$project.aspectjVersion"
   compile project(':frodo2-api')
   compile project(':frodo2-logger')
-
-  testCompile "junit:junit:$project.junitVersion"
-  testCompile "org.assertj:assertj-core:$project.assertJVersion"
-  testCompile "org.mockito:mockito-core:$project.mockitoVersion"
-  testCompile "org.robolectric:robolectric:$project.robolectricVersion"
 }
 
 android {
