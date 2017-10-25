@@ -1,12 +1,11 @@
-package com.fernandocejas.frodo2.android.joinpoint;
+package com.fernandocejas.frodo2.logger.joinpoint;
 
+import com.fernandocejas.frodo2.test.TestJoinPoint;
+import com.fernandocejas.frodo2.test.TestProceedingJoinPoint;
 import java.util.Observable;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public class FrodoProceedingJoinPointTest {
 
   private FrodoProceedingJoinPoint frodoJoinPoint;
@@ -36,4 +35,5 @@ public class FrodoProceedingJoinPointTest {
 
     proceedingJoinPoint.assertProceedMethodCalledWithArgs(args);
   }
+
 }

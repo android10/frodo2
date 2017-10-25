@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.android.joinpoint;
+package com.fernandocejas.frodo2.test;
 
 import io.reactivex.Observable;
 import org.aspectj.lang.ProceedingJoinPoint;

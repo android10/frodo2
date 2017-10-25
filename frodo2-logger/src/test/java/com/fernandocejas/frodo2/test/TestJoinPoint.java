@@ -1,6 +1,5 @@
-package com.fernandocejas.frodo2.android.joinpoint;
+package com.fernandocejas.frodo2.test;
 
-import java.lang.reflect.Method;
 import java.util.Observable;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -15,8 +14,6 @@ import static org.mockito.BDDMockito.given;
 public class TestJoinPoint implements JoinPoint {
 
   @Mock private MethodSignature methodSignature;
-
-  private Method method;
 
   private final Class declaringType;
   private final String methodName;
@@ -36,6 +33,7 @@ public class TestJoinPoint implements JoinPoint {
     this.methodParameterValues = builder.methodParameterValues;
 
     MockitoAnnotations.initMocks(this);
+
     try {
       given(methodSignature.getDeclaringType()).willReturn(declaringType);
       given(methodSignature.getName()).willReturn(methodName);
@@ -63,7 +61,7 @@ public class TestJoinPoint implements JoinPoint {
   @Override public Object getTarget() {
     try {
       return declaringType.newInstance();
-    } catch (InstantiationException | IllegalAccessException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return null;
@@ -146,3 +144,4 @@ public class TestJoinPoint implements JoinPoint {
     }
   }
 }
+

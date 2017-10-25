@@ -1,20 +1,18 @@
-package com.fernandocejas.frodo2.android.internal.observable;
+package com.fernandocejas.frodo2.logger.observable;
 
-import com.fernandocejas.frodo2.android.internal.MessageManager;
+import com.fernandocejas.frodo2.logger.logging.MessageManager;
+import com.fernandocejas.frodo2.test.UnitTest;
 import io.reactivex.observers.TestObserver;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("unchecked")
-@RunWith(MockitoJUnitRunner.class)
-public class FrodoObservableTest {
+public class FrodoObservableTest extends UnitTest {
 
   @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
 
@@ -31,14 +29,14 @@ public class FrodoObservableTest {
 
   @Test
   public void shouldPrintObservableInfo() throws Throwable {
-    frodoObservable.getObservable();
+    frodoObservable.observable();
 
     verify(messageManager).printObservableInfo(any(ObservableInfo.class));
   }
 
   @Test
   public void shouldBuildObservable() throws Throwable {
-    frodoObservable.getObservable().subscribe(observer);
+    frodoObservable.observable().subscribe(observer);
 
     observer.assertResult(ObservableRule.OBSERVABLE_STREAM_VALUE);
     observer.assertNoErrors();
@@ -47,7 +45,7 @@ public class FrodoObservableTest {
 
   @Test
   public void shouldLogObservableInformation() throws Throwable {
-    frodoObservable.getObservable().subscribe(observer);
+    frodoObservable.observable().subscribe(observer);
 
     verify(messageManager).printObservableInfo(any(ObservableInfo.class));
   }

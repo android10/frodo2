@@ -1,9 +1,9 @@
-package com.fernandocejas.frodo2.android.internal.observable;
+package com.fernandocejas.frodo2.logger.observable;
 
-import com.fernandocejas.frodo2.android.internal.MessageManager;
-import com.fernandocejas.frodo2.android.joinpoint.FrodoProceedingJoinPoint;
-import com.fernandocejas.frodo2.android.joinpoint.TestJoinPoint;
-import com.fernandocejas.frodo2.android.joinpoint.TestProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.logging.MessageManager;
+import com.fernandocejas.frodo2.test.TestJoinPoint;
+import com.fernandocejas.frodo2.test.TestProceedingJoinPoint;
 import io.reactivex.Observable;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -33,10 +33,13 @@ class ObservableRule implements TestRule {
             .withReturnType(Observable.class)
             .withReturnValue(OBSERVABLE_STREAM_VALUE)
             .build();
+
     final TestProceedingJoinPoint testProceedingJoinPoint =
         new TestProceedingJoinPoint(testJoinPoint);
+
     frodoProceedingJoinPoint = new FrodoProceedingJoinPoint(testProceedingJoinPoint);
     observableInfo = new ObservableInfo(frodoProceedingJoinPoint);
+
     return statement;
   }
 

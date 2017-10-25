@@ -1,14 +1,12 @@
-package com.fernandocejas.frodo2.android.internal;
+package com.fernandocejas.frodo2.logger.logging;
 
+import com.fernandocejas.frodo2.test.UnitTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
-public class CounterTest {
+public class CounterTest extends UnitTest {
 
   private static final String COUNTER_NAME = "android10";
 

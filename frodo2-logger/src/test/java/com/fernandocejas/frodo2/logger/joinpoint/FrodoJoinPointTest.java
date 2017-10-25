@@ -1,17 +1,16 @@
-package com.fernandocejas.frodo2.android.joinpoint;
+package com.fernandocejas.frodo2.logger.joinpoint;
 
+import com.fernandocejas.frodo2.test.TestJoinPoint;
+import com.fernandocejas.frodo2.test.UnitTest;
 import io.reactivex.Observable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(MockitoJUnitRunner.class)
-public class FrodoJoinPointTest {
+public class FrodoJoinPointTest extends UnitTest {
 
   @Test
   public void shouldReturnCorrectParametersList() {
@@ -91,6 +90,7 @@ public class FrodoJoinPointTest {
         .withParamNames(paramNames)
         .withParamValues(paramValues)
         .build();
+
     final TestJoinPoint testJoinPointTwo = new TestJoinPoint.Builder(this.getClass()).build();
 
     final FrodoJoinPoint frodoJoinPointOne = new FrodoJoinPoint(testJoinPointOne);
@@ -101,12 +101,7 @@ public class FrodoJoinPointTest {
   }
 
   private static class MyDummyClass {
-    public MyDummyClass() {
-    }
-
-    public Observable buildDummyObservable() {
-      return Observable.empty();
-    }
+    MyDummyClass() {}
 
     @Override public String toString() {
       return this.getClass().getSimpleName();
