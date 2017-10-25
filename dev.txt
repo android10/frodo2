@@ -31,6 +31,7 @@ New Frodo version (TODO: automate these tasks)
 6. Prepare for the next development version:
 - FrodoPlugin class project.dependencies
 - gradle.properties 'version' property
+- Build class in gradle plugin needs version update
 - add new version CHANGELOG.txt file
 
 7. Install new version by running either of these tasks:
