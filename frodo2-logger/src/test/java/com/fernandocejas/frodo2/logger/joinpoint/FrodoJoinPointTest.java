@@ -103,6 +103,10 @@ public class FrodoJoinPointTest extends UnitTest {
   private static class MyDummyClass {
     MyDummyClass() {}
 
+    public Observable buildDummyObservable() {
+      return Observable.empty();
+    }
+
     @Override public String toString() {
       return this.getClass().getSimpleName();
     }
