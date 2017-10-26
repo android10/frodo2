@@ -7,6 +7,7 @@ buildscript {
   dependencies {
     classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
     classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
+    classpath "com.github.dcendents:android-maven-gradle-plugin:$project.androidMavenVersion"
   }
 }
 
