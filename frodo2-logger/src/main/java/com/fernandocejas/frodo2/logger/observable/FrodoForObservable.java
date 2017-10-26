@@ -11,13 +11,13 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 @SuppressWarnings("unchecked")
-class FrodoObservable {
+class FrodoForObservable {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
   private final ObservableInfo observableInfo;
 
-  FrodoObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
+  FrodoForObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
     this.messageManager = messageManager;
     this.observableInfo = new ObservableInfo(joinPoint);

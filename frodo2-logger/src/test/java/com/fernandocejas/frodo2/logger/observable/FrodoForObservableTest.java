@@ -12,18 +12,18 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("unchecked")
-public class FrodoObservableTest extends UnitTest {
+public class FrodoForObservableTest extends UnitTest {
 
   @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
 
-  private FrodoObservable frodoObservable;
+  private FrodoForObservable frodoObservable;
   private TestObserver observer;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    frodoObservable = new FrodoObservable(observableRule.joinPoint(), messageManager);
+    frodoObservable = new FrodoForObservable(observableRule.joinPoint(), messageManager);
     observer = new TestObserver();
   }
 
