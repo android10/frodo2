@@ -28,13 +28,6 @@ public class FrodoForObservableTest extends UnitTest {
   }
 
   @Test
-  public void shouldPrintObservableInfo() throws Throwable {
-    frodoObservable.observable();
-
-    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
-  }
-
-  @Test
   public void shouldBuildObservable() throws Throwable {
     frodoObservable.observable().subscribe(observer);
 
@@ -44,9 +37,23 @@ public class FrodoForObservableTest extends UnitTest {
   }
 
   @Test
+  public void shouldPrintObservableInfo() throws Throwable {
+    frodoObservable.observable();
+
+    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
+  }
+
+  @Test
   public void shouldLogObservableInformation() throws Throwable {
     frodoObservable.observable().subscribe(observer);
 
     verify(messageManager).printObservableInfo(any(ObservableInfo.class));
+    verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class));
+    verify(messageManager).printObservableOnNextWithValue(any(ObservableInfo.class), any());
+    verify(messageManager).printObservableOnCompleted(any(ObservableInfo.class));
+    verify(messageManager).printObservableOnTerminate(any(ObservableInfo.class));
+    verify(messageManager).printObservableItemTimeInfo(any(ObservableInfo.class));
+    verify(messageManager).printObservableThreadInfo(any(ObservableInfo.class));
+    verify(messageManager).printObservableOnUnsubscribe(any(ObservableInfo.class));
   }
 }
