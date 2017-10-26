@@ -1,31 +1,39 @@
 buildscript {
   repositories {
+    mavenLocal()
+    google()
     jcenter()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
+    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
   }
 }
 
-allprojects {
-  buildscript {
-    repositories {
-      jcenter()
-      mavenCentral()
+subprojects {
+  repositories {
+    maven {
+      url "http://dl.bintray.com/android10/maven"
+    }
+    mavenLocal()
+    jcenter()
+    google()
+  }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+  allprojects {
+    tasks.withType(Javadoc) {
+      options.addStringOption('Xdoclint:none', '-quiet')
     }
   }
-  repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-  }
 }
-
-def buildSrcDir = 'buildsystem'
-apply from: "${buildSrcDir}/inject.gradle"
 
 task wrapper(type: Wrapper) {
   gradleVersion = project.gradleVersion
 }
 
 task runUnitTests(
-    dependsOn: [':frodo2-logger:test']) {
+        dependsOn: [':frodo2-logger:test']) {
   description = 'Run unit tests for frodo 2 logger.'
 }

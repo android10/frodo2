@@ -1,36 +1,13 @@
-import com.android.build.gradle.LibraryPlugin
-import org.aspectj.bridge.IMessage
-import org.aspectj.bridge.MessageHandler
-import org.aspectj.tools.ajc.Main
-
-buildscript {
-  repositories {
-    jcenter()
-    maven {
-      url  "http://dl.bintray.com/android10/maven"
-    }
-    mavenLocal()
-  }
-  dependencies {
-    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
-    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
-  }
-}
-
-repositories {
-  maven {
-    url  "http://dl.bintray.com/android10/maven"
-  }
-  mavenLocal()
-}
+//import com.android.build.gradle.LibraryPlugin
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 dependencies {
-  compile "org.jetbrains:annotations:$project.annotationsVersion"
-  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile project(':frodo2-api')
-  compile project(':frodo2-logger')
+  implementation "org.jetbrains:annotations:$project.annotationsVersion"
+  implementation "org.aspectj:aspectjrt:$project.aspectjVersion"
+  implementation project(':frodo2-api')
+  implementation project(':frodo2-logger')
 }
 
 android {
@@ -48,68 +25,73 @@ android {
   }
 
   compileOptions {
-    targetCompatibility JavaVersion.VERSION_1_7
-    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_8
   }
 }
 
-android.libraryVariants.all { variant ->
-  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
+// TODO: Do we need this?
+//android.libraryVariants.all { variant ->
+//  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
 
-  //Compile aspects
-  JavaCompile javaCompile = variant.javaCompile
-  javaCompile.doLast {
-    String[] args = ["-showWeaveInfo",
-                     "-1.5",
-                     "-inpath", javaCompile.destinationDir.toString(),
-                     "-aspectpath", javaCompile.classpath.asPath,
-                     "-d", javaCompile.destinationDir.toString(),
-                     "-classpath", javaCompile.classpath.asPath,
-                     "-bootclasspath", plugin.project.android.bootClasspath.join(File.pathSeparator)]
+//Compile aspects
+//  JavaCompile javaCompile = variant.javaCompile
+//  javaCompile.doLast {
+//    String[] args = ["-showWeaveInfo",
+//                     "-1.5",
+//                     "-inpath", javaCompile.destinationDir.toString(),
+//                     "-aspectpath", javaCompile.classpath.asPath,
+//                     "-d", javaCompile.destinationDir.toString(),
+//                     "-classpath", javaCompile.classpath.asPath,
+//                     "-bootclasspath", plugin.project.android.bootClasspath.join(File.pathSeparator)]
 
-    final MessageHandler handler = new MessageHandler(true);
-    final def log = project.logger
-    new Main().run(args, handler)
-    for (IMessage message : handler.getMessages(null, true)) {
-      switch (message.getKind()) {
-        case IMessage.ABORT:
-        case IMessage.ERROR:
-        case IMessage.FAIL:
-          log.error message.message, message.thrown
-          break;
-        case IMessage.INFO:
-          log.info message.message, message.thrown
-          break;
-        case IMessage.DEBUG:
-          log.debug message.message, message.thrown
-          break;
-      }
-    }
-  }
+//    final MessageHandler handler = new MessageHandler(true);
+//    final def log = project.logger
+//    new Main().run(args, handler)
+//    for (IMessage message : handler.getMessages(null, true)) {
+//      switch (message.getKind()) {
+//        case IMessage.ABORT:
+//        case IMessage.ERROR:
+//        case IMessage.FAIL:
+//          log.error message.message, message.thrown
+//          break;
+//        case IMessage.INFO:
+//          log.info message.message, message.thrown
+//          break;
+//        case IMessage.DEBUG:
+//          log.debug message.message, message.thrown
+//          break;
+//      }
+//    }
+//  }
 
-  //Change aar file name: add version name only for debug version (development)
-  if (variant.name == 'debug') {
-    variant.outputs.each { output ->
-      if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
-        def file = output.outputFile
-        def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
-        output.outputFile = new File(file.parent, fileName)
-      }
-    }
-  }
-}
+// TODO: This need to be upgraded for gradle tools 3.0.0. Looking at the current output filename
+// TODO: I get frodo2-runtime-android-[version].aar which matched the java equivalent of
+// TODO: frodo2-runtime-java-[version].jar
+//Change aar file name: add version name only for debug version (development)
+//  if (variant.name == 'debug') {
+//    variant.outputs.each { output ->
+//      if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
+//        def file = output.outputFile
+//        def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
+//        output.outputFile = new File(file.parent, fileName)
+//      }
+//    }
+//  }
+//}
 
+// TODO: Why is this needed? The artifact seems to be published okay on maven local without this
 //Install in maven local repository
-task install(type: Exec, dependsOn: assemble) {
-  description = "Installs Frodo generated artifact in the local maven repository."
-  executable = 'mvn'
-  args = ["install:install-file",
-          "-DgroupId=${project.group}",
-          "-DartifactId=${project.name}",
-          "-Dversion=${project.version}",
-          "-Dpackaging=aar",
-          "-Dfile=build/outputs/aar/frodo2-runtime-android-${project.version}.aar"]
-}
+//task install(type: Exec, dependsOn: assemble) {
+//  description = "Installs Frodo generated artifact in the local maven repository."
+//  executable = 'mvn'
+//  args = ["install:install-file",
+//          "-DgroupId=${project.group}",
+//          "-DartifactId=${project.name}",
+//          "-Dversion=${project.version}",
+//          "-Dpackaging=aar",
+//          "-Dfile=build/outputs/aar/frodo2-runtime-android-${project.version}.aar"]
+//}
 
 task androidJavadocs(type: Javadoc) {
   source = android.sourceSets.main.java.srcDirs

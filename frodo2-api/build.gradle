@@ -1,21 +1,22 @@
-buildscript {
-  repositories {
-    maven {
-      url  "http://dl.bintray.com/android10/maven"
-    }
-    mavenLocal()
-  }
-}
+apply plugin: 'java'
+apply plugin: 'maven'
 
-repositories {
-  maven {
-    url  "http://dl.bintray.com/android10/maven"
-  }
-  mavenLocal()
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+//noinspection GroovyAssignabilityCheck
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
 }
 
 //noinspection GroovyAssignabilityCheck
 task javadocJar(type: Jar, dependsOn: ['javadoc']) {
   classifier = 'javadoc'
   from 'build/docs/javadoc'
+}
+
+artifacts {
+  archives jar
+  archives sourcesJar
 }
