@@ -1,9 +1,11 @@
 buildscript {
   repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
+    google()
   }
   dependencies {
+    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
     classpath "com.fernandocejas.frodo2:frodo2-plugin:$project.version"
   }
 }
