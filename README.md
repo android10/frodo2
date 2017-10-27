@@ -1,6 +1,6 @@
 
 
-Frodo 2 - WIP - Coming soon!
+Frodo 2 - WIP - Coming soon! [![Build Status](https://travis-ci.org/android10/frodo2.svg?branch=master)](https://travis-ci.org/android10/frodo2)
 =========================
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) 
