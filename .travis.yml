@@ -1,16 +1,33 @@
 language: android
 jdk: oraclejdk8
+sudo: false
+os: linux
 
 install: ./install_frodo2.sh
 
 android:
   components:
-    - platform-tools
     - tools
-    - build-tools-24.0.1
-    - android-23
+    - build-tools-25.0.2
+    - platform-tools
     - extra-google-m2repository
     - extra-android-m2repository
+    - android-25
+
+    # The SDK version used to compile your project
+    - android-16
+    - android-21
+    - android-22
+    - android-25
+
+    # Additional components
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-16
+    - sys-img-armeabi-v7a-android-21
+    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-25
 
 licenses:
     - 'android-sdk-preview-license-.+'
@@ -19,3 +36,4 @@ licenses:
 
 script:
   ./gradlew runUnitTests
+
