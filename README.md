@@ -1,6 +1,6 @@
 
 
-Frodo 2 - Still WIP
+Frodo 2 - WIP - Coming soon!
 =========================
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) 
@@ -102,4 +102,4 @@ License
     limitations under the License.
 
 
-![http://www.fernandocejas.com](http://www.android10.org/myimages/android10_logo_big_github.png)
+![http://www.fernandocejas.com](https://github.com/android10/Sample-Data/blob/master/android10/android10_logo_big.png)
