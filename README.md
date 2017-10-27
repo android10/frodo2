@@ -11,13 +11,11 @@ Frodo 2 - Still WIP
 ```Frodo 2``` is the second generation version of [Frodo](https://github.com/android10/frodo/), mainly used for making easier debugging [RxJava 2](https://github.com/ReactiveX/RxJava/wiki/What's-different-in-2.0). 
 It generates and weaves code based on annotations only on ```debug``` versions of the application where the plugin is applied, for instance, it is safe to persist any ```Frodo 2``` annotation in the codebase.
 
-For more information refer to the 'Main Features section'.
-
 ![frodo_hug](https://cloud.githubusercontent.com/assets/1360604/10925718/e7ea4318-8290-11e5-91b4-f2bfbde65319.gif)
 
-<br>
+
 Main Features
------------------
+=========================
 
 - **@RxLogObservable:** Annotated methods which return ```io.reactivex.Observables``` will print the following information when emitting items:
 
@@ -30,9 +28,9 @@ Main Features
     }
 ```
 
-<br>
 Enabling Frodo 2
------------------
+=========================
+
 To enable Frodo, a gradle plugin must be applied in your ```build.gradle```:
 
 ```java
@@ -54,9 +52,8 @@ frodo2 {
 }
 ```
 
-<br>
 Known issues
------------------
+=========================
 
 1 - Multi module setup (application + android library) will not log annotated methods/classes from Android Library Module but will do it on Android Application Module. The reason behind this, is that the Android Gradle Plugin will build all Android Libraries as release versions, for instance, Frodo is not able to weave any code on the annotated methods/classes (Remember that only weaves in debug versions). There is a workaround for forcing debug versions of your Android Libraries (just be careful in case this is forgotten and you end up shipping a version of your app with RxJava Logging enabled) by adding this line in your ```build.gradle``` file:
 
@@ -66,15 +63,13 @@ android {
 }
 ```
 
-<br>
 Architecture
------------------
+=========================
 
 WIP
 
-<br>
 Local Development
------------------
+=========================
 
 Clone the repo and use the scripts listed below in order to to run/install/execute frodo 2 locally:
 
@@ -83,16 +78,14 @@ Clone the repo and use the scripts listed below in order to to run/install/execu
  * `./gradlew installDebug` - Install the debug apk on the current connected device.
  * `./gradlew runUnitTests` - Execute all unit tests within the project.
  
-<br> 
 Contribution
------------------
+=========================
 
 Here you can download and install the java codestyle.
 https://github.com/android10/java-code-styles 
 
-<br>
 License
------------------
+=========================
 
     Copyright 2017 Fernando Cejas
 
