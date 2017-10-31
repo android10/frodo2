@@ -34,7 +34,6 @@ task wrapper(type: Wrapper) {
   gradleVersion = project.gradleVersion
 }
 
-task runUnitTests(
-        dependsOn: [':frodo2-logger:test']) {
+task runUnitTests(dependsOn: [':frodo2-logger:test']) {
   description = 'Run unit tests for frodo 2 logger.'
 }
