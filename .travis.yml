@@ -8,22 +8,13 @@ install: ./install_frodo2.sh
 android:
   components:
     - tools
-    - build-tools-25.0.2
-    - build-tools-26.0.2
     - platform-tools
+    - build-tools-26.0.1
+    - build-tools-26.0.2
+    - android-26
     - extra-google-m2repository
     - extra-android-m2repository
-    - android-25
-    - android-26
-
-    # The SDK version used to compile your project
-    - android-16
-    - android-21
-    - android-22
-    - android-25
-    - android-26
-
-    # Additional components
+    - extra-android-support
 
     # Specify at least one system image,
     # if you need to run emulator(s) during your tests
@@ -33,9 +24,9 @@ android:
     - sys-img-armeabi-v7a-android-25
 
 licenses:
-    - 'android-sdk-preview-license-.+'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
+    - 'android-sdk-preview-license-.+'
 
 script:
   ./gradlew runUnitTests
