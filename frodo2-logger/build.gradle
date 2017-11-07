@@ -1,30 +1,26 @@
-buildscript {
-  repositories {
-    jcenter()
-    maven {
-      url  "http://dl.bintray.com/android10/maven"
-    }
-    mavenLocal()
-  }
-  dependencies {
-    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
-  }
-}
+apply plugin: 'java'
+apply plugin: 'maven'
 
-repositories {
-  maven {
-    url  "http://dl.bintray.com/android10/maven"
-  }
-  mavenLocal()
-}
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-  compile "org.jetbrains:annotations:$project.annotationsVersion"
-  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
-  compile project(':frodo2-api')
+  implementation "org.jetbrains:annotations:$project.annotationsVersion"
+  implementation "org.aspectj:aspectjrt:$project.aspectjVersion"
+  implementation "io.reactivex.rxjava2:rxjava:$project.rxJavaVersion"
+  implementation project(':frodo2-api')
 
-  testCompile "junit:junit:$project.junitVersion"
-  testCompile "org.assertj:assertj-core:$project.assertJVersion"
-  testCompile "org.mockito:mockito-core:$project.mockitoVersion"
+  testImplementation "junit:junit:$project.junitVersion"
+  testImplementation "org.assertj:assertj-core:$project.assertJVersion"
+  testImplementation "org.mockito:mockito-core:$project.mockitoVersion"
+}
+
+//noinspection GroovyAssignabilityCheck
+task javadocJar(type: Jar, dependsOn: ['javadoc']) {
+  classifier = 'javadoc'
+  from 'build/docs/javadoc'
+}
+
+artifacts {
+  archives jar
 }

@@ -1,31 +1,28 @@
-buildscript {
-  repositories {
-    jcenter()
-    maven {
-      url  "http://dl.bintray.com/android10/maven"
-    }
-    mavenLocal()
-  }
-  dependencies {
-    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
-  }
-}
+apply plugin: 'java'
+apply plugin: 'maven'
 
-repositories {
-  maven {
-    url  "http://dl.bintray.com/android10/maven"
-  }
-  mavenLocal()
-}
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile project(':frodo2-api')
-  compile project(':frodo2-logger')
+  implementation "org.aspectj:aspectjrt:$project.aspectjVersion"
+  implementation project(':frodo2-api')
+  implementation project(':frodo2-logger')
 }
 
 //noinspection GroovyAssignabilityCheck
 task javadocJar(type: Jar, dependsOn: ['javadoc']) {
   classifier = 'javadoc'
   from 'build/docs/javadoc'
+}
+
+//noinspection GroovyAssignabilityCheck
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+artifacts {
+  archives jar
+  archives sourcesJar
 }

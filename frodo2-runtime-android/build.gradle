@@ -1,36 +1,15 @@
-import com.android.build.gradle.LibraryPlugin
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
 
-buildscript {
-  repositories {
-    jcenter()
-    maven {
-      url  "http://dl.bintray.com/android10/maven"
-    }
-    mavenLocal()
-  }
-  dependencies {
-    classpath "com.android.tools.build:gradle:$project.androidBuildToolsVersion"
-    classpath "org.aspectj:aspectjtools:$project.aspectjVersion"
-  }
-}
-
-repositories {
-  maven {
-    url  "http://dl.bintray.com/android10/maven"
-  }
-  mavenLocal()
-}
-
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 dependencies {
-  compile "org.jetbrains:annotations:$project.annotationsVersion"
-  compile "org.aspectj:aspectjrt:$project.aspectjVersion"
-  compile project(':frodo2-api')
-  compile project(':frodo2-logger')
+  implementation "org.jetbrains:annotations:$project.annotationsVersion"
+  implementation "org.aspectj:aspectjrt:$project.aspectjVersion"
+  implementation project(':frodo2-api')
+  implementation project(':frodo2-logger')
 }
 
 android {
@@ -48,24 +27,22 @@ android {
   }
 
   compileOptions {
-    targetCompatibility JavaVersion.VERSION_1_7
-    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_1_8
   }
 }
 
 android.libraryVariants.all { variant ->
-  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
 
-  //Compile aspects
-  JavaCompile javaCompile = variant.javaCompile
+  //  Compile aspects
+  JavaCompile javaCompile = variant.getJavaCompiler()
   javaCompile.doLast {
     String[] args = ["-showWeaveInfo",
                      "-1.5",
                      "-inpath", javaCompile.destinationDir.toString(),
                      "-aspectpath", javaCompile.classpath.asPath,
                      "-d", javaCompile.destinationDir.toString(),
-                     "-classpath", javaCompile.classpath.asPath,
-                     "-bootclasspath", plugin.project.android.bootClasspath.join(File.pathSeparator)]
+                     "-classpath", javaCompile.classpath.asPath]
 
     final MessageHandler handler = new MessageHandler(true);
     final def log = project.logger
@@ -86,29 +63,6 @@ android.libraryVariants.all { variant ->
       }
     }
   }
-
-  //Change aar file name: add version name only for debug version (development)
-  if (variant.name == 'debug') {
-    variant.outputs.each { output ->
-      if (output.outputFile != null && output.outputFile.name.endsWith('.aar')) {
-        def file = output.outputFile
-        def fileName = file.name.replace("${variant.buildType.name}.aar", "${project.version}.aar")
-        output.outputFile = new File(file.parent, fileName)
-      }
-    }
-  }
-}
-
-//Install in maven local repository
-task install(type: Exec, dependsOn: assemble) {
-  description = "Installs Frodo generated artifact in the local maven repository."
-  executable = 'mvn'
-  args = ["install:install-file",
-          "-DgroupId=${project.group}",
-          "-DartifactId=${project.name}",
-          "-Dversion=${project.version}",
-          "-Dpackaging=aar",
-          "-Dfile=build/outputs/aar/frodo2-runtime-android-${project.version}.aar"]
 }
 
 task androidJavadocs(type: Javadoc) {
