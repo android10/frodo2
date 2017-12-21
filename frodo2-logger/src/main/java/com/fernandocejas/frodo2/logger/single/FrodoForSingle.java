@@ -1,61 +1,51 @@
-package com.fernandocejas.frodo2.logger.observable;
+package com.fernandocejas.frodo2.logger.single;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
-import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
-@SuppressWarnings("unchecked") class FrodoForObservable {
+@SuppressWarnings("unchecked") class FrodoForSingle {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
   private final RxComponentInfo rxComponentInfo;
 
-  FrodoForObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
+  FrodoForSingle(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
     this.messageManager = messageManager;
     this.rxComponentInfo = new RxComponentInfo(joinPoint);
   }
 
-  Observable observable() throws Throwable {
+  Single single() throws Throwable {
     messageManager.printObservableInfo(rxComponentInfo);
-    final Class observableType = joinPoint.getGenericReturnTypes().get(0);
-    return loggableObservable(observableType);
+    final Class singleType = joinPoint.getGenericReturnTypes().get(0);
+    return loggableSingle(singleType);
   }
 
-  private <T> Observable<T> loggableObservable(T type) throws Throwable {
+  private <T> Single<T> loggableSingle(T type) throws Throwable {
     final StopWatch stopWatch = new StopWatch();
-    final Counter emittedItems = new Counter(joinPoint.getMethodName());
-    return ((Observable<T>) joinPoint.proceed())
+    return ((Single<T>) joinPoint.proceed())
         .doOnSubscribe(disposable -> {
           stopWatch.start();
           messageManager.printObservableOnSubscribe(rxComponentInfo);
         })
-        .doOnEach(notification -> {
-          if (rxComponentInfo.subscribeOnThread() != null && (notification.isOnNext()
-              || notification.isOnError())) {
-            rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-          }
-        })
-        .doOnNext(value -> {
-          emittedItems.increment();
+        .doOnSuccess(value -> {
           messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
         })
         .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
-        .doOnComplete(() -> messageManager.printObservableOnCompleted(rxComponentInfo))
-        .doOnTerminate(() -> {
+        .doOnEvent((value, throwable) -> {
           stopWatch.stop();
+          rxComponentInfo.setTotalEmittedItems(1);
           rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-          rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+          rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
+          messageManager.printObservableOnCompleted(rxComponentInfo);
           messageManager.printObservableOnTerminate(rxComponentInfo);
           messageManager.printObservableItemTimeInfo(rxComponentInfo);
         })
         .doFinally(() -> {
-          if (rxComponentInfo.observeOnThread() != null) {
-            rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-          }
+          rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
           messageManager.printObservableThreadInfo(rxComponentInfo);
           messageManager.printObservableOnUnsubscribe(rxComponentInfo);
         });

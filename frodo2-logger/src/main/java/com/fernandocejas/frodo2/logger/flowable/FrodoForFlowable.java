@@ -11,8 +11,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import org.reactivestreams.Subscription;
 
-@SuppressWarnings("unchecked")
-class FrodoForFlowable {
+@SuppressWarnings("unchecked") class FrodoForFlowable {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
@@ -34,53 +33,35 @@ class FrodoForFlowable {
     final StopWatch stopWatch = new StopWatch();
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Flowable<T>) joinPoint.proceed())
-        .doOnSubscribe(new Consumer<Subscription>() {
-          @Override public void accept(Subscription subscription) throws Exception {
-            stopWatch.start();
-            messageManager.printObservableOnSubscribe(rxComponentInfo);
+        .doOnSubscribe(subscription -> {
+          stopWatch.start();
+          messageManager.printObservableOnSubscribe(rxComponentInfo);
+        })
+        .doOnEach(notification -> {
+          if (rxComponentInfo.subscribeOnThread() != null && (notification.isOnNext()
+              || notification.isOnError())) {
+            rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
           }
         })
-        .doOnEach(new Consumer<Notification<T>>() {
-          @Override public void accept(Notification<T> notification) {
-            if (rxComponentInfo.subscribeOnThread() != null
-                && (notification.isOnNext() || notification.isOnError())) {
-              rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-            }
-          }
+        .doOnNext(value -> {
+          emittedItems.increment();
+          messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
         })
-        .doOnNext(new Consumer<T>() {
-          @Override public void accept(T value) {
-            emittedItems.increment();
-            messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
-          }
+        .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
+        .doOnComplete(() -> messageManager.printObservableOnCompleted(rxComponentInfo))
+        .doOnTerminate(() -> {
+          stopWatch.stop();
+          rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+          rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+          messageManager.printObservableOnTerminate(rxComponentInfo);
+          messageManager.printObservableItemTimeInfo(rxComponentInfo);
         })
-        .doOnError(new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) {
-            messageManager.printObservableOnError(rxComponentInfo, throwable);
+        .doFinally(() -> {
+          if (rxComponentInfo.observeOnThread() != null) {
+            rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
           }
-        })
-        .doOnComplete(new Action() {
-          @Override public void run() {
-            messageManager.printObservableOnCompleted(rxComponentInfo);
-          }
-        })
-        .doOnTerminate(new Action() {
-          @Override public void run() {
-            stopWatch.stop();
-            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-            messageManager.printObservableOnTerminate(rxComponentInfo);
-            messageManager.printObservableItemTimeInfo(rxComponentInfo);
-          }
-        })
-    .doFinally(new Action() {
-      @Override public void run() {
-        if (rxComponentInfo.observeOnThread() != null) {
-          rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-        }
-        messageManager.printObservableThreadInfo(rxComponentInfo);
-        messageManager.printObservableOnUnsubscribe(rxComponentInfo);
-      }
-    });
+          messageManager.printObservableThreadInfo(rxComponentInfo);
+          messageManager.printObservableOnUnsubscribe(rxComponentInfo);
+        });
   }
 }
