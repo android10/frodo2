@@ -1,13 +1,12 @@
 package com.fernandocejas.frodo2.logger.flowable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
-import com.fernandocejas.frodo2.logger.observable.ObservableInfo;
 import io.reactivex.Flowable;
 import io.reactivex.Notification;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import org.reactivestreams.Subscription;
@@ -17,16 +16,16 @@ class FrodoForFlowable {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
-  private final ObservableInfo observableInfo;
+  private final RxComponentInfo rxComponentInfo;
 
   FrodoForFlowable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
     this.messageManager = messageManager;
-    this.observableInfo = new ObservableInfo(joinPoint);
+    this.rxComponentInfo = new RxComponentInfo(joinPoint);
   }
 
   Flowable flowable() throws Throwable {
-    messageManager.printObservableInfo(observableInfo);
+    messageManager.printObservableInfo(rxComponentInfo);
     final Class flowableType = joinPoint.getGenericReturnTypes().get(0);
     return loggableFlowable(flowableType);
   }
@@ -38,49 +37,49 @@ class FrodoForFlowable {
         .doOnSubscribe(new Consumer<Subscription>() {
           @Override public void accept(Subscription subscription) throws Exception {
             stopWatch.start();
-            messageManager.printObservableOnSubscribe(observableInfo);
+            messageManager.printObservableOnSubscribe(rxComponentInfo);
           }
         })
         .doOnEach(new Consumer<Notification<T>>() {
           @Override public void accept(Notification<T> notification) {
-            if (observableInfo.subscribeOnThread() != null
+            if (rxComponentInfo.subscribeOnThread() != null
                 && (notification.isOnNext() || notification.isOnError())) {
-              observableInfo.setSubscribeOnThread(Thread.currentThread().getName());
+              rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
             }
           }
         })
         .doOnNext(new Consumer<T>() {
           @Override public void accept(T value) {
             emittedItems.increment();
-            messageManager.printObservableOnNextWithValue(observableInfo, value);
+            messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
           }
         })
         .doOnError(new Consumer<Throwable>() {
           @Override public void accept(Throwable throwable) {
-            messageManager.printObservableOnError(observableInfo, throwable);
+            messageManager.printObservableOnError(rxComponentInfo, throwable);
           }
         })
         .doOnComplete(new Action() {
           @Override public void run() {
-            messageManager.printObservableOnCompleted(observableInfo);
+            messageManager.printObservableOnCompleted(rxComponentInfo);
           }
         })
         .doOnTerminate(new Action() {
           @Override public void run() {
             stopWatch.stop();
-            observableInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            observableInfo.setTotalEmittedItems(emittedItems.tally());
-            messageManager.printObservableOnTerminate(observableInfo);
-            messageManager.printObservableItemTimeInfo(observableInfo);
+            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printObservableOnTerminate(rxComponentInfo);
+            messageManager.printObservableItemTimeInfo(rxComponentInfo);
           }
         })
     .doFinally(new Action() {
       @Override public void run() {
-        if (observableInfo.observeOnThread() != null) {
-          observableInfo.setObserveOnThread(Thread.currentThread().getName());
+        if (rxComponentInfo.observeOnThread() != null) {
+          rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
         }
-        messageManager.printObservableThreadInfo(observableInfo);
-        messageManager.printObservableOnUnsubscribe(observableInfo);
+        messageManager.printObservableThreadInfo(rxComponentInfo);
+        messageManager.printObservableOnUnsubscribe(rxComponentInfo);
       }
     });
   }

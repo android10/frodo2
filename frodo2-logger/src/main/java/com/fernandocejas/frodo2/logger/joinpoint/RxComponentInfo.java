@@ -1,8 +1,8 @@
-package com.fernandocejas.frodo2.logger.observable;
+package com.fernandocejas.frodo2.logger.joinpoint;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
 
-public class ObservableInfo {
+public class RxComponentInfo {
   private final FrodoJoinPoint joinPoint;
 
   private String subscribeOnThread;
@@ -10,7 +10,7 @@ public class ObservableInfo {
   private long totalExecutionTime;
   private int totalEmittedItems;
 
-  public ObservableInfo(FrodoJoinPoint joinPoint) {
+  public RxComponentInfo(FrodoJoinPoint joinPoint) {
     this.joinPoint = joinPoint;
   }
 

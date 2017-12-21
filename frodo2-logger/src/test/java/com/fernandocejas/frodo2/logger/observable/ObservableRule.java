@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.observable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.test.TestJoinPoint;
 import com.fernandocejas.frodo2.test.TestProceedingJoinPoint;
@@ -18,7 +19,7 @@ class ObservableRule implements TestRule {
   private final Class declaringType;
 
   private FrodoProceedingJoinPoint frodoProceedingJoinPoint;
-  private ObservableInfo observableInfo;
+  private RxComponentInfo rxComponentInfo;
 
   @Mock private MessageManager messageManager;
 
@@ -38,7 +39,7 @@ class ObservableRule implements TestRule {
         new TestProceedingJoinPoint(testJoinPoint);
 
     frodoProceedingJoinPoint = new FrodoProceedingJoinPoint(testProceedingJoinPoint);
-    observableInfo = new ObservableInfo(frodoProceedingJoinPoint);
+    rxComponentInfo = new RxComponentInfo(frodoProceedingJoinPoint);
 
     return statement;
   }
@@ -51,8 +52,8 @@ class ObservableRule implements TestRule {
     return messageManager;
   }
 
-  ObservableInfo info() {
-    return observableInfo;
+  RxComponentInfo info() {
+    return rxComponentInfo;
   }
 
   String stringType() {

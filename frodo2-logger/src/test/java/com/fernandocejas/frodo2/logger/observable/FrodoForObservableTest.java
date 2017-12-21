@@ -1,5 +1,6 @@
 package com.fernandocejas.frodo2.logger.observable;
 
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.test.UnitTest;
 import io.reactivex.observers.TestObserver;
@@ -40,20 +41,20 @@ public class FrodoForObservableTest extends UnitTest {
   public void shouldPrintObservableInfo() throws Throwable {
     frodoObservable.observable();
 
-    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
+    verify(messageManager).printObservableInfo(any(RxComponentInfo.class));
   }
 
   @Test
   public void shouldLogObservableInformation() throws Throwable {
     frodoObservable.observable().subscribe(observer);
 
-    verify(messageManager).printObservableInfo(any(ObservableInfo.class));
-    verify(messageManager).printObservableOnSubscribe(any(ObservableInfo.class));
-    verify(messageManager).printObservableOnNextWithValue(any(ObservableInfo.class), any());
-    verify(messageManager).printObservableOnCompleted(any(ObservableInfo.class));
-    verify(messageManager).printObservableOnTerminate(any(ObservableInfo.class));
-    verify(messageManager).printObservableItemTimeInfo(any(ObservableInfo.class));
-    verify(messageManager).printObservableThreadInfo(any(ObservableInfo.class));
-    verify(messageManager).printObservableOnUnsubscribe(any(ObservableInfo.class));
+    verify(messageManager).printObservableInfo(any(RxComponentInfo.class));
+    verify(messageManager).printObservableOnSubscribe(any(RxComponentInfo.class));
+    verify(messageManager).printObservableOnNextWithValue(any(RxComponentInfo.class), any());
+    verify(messageManager).printObservableOnCompleted(any(RxComponentInfo.class));
+    verify(messageManager).printObservableOnTerminate(any(RxComponentInfo.class));
+    verify(messageManager).printObservableItemTimeInfo(any(RxComponentInfo.class));
+    verify(messageManager).printObservableThreadInfo(any(RxComponentInfo.class));
+    verify(messageManager).printObservableOnUnsubscribe(any(RxComponentInfo.class));
   }
 }
