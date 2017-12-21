@@ -10,7 +10,7 @@ public class ObservableInfo {
   private long totalExecutionTime;
   private int totalEmittedItems;
 
-  ObservableInfo(FrodoJoinPoint joinPoint) {
+  public ObservableInfo(FrodoJoinPoint joinPoint) {
     this.joinPoint = joinPoint;
   }
 
@@ -42,19 +42,19 @@ public class ObservableInfo {
     return totalEmittedItems;
   }
 
-  void setSubscribeOnThread(String subscribeOnThread) {
+  public void setSubscribeOnThread(String subscribeOnThread) {
     this.subscribeOnThread = subscribeOnThread;
   }
 
-  void setObserveOnThread(String observeOnThread) {
+  public void setObserveOnThread(String observeOnThread) {
     this.observeOnThread = observeOnThread;
   }
 
-  void setTotalExecutionTime(long totalExecutionTime) {
+  public void setTotalExecutionTime(long totalExecutionTime) {
     this.totalExecutionTime = totalExecutionTime;
   }
 
-  void setTotalEmittedItems(int totalEmittedItems) {
+  public void setTotalEmittedItems(int totalEmittedItems) {
     this.totalEmittedItems = totalEmittedItems;
   }
 }
