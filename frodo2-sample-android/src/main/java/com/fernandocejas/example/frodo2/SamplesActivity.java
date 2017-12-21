@@ -23,8 +23,7 @@ public class SamplesActivity extends Activity {
 
   private View.OnClickListener rxLogObservableListener = new View.OnClickListener() {
     @Override public void onClick(View v) {
-      final ObservableSample observableSample = new ObservableSample();
-      executeRxObservableSample(observableSample);
+      executeRxObservableSample();
     }
   };
 
@@ -59,7 +58,8 @@ public class SamplesActivity extends Activity {
     }
   }
 
-  private void executeRxObservableSample(ObservableSample observableSample) {
+  private void executeRxObservableSample() {
+    final ObservableSample observableSample = new ObservableSample();
     final Observable<Integer> observable = observableSample.numbers()
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread());
