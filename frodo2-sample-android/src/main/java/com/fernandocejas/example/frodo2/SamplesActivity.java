@@ -22,15 +22,13 @@ public class SamplesActivity extends Activity {
   private CompositeDisposable disposables;
 
   private View.OnClickListener rxLogObservableListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-    final ObservableSample observableSample = new ObservableSample();
-    executeRxObservableSample(observableSample);
+    @Override public void onClick(View v) {
+      final ObservableSample observableSample = new ObservableSample();
+      executeRxObservableSample(observableSample);
     }
   };
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_samples);
     this.initialize();
@@ -68,7 +66,7 @@ public class SamplesActivity extends Activity {
 
     final MyObserver<Integer> observer = new MyObserver<Integer>() {
       @Override public void onNext(Integer integer) {
-      toastMessage("onNext() Integer--> " + String.valueOf(integer));
+        toastMessage("onNext() Integer--> " + String.valueOf(integer));
       }
     };
 
