@@ -31,4 +31,23 @@
       android:text="@string/btn_text_load_examples"
       />
 
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="@dimen/view_vertical_margin"
+      android:layout_marginBottom="@dimen/view_vertical_margin"
+      android:gravity="center"
+      android:text="@string/url_github"
+      />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/view_vertical_margin"
+      android:gravity="center"
+      android:text="@string/string_contribute"
+      android:textStyle="bold"
+      />
+
 </LinearLayout>

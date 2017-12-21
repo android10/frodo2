@@ -15,29 +15,17 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SamplesActivity extends Activity {
 
+  private Button btnRxLogFlowable;
   private Button btnRxLogObservable;
-  private Button btnRxLogSubscriber;
+  private Button getBtnRxLogSingle;
 
   private CompositeDisposable disposables;
 
   private View.OnClickListener rxLogObservableListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
-      final ObservableSample observableSample = new ObservableSample();
-      executeExampleOne(observableSample);
-    }
-  };
-
-  private View.OnClickListener rxLogSubscriberListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      final ObservableSample observableSample = new ObservableSample();
-      toastMessage("Subscribing to observables...Check logcat output...");
-
-      observableSample.strings()
-          .subscribeOn(Schedulers.newThread())
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new MyObserver<String>());
+    final ObservableSample observableSample = new ObservableSample();
+    executeRxObservableSample(observableSample);
     }
   };
 
@@ -56,11 +44,11 @@ public class SamplesActivity extends Activity {
   private void initialize() {
     this.disposables = new CompositeDisposable();
 
-    this.btnRxLogObservable = (Button) findViewById(R.id.btnRxLogObservable);
-    this.btnRxLogSubscriber = (Button) findViewById(R.id.btnRxLogSubscriber);
+    this.btnRxLogFlowable = findViewById(R.id.btnRxLogFlowable);
+    this.btnRxLogObservable = findViewById(R.id.btnRxLogObservable);
+    this.getBtnRxLogSingle = findViewById(R.id.btnRxLogSingle);
 
     this.btnRxLogObservable.setOnClickListener(rxLogObservableListener);
-    this.btnRxLogSubscriber.setOnClickListener(rxLogSubscriberListener);
   }
 
   private void toastMessage(String message) {
@@ -73,14 +61,14 @@ public class SamplesActivity extends Activity {
     }
   }
 
-  private void executeExampleOne(ObservableSample observableSample) {
+  private void executeRxObservableSample(ObservableSample observableSample) {
     final Observable<Integer> observable = observableSample.numbers()
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread());
 
     final MyObserver<Integer> observer = new MyObserver<Integer>() {
       @Override public void onNext(Integer integer) {
-        toastMessage("onNext() Integer--> " + String.valueOf(integer));
+      toastMessage("onNext() Integer--> " + String.valueOf(integer));
       }
     };
 

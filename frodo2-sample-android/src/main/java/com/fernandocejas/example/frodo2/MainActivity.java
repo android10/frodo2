@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
   }
 
   private void mapGUI() {
-    btnLoadExamples = (Button) findViewById(R.id.btnLoadExamples);
+    btnLoadExamples = findViewById(R.id.btnLoadExamples);
     btnLoadExamples.setOnClickListener(loadExamplesClickListener);
   }
 

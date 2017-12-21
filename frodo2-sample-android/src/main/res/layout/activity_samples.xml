@@ -29,6 +29,13 @@
       />
 
   <Button
+      android:id="@+id/btnRxLogFlowable"
+      style="@style/AppButton"
+      android:layout_marginBottom="@dimen/button_vertical_margin"
+      android:text="@string/btn_text_sample_rx_log_flowable"
+      />
+
+  <Button
       android:id="@+id/btnRxLogObservable"
       style="@style/AppButton"
       android:layout_marginBottom="@dimen/button_vertical_margin"
@@ -36,10 +43,19 @@
       />
 
   <Button
-      android:id="@+id/btnRxLogSubscriber"
+      android:id="@+id/btnRxLogSingle"
       style="@style/AppButton"
       android:layout_marginBottom="@dimen/button_vertical_margin"
-      android:text="@string/btn_text_sample_rx_log_subscriber"
+      android:text="@string/btn_text_sample_rx_log_observable"
+      />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/view_vertical_margin"
+      android:gravity="center"
+      android:text="@string/string_contribute"
+      android:textStyle="bold"
       />
 
 </LinearLayout>
