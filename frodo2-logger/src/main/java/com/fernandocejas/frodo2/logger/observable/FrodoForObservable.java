@@ -5,11 +5,7 @@ import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
-import io.reactivex.Notification;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 @SuppressWarnings("unchecked")
 class FrodoForObservable {
@@ -34,53 +30,35 @@ class FrodoForObservable {
     final StopWatch stopWatch = new StopWatch();
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Observable<T>) joinPoint.proceed())
-        .doOnSubscribe(new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) {
-            stopWatch.start();
-            messageManager.printObservableOnSubscribe(rxComponentInfo);
+        .doOnSubscribe(disposable -> {
+          stopWatch.start();
+          messageManager.printObservableOnSubscribe(rxComponentInfo);
+        })
+        .doOnEach(notification -> {
+          if (rxComponentInfo.subscribeOnThread() != null
+              && (notification.isOnNext() || notification.isOnError())) {
+            rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
           }
         })
-        .doOnEach(new Consumer<Notification<T>>() {
-          @Override public void accept(Notification<T> notification) {
-            if (rxComponentInfo.subscribeOnThread() != null
-                && (notification.isOnNext() || notification.isOnError())) {
-              rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-            }
-          }
+        .doOnNext(value -> {
+          emittedItems.increment();
+          messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
         })
-        .doOnNext(new Consumer<T>() {
-          @Override public void accept(T value) {
-            emittedItems.increment();
-            messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
-          }
+        .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
+        .doOnComplete(() -> messageManager.printObservableOnCompleted(rxComponentInfo))
+        .doOnTerminate(() -> {
+          stopWatch.stop();
+          rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+          rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+          messageManager.printObservableOnTerminate(rxComponentInfo);
+          messageManager.printObservableItemTimeInfo(rxComponentInfo);
         })
-        .doOnError(new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) {
-            messageManager.printObservableOnError(rxComponentInfo, throwable);
-          }
-        })
-        .doOnComplete(new Action() {
-          @Override public void run() {
-            messageManager.printObservableOnCompleted(rxComponentInfo);
-          }
-        })
-        .doOnTerminate(new Action() {
-          @Override public void run() {
-            stopWatch.stop();
-            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-            messageManager.printObservableOnTerminate(rxComponentInfo);
-            messageManager.printObservableItemTimeInfo(rxComponentInfo);
-          }
-        })
-    .doFinally(new Action() {
-      @Override public void run() {
-        if (rxComponentInfo.observeOnThread() != null) {
-          rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-        }
-        messageManager.printObservableThreadInfo(rxComponentInfo);
-        messageManager.printObservableOnUnsubscribe(rxComponentInfo);
+    .doFinally(() -> {
+      if (rxComponentInfo.observeOnThread() != null) {
+        rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
       }
+      messageManager.printObservableThreadInfo(rxComponentInfo);
+      messageManager.printObservableOnUnsubscribe(rxComponentInfo);
     });
   }
 }
