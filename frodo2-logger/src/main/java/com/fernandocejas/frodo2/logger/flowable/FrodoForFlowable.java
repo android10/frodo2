@@ -6,10 +6,6 @@ import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
 import io.reactivex.Flowable;
-import io.reactivex.Notification;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import org.reactivestreams.Subscription;
 
 @SuppressWarnings("unchecked") class FrodoForFlowable {
 

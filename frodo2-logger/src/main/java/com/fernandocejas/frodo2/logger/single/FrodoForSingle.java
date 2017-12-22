@@ -31,9 +31,7 @@ import io.reactivex.Single;
           stopWatch.start();
           messageManager.printObservableOnSubscribe(rxComponentInfo);
         })
-        .doOnSuccess(value -> {
-          messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
-        })
+        .doOnSuccess(value -> messageManager.printObservableOnNextWithValue(rxComponentInfo, value))
         .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
         .doOnEvent((value, throwable) -> {
           stopWatch.stop();
