@@ -21,7 +21,7 @@ import io.reactivex.Flowable;
   }
 
   Flowable flowable() throws Throwable {
-    messageManager.printObservableInfo(rxComponentInfo);
+    messageManager.printRxComponentInfo(rxComponentInfo);
     final Class flowableType = joinPoint.getGenericReturnTypes().get(0);
     return loggableFlowable(flowableType);
   }
@@ -32,7 +32,7 @@ import io.reactivex.Flowable;
     return ((Flowable<T>) joinPoint.proceed())
         .doOnSubscribe(subscription -> {
           stopWatch.start();
-          messageManager.printObservableOnSubscribe(rxComponentInfo);
+          messageManager.printOnSubscribe(rxComponentInfo);
         })
         .doOnEach(notification -> {
           if (rxComponentInfo.subscribeOnThread() != null && (notification.isOnNext()
@@ -42,23 +42,23 @@ import io.reactivex.Flowable;
         })
         .doOnNext(value -> {
           emittedItems.increment();
-          messageManager.printObservableOnNextWithValue(rxComponentInfo, value);
+          messageManager.printOnNextWithValue(rxComponentInfo, value);
         })
-        .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
-        .doOnComplete(() -> messageManager.printObservableOnCompleted(rxComponentInfo))
+        .doOnError(throwable -> messageManager.printOnError(rxComponentInfo, throwable))
+        .doOnComplete(() -> messageManager.printOnCompleted(rxComponentInfo))
         .doOnTerminate(() -> {
           stopWatch.stop();
           rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
           rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-          messageManager.printObservableOnTerminate(rxComponentInfo);
-          messageManager.printObservableItemTimeInfo(rxComponentInfo);
+          messageManager.printOnTerminate(rxComponentInfo);
+          messageManager.printItemTimeInfo(rxComponentInfo);
         })
         .doFinally(() -> {
           if (rxComponentInfo.observeOnThread() != null) {
             rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
           }
-          messageManager.printObservableThreadInfo(rxComponentInfo);
-          messageManager.printObservableOnUnsubscribe(rxComponentInfo);
+          messageManager.printThreadInfo(rxComponentInfo);
+          messageManager.printOnUnsubscribe(rxComponentInfo);
         });
   }
 }

@@ -20,7 +20,7 @@ import io.reactivex.Single;
   }
 
   Single single() throws Throwable {
-    messageManager.printObservableInfo(rxComponentInfo);
+    messageManager.printRxComponentInfo(rxComponentInfo);
     final Class singleType = joinPoint.getGenericReturnTypes().get(0);
     return loggableSingle(singleType);
   }
@@ -30,23 +30,23 @@ import io.reactivex.Single;
     return ((Single<T>) joinPoint.proceed())
         .doOnSubscribe(disposable -> {
           stopWatch.start();
-          messageManager.printObservableOnSubscribe(rxComponentInfo);
+          messageManager.printOnSubscribe(rxComponentInfo);
         })
-        .doOnSuccess(value -> messageManager.printObservableOnNextWithValue(rxComponentInfo, value))
-        .doOnError(throwable -> messageManager.printObservableOnError(rxComponentInfo, throwable))
+        .doOnSuccess(value -> messageManager.printOnNextWithValue(rxComponentInfo, value))
+        .doOnError(throwable -> messageManager.printOnError(rxComponentInfo, throwable))
         .doOnEvent((value, throwable) -> {
           stopWatch.stop();
           rxComponentInfo.setTotalEmittedItems(1);
           rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
           rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-          messageManager.printObservableOnCompleted(rxComponentInfo);
-          messageManager.printObservableOnTerminate(rxComponentInfo);
-          messageManager.printObservableItemTimeInfo(rxComponentInfo);
+          messageManager.printOnCompleted(rxComponentInfo);
+          messageManager.printOnTerminate(rxComponentInfo);
+          messageManager.printItemTimeInfo(rxComponentInfo);
         })
         .doFinally(() -> {
           rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-          messageManager.printObservableThreadInfo(rxComponentInfo);
-          messageManager.printObservableOnUnsubscribe(rxComponentInfo);
+          messageManager.printThreadInfo(rxComponentInfo);
+          messageManager.printOnUnsubscribe(rxComponentInfo);
         });
   }
 }

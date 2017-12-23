@@ -22,24 +22,23 @@ public class MessageBuilder {
   private static final String METHOD_LABEL = LOG_START + "Method" + VALUE_SEPARATOR;
   private static final String TIME_LABEL = LOG_START + "Time" + VALUE_SEPARATOR;
   private static final String TIME_MILLIS = " ms";
-  private static final String OBSERVABLE_LABEL = LOG_START + "Observable";
   private static final String EMITTED_ELEMENTS_LABEL = LOG_START + "Emitted" + VALUE_SEPARATOR;
-  private static final String LABEL_OBSERVABLE_ON_SUBSCRIBE = "onSubscribe()";
-  private static final String LABEL_OBSERVABLE_ON_NEXT = "onNext()";
-  private static final String LABEL_OBSERVABLE_ON_ERROR = "onError()";
-  private static final String LABEL_OBSERVABLE_ON_COMPLETED = "onCompleted()";
-  private static final String LABEL_OBSERVABLE_ON_TERMINATE = "onTerminate()";
-  private static final String LABEL_OBSERVABLE_ON_UNSUBSCRIBE = "onUnsubscribe()";
-  private static final String LABEL_OBSERVABLE_SUBSCRIBE_ON = LOG_START + "SubscribeOn" + VALUE_SEPARATOR;
-  private static final String LABEL_SUBSCRIBER_OBSERVE_ON = LOG_START + "ObserveOn" + VALUE_SEPARATOR;
+  private static final String LABEL_ON_SUBSCRIBE = "onSubscribe()";
+  private static final String LABEL_ON_NEXT = "onNext()";
+  private static final String LABEL_ON_ERROR = "onError()";
+  private static final String LABEL_ON_COMPLETED = "onCompleted()";
+  private static final String LABEL_ON_TERMINATE = "onTerminate()";
+  private static final String LABEL_ON_UNSUBSCRIBE = "onUnsubscribe()";
+  private static final String LABEL_SUBSCRIBE_ON = LOG_START + "SubscribeOn" + VALUE_SEPARATOR;
+  private static final String LABEL_OBSERVE_ON = LOG_START + "ObserveOn" + VALUE_SEPARATOR;
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
 
   public MessageBuilder() {}
 
-  String buildObservableInfoMessage(RxComponentInfo rxComponentInfo) {
+  String buildRxComponentInfoMessage(RxComponentInfo rxComponentInfo) {
     final FrodoJoinPoint joinPoint = rxComponentInfo.joinPoint();
-    final StringBuilder message = buildObservableSB();
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(SEPARATOR);
     message.append(CLASS_LABEL);
     message.append(rxComponentInfo.classSimpleName());
@@ -52,23 +51,23 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnSubscribeMessage(RxComponentInfo rxComponentInfo) {
-    final StringBuilder message = buildObservableSB();
+  String buildOnSubscribeMessage(RxComponentInfo rxComponentInfo) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_SUBSCRIBE);
+    message.append(LABEL_ON_SUBSCRIBE);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
   }
 
-  <T> String buildObservableOnNextWithValueMessage(RxComponentInfo rxComponentInfo, T value) {
-    final StringBuilder message = buildObservableSB();
+  <T> String buildOnNextWithValueMessage(RxComponentInfo rxComponentInfo, T value) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_NEXT);
+    message.append(LABEL_ON_NEXT);
     message.append(VALUE_SEPARATOR);
     message.append(String.valueOf(value));
     message.append(LOG_ENCLOSING_CLOSE);
@@ -76,12 +75,12 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnErrorMessage(RxComponentInfo rxComponentInfo, String errorMessage) {
-    final StringBuilder message = buildObservableSB();
+  String buildOnErrorMessage(RxComponentInfo rxComponentInfo, String errorMessage) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_ERROR);
+    message.append(LABEL_ON_ERROR);
     message.append(VALUE_SEPARATOR);
     message.append(TEXT_ENCLOSING_SYMBOL);
     message.append(errorMessage);
@@ -91,43 +90,43 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableOnCompletedMessage(RxComponentInfo rxComponentInfo) {
-    final StringBuilder message = buildObservableSB();
+  String buildOnCompletedMessage(RxComponentInfo rxComponentInfo) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_COMPLETED);
+    message.append(LABEL_ON_COMPLETED);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
   }
 
-  String buildObservableOnTerminateMessage(RxComponentInfo rxComponentInfo) {
-    final StringBuilder message = buildObservableSB();
+  String buildOnTerminateMessage(RxComponentInfo rxComponentInfo) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_TERMINATE);
+    message.append(LABEL_ON_TERMINATE);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
   }
 
-  String buildObservableOnUnsubscribeMessage(RxComponentInfo rxComponentInfo) {
-    final StringBuilder message = buildObservableSB();
+  String buildOnUnsubscribeMessage(RxComponentInfo rxComponentInfo) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_OBSERVABLE_ON_UNSUBSCRIBE);
+    message.append(LABEL_ON_UNSUBSCRIBE);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();
   }
 
-  String buildObservableItemTimeInfoMessage(RxComponentInfo rxComponentInfo) {
+  String buildItemTimeInfoMessage(RxComponentInfo rxComponentInfo) {
     final int totalEmittedItems = rxComponentInfo.totalEmittedItems();
     final long totalExecutionTime = rxComponentInfo.totalExecutionTime();
-    final StringBuilder message = buildObservableSB();
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
@@ -143,20 +142,20 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildObservableThreadInfoMessage(RxComponentInfo rxComponentInfo) {
+  String buildThreadInfoMessage(RxComponentInfo rxComponentInfo) {
     final String subscribeOnThread = rxComponentInfo.subscribeOnThread();
     final String observeOnThread = rxComponentInfo.observeOnThread();
-    final StringBuilder message = buildObservableSB();
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
     if (subscribeOnThread != null) {
-      message.append(LABEL_OBSERVABLE_SUBSCRIBE_ON);
+      message.append(LABEL_SUBSCRIBE_ON);
       message.append(subscribeOnThread);
     }
     if (observeOnThread != null) {
       message.append(SEPARATOR);
-      message.append(LABEL_SUBSCRIBER_OBSERVE_ON);
+      message.append(LABEL_OBSERVE_ON);
       message.append(observeOnThread);
     }
     message.append(LOG_ENCLOSING_CLOSE);
@@ -164,12 +163,13 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  private StringBuilder buildObservableSB() {
+  private StringBuilder buildRxComponentSB(String rxComponentName) {
     final int avgStringSize = 75;
     final StringBuilder message = new StringBuilder(avgStringSize + LIBRARY_LABEL.length());
     message.append(LIBRARY_LABEL);
     message.append(LOG_ENCLOSING_OPEN);
-    message.append(OBSERVABLE_LABEL);
+    message.append(LOG_START);
+    message.append(rxComponentName);
     return message;
   }
 

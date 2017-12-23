@@ -17,53 +17,51 @@ public class MessageManager {
     logger.log(tag, message);
   }
 
-  public void printObservableInfo(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableInfoMessage(rxComponentInfo);
+  public void printRxComponentInfo(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildRxComponentInfoMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableOnSubscribe(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableOnSubscribeMessage(rxComponentInfo);
+  public void printOnSubscribe(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnSubscribeMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public <T> void printObservableOnNextWithValue(RxComponentInfo rxComponentInfo, T value) {
-    final String message =
-        messageBuilder.buildObservableOnNextWithValueMessage(rxComponentInfo, value);
+  public <T> void printOnNextWithValue(RxComponentInfo rxComponentInfo, T value) {
+    final String message = messageBuilder.buildOnNextWithValueMessage(rxComponentInfo, value);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableOnError(RxComponentInfo rxComponentInfo,
+  public void printOnError(RxComponentInfo rxComponentInfo,
       Throwable throwable) {
-    final String message =
-        messageBuilder.buildObservableOnErrorMessage(rxComponentInfo, throwable.getMessage());
+    final String message = messageBuilder.buildOnErrorMessage(rxComponentInfo, throwable.getMessage());
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableOnCompleted(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableOnCompletedMessage(rxComponentInfo);
+  public void printOnCompleted(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnCompletedMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableOnTerminate(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableOnTerminateMessage(rxComponentInfo);
+  public void printOnTerminate(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnTerminateMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableOnUnsubscribe(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableOnUnsubscribeMessage(rxComponentInfo);
+  public void printOnUnsubscribe(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnUnsubscribeMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableItemTimeInfo(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildObservableItemTimeInfoMessage(rxComponentInfo);
+  public void printItemTimeInfo(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildItemTimeInfoMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printObservableThreadInfo(RxComponentInfo rxComponentInfo) {
+  public void printThreadInfo(RxComponentInfo rxComponentInfo) {
     if (rxComponentInfo.subscribeOnThread() != null ||
         rxComponentInfo.observeOnThread() != null) {
-      final String message = messageBuilder.buildObservableThreadInfoMessage(rxComponentInfo);
+      final String message = messageBuilder.buildThreadInfoMessage(rxComponentInfo);
       this.printMessage(rxComponentInfo.classSimpleName(), message);
     }
   }

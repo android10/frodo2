@@ -41,20 +41,20 @@ public class FrodoForObservableTest extends UnitTest {
   public void shouldPrintObservableInfo() throws Throwable {
     frodoObservable.observable();
 
-    verify(messageManager).printObservableInfo(any(RxComponentInfo.class));
+    verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
   }
 
   @Test
   public void shouldLogObservableInformation() throws Throwable {
     frodoObservable.observable().subscribe(observer);
 
-    verify(messageManager).printObservableInfo(any(RxComponentInfo.class));
-    verify(messageManager).printObservableOnSubscribe(any(RxComponentInfo.class));
-    verify(messageManager).printObservableOnNextWithValue(any(RxComponentInfo.class), any());
-    verify(messageManager).printObservableOnCompleted(any(RxComponentInfo.class));
-    verify(messageManager).printObservableOnTerminate(any(RxComponentInfo.class));
-    verify(messageManager).printObservableItemTimeInfo(any(RxComponentInfo.class));
-    verify(messageManager).printObservableThreadInfo(any(RxComponentInfo.class));
-    verify(messageManager).printObservableOnUnsubscribe(any(RxComponentInfo.class));
+    verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
+    verify(messageManager).printOnSubscribe(any(RxComponentInfo.class));
+    verify(messageManager).printOnNextWithValue(any(RxComponentInfo.class), any());
+    verify(messageManager).printOnCompleted(any(RxComponentInfo.class));
+    verify(messageManager).printOnTerminate(any(RxComponentInfo.class));
+    verify(messageManager).printItemTimeInfo(any(RxComponentInfo.class));
+    verify(messageManager).printThreadInfo(any(RxComponentInfo.class));
+    verify(messageManager).printOnUnsubscribe(any(RxComponentInfo.class));
   }
 }
