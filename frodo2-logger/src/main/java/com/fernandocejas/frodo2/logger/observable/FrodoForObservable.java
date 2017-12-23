@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.observable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponent;
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
@@ -16,7 +17,7 @@ import io.reactivex.Observable;
   FrodoForObservable(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
     this.messageManager = messageManager;
-    this.rxComponentInfo = new RxComponentInfo(joinPoint);
+    this.rxComponentInfo = new RxComponentInfo(RxComponent.OBSERVABLE, joinPoint);
   }
 
   Observable observable() throws Throwable {

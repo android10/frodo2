@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.single;
 
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoProceedingJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponent;
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
@@ -15,7 +16,7 @@ import io.reactivex.Single;
   FrodoForSingle(FrodoProceedingJoinPoint joinPoint, MessageManager messageManager) {
     this.joinPoint = joinPoint;
     this.messageManager = messageManager;
-    this.rxComponentInfo = new RxComponentInfo(joinPoint);
+    this.rxComponentInfo = new RxComponentInfo(RxComponent.SINGLE, joinPoint);
   }
 
   Single single() throws Throwable {

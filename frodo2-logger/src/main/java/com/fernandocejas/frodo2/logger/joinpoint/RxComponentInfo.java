@@ -1,8 +1,7 @@
 package com.fernandocejas.frodo2.logger.joinpoint;
 
-import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
-
 public class RxComponentInfo {
+  private final RxComponent rxComponent;
   private final FrodoJoinPoint joinPoint;
 
   private String subscribeOnThread;
@@ -10,8 +9,13 @@ public class RxComponentInfo {
   private long totalExecutionTime;
   private int totalEmittedItems;
 
-  public RxComponentInfo(FrodoJoinPoint joinPoint) {
+  public RxComponentInfo(RxComponent rxComponent, FrodoJoinPoint joinPoint) {
+    this.rxComponent = rxComponent;
     this.joinPoint = joinPoint;
+  }
+
+  public String rxComponentName() {
+    return rxComponent.toString();
   }
 
   public String classSimpleName() {
