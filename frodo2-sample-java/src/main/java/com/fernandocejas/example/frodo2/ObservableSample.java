@@ -17,34 +17,80 @@ package com.fernandocejas.example.frodo2;
 
 import com.fernandocejas.frodo2.annotation.RxLogObservable;
 import io.reactivex.Observable;
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.schedulers.Schedulers;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 class ObservableSample {
 
   ObservableSample() {}
 
-  void execute() {
-    final Observable<String> observable = buildObservable();
-    observable.subscribeWith(new MyObserver());
+  @RxLogObservable
+  Observable<Integer> numbers() {
+    return Observable.just(1, 2, 3, 4);
   }
 
   @RxLogObservable
-  private Observable<String> buildObservable() {
-    return Observable.just("Silvia", "Yanina", "Fernando");
+  Observable<String> strings() {
+    return Observable.just("Hello", "My", "Name", "Is", "Fernando");
   }
 
-  private static class MyObserver extends DisposableObserver<String> {
+  @RxLogObservable
+  Observable<String> error() {
+    return Observable.error(new IllegalArgumentException("My error"));
+  }
 
-    @Override public void onNext(String value) {
-      //no op
+  @RxLogObservable
+  Observable<String> stringItemWithDefer() {
+    return Observable.defer(new Callable<ObservableSource<? extends String>>() {
+      @Override public ObservableSource<? extends String> call() throws Exception {
+        return Observable.create(new ObservableOnSubscribe<String>() {
+          @Override public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+            try {
+              emitter.onNext("String item value");
+              emitter.onComplete();
+            } catch (Exception e) {
+              emitter.onError(e);
+            }
+          }
+        }).subscribeOn(Schedulers.computation());
+      }
+    });
+  }
+
+  @RxLogObservable
+  Observable<Void> doNothing() {
+    return Observable.empty();
+  }
+
+  @RxLogObservable
+  Observable<MyDummyClass> doSomething() {
+    return Observable.just(new MyDummyClass("Fernando"));
+  }
+
+  @RxLogObservable
+  Observable<List<MyDummyClass>> list() {
+    return Observable.just(buildDummyList());
+  }
+
+  private List<MyDummyClass> buildDummyList() {
+    return Arrays.asList(new MyDummyClass("Batman"), new MyDummyClass("Superman"));
+  }
+
+  public static final class MyDummyClass {
+    private final String name;
+
+    MyDummyClass(String name) {
+      this.name = name;
     }
 
-    @Override public void onError(Throwable e) {
-      //no op
-    }
-
-    @Override public void onComplete() {
-      //no op
+    @Override
+    public String toString() {
+      return "Name: " + name;
     }
   }
 }

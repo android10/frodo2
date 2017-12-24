@@ -46,7 +46,7 @@
       android:id="@+id/btnRxLogSingle"
       style="@style/AppButton"
       android:layout_marginBottom="@dimen/button_vertical_margin"
-      android:text="@string/btn_text_sample_rx_log_observable"
+      android:text="@string/btn_text_sample_rx_log_single"
       />
 
   <TextView
