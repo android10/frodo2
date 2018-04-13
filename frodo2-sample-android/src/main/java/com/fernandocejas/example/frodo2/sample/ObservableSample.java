@@ -1,14 +1,17 @@
 package com.fernandocejas.example.frodo2.sample;
 
 import com.fernandocejas.frodo2.annotation.RxLogObservable;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
 
 public class ObservableSample {
 
@@ -16,7 +19,9 @@ public class ObservableSample {
 
   @RxLogObservable
   public Observable<Integer> numbers() {
-    return Observable.just(1, 2, 3, 4);
+    return Observable.just(1, 2, 3, 4)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread());
   }
 
   @RxLogObservable
