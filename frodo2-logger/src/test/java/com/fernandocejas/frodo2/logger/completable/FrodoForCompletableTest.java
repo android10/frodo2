@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.observable;
+package com.fernandocejas.frodo2.logger.completable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
@@ -15,47 +15,45 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("unchecked")
-public class FrodoForObservableTest extends UnitTest {
+public class FrodoForCompletableTest extends UnitTest {
 
-  @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
+  @Rule public CompletableRule completableRule = new CompletableRule(this.getClass());
 
-  private FrodoForObservable frodoObservable;
+  private FrodoForCompletable frodoForCompletable;
   private TestObserver observer;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    frodoObservable = new FrodoForObservable(observableRule.joinPoint(), messageManager);
+    frodoForCompletable = new FrodoForCompletable(completableRule.joinPoint(), messageManager);
     observer = new TestObserver();
   }
 
   @Test
   public void shouldBuild() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
+    frodoForCompletable.completable().subscribe(observer);
 
-    observer.assertResult(ObservableRule.OBSERVABLE_STREAM_VALUE);
+    observer.assertNoValues();
     observer.assertNoErrors();
     observer.assertComplete();
   }
 
   @Test
   public void shouldPrintInfo() throws Throwable {
-    frodoObservable.observable();
+    frodoForCompletable.completable();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
   }
 
   @Test
   public void shouldLogInformation() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
+    frodoForCompletable.completable().subscribe(observer);
     observer.dispose();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnSubscribe(any(RxComponentInfo.class));
-    verify(messageManager).printOnNextWithValue(any(RxComponentInfo.class), any());
     verify(messageManager).printOnComplete(any(RxComponentInfo.class));
-    verify(messageManager).printOnTerminate(any(RxComponentInfo.class));
     verify(messageManager).printItemTimeInfo(any(RxComponentInfo.class));
     verify(messageManager).printThreadInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnDispose(any(RxComponentInfo.class));

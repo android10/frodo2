@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.observable;
+package com.fernandocejas.frodo2.logger.flowable;
 
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
@@ -9,47 +9,47 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("unchecked")
-public class FrodoForObservableTest extends UnitTest {
+public class FrodoForFlowableTest extends UnitTest {
 
-  @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
+  @Rule public FlowableRule flowableRule = new FlowableRule(this.getClass());
 
-  private FrodoForObservable frodoObservable;
-  private TestObserver observer;
+  private FrodoForFlowable frodoFlowable;
+  private TestSubscriber subscriber;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    frodoObservable = new FrodoForObservable(observableRule.joinPoint(), messageManager);
-    observer = new TestObserver();
+    frodoFlowable = new FrodoForFlowable(flowableRule.joinPoint(), messageManager);
+    subscriber = new TestSubscriber();
   }
 
   @Test
   public void shouldBuild() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
+    frodoFlowable.flowable().subscribe(subscriber);
 
-    observer.assertResult(ObservableRule.OBSERVABLE_STREAM_VALUE);
-    observer.assertNoErrors();
-    observer.assertComplete();
+    subscriber.assertValue(FlowableRule.OBSERVABLE_STREAM_VALUE);
+    subscriber.assertNoErrors();
+    subscriber.assertComplete();
   }
 
   @Test
   public void shouldPrintInfo() throws Throwable {
-    frodoObservable.observable();
+    frodoFlowable.flowable();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
   }
 
   @Test
   public void shouldLogInformation() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
-    observer.dispose();
+    frodoFlowable.flowable().subscribe(subscriber);
+    subscriber.dispose();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnSubscribe(any(RxComponentInfo.class));
@@ -58,6 +58,6 @@ public class FrodoForObservableTest extends UnitTest {
     verify(messageManager).printOnTerminate(any(RxComponentInfo.class));
     verify(messageManager).printItemTimeInfo(any(RxComponentInfo.class));
     verify(messageManager).printThreadInfo(any(RxComponentInfo.class));
-    verify(messageManager).printOnDispose(any(RxComponentInfo.class));
+    verify(messageManager).printOnCancel(any(RxComponentInfo.class));
   }
 }
