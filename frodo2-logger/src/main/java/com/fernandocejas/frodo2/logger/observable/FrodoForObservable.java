@@ -35,51 +35,56 @@ class FrodoForObservable {
     final StopWatch stopWatch = new StopWatch();
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Observable<T>) joinPoint.proceed())
-            .doOnSubscribe(new Consumer<Disposable>() {
-              @Override
-              public void accept(Disposable disposable) throws Exception {
-                stopWatch.start();
-                messageManager.printOnSubscribe(rxComponentInfo);
-              }
-            })
-            .doOnNext(new Consumer<T>() {
-              @Override
-              public void accept(T value) throws Exception {
-                emittedItems.increment();
-                messageManager.printOnNextWithValue(rxComponentInfo, value);
-              }
-            })
-            .doOnError(new Consumer<Throwable>() {
-              @Override
-              public void accept(Throwable throwable) throws Exception {
-                messageManager.printOnError(rxComponentInfo, throwable);
-              }
-            })
-            .doOnComplete(new Action() {
-              @Override
-              public void run() throws Exception {
-                messageManager.printOnCompleted(rxComponentInfo);
-              }
-            })
-            .doOnTerminate(new Action() {
-              @Override
-              public void run() throws Exception {
-                stopWatch.stop();
-                rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-                rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-                messageManager.printOnTerminate(rxComponentInfo);
-                messageManager.printItemTimeInfo(rxComponentInfo);
-              }
-            })
-            .doFinally(new Action() {
-              @Override
-              public void run() throws Exception {
-                if (rxComponentInfo.observeOnThread() == null) {
-                  rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-                }
-                messageManager.printThreadInfo(rxComponentInfo);
-                messageManager.printOnUnsubscribe(rxComponentInfo);
-              }
-            });
+        .doOnSubscribe(new Consumer<Disposable>() {
+          @Override
+          public void accept(Disposable disposable) throws Exception {
+            stopWatch.start();
+            messageManager.printOnSubscribe(rxComponentInfo);
+          }
+        })
+        .doOnNext(new Consumer<T>() {
+          @Override
+          public void accept(T value) throws Exception {
+            if (rxComponentInfo.observeOnThread() == null) {
+              rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
+            }
+            emittedItems.increment();
+            messageManager.printOnNextWithValue(rxComponentInfo, value);
+          }
+        })
+        .doOnError(new Consumer<Throwable>() {
+          @Override
+          public void accept(Throwable throwable) throws Exception {
+            messageManager.printOnError(rxComponentInfo, throwable);
+          }
+        })
+        .doOnComplete(new Action() {
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnComplete(rxComponentInfo);
+          }
+        })
+        .doOnTerminate(new Action() {
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnTerminate(rxComponentInfo);
+          }
+        })
+        .doOnDispose(new Action() {
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnDispose(rxComponentInfo);
+          }
+        })
+        .doFinally(new Action() {
+          @Override
+          public void run() throws Exception {
+            stopWatch.stop();
+            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printItemTimeInfo(rxComponentInfo);
+            messageManager.printThreadInfo(rxComponentInfo);
+          }
+        });
   }
 }

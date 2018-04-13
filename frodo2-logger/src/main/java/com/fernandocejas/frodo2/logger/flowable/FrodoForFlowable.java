@@ -12,6 +12,7 @@ import org.reactivestreams.Subscription;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.LongConsumer;
 
 @SuppressWarnings({"unchecked", "Convert2Lambda"})
 class FrodoForFlowable {
@@ -40,46 +41,54 @@ class FrodoForFlowable {
           @Override
           public void accept(Subscription subscription) throws Exception {
             stopWatch.start();
-            FrodoForFlowable.this.messageManager.printOnSubscribe(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printOnSubscribe(rxComponentInfo);
           }
         })
         .doOnNext(new Consumer<T>() {
           @Override
           public void accept(T value) throws Exception {
             emittedItems.increment();
-            FrodoForFlowable.this.messageManager.printOnNextWithValue(FrodoForFlowable.this.rxComponentInfo, value);
+            messageManager.printOnNextWithValue(rxComponentInfo, value);
           }
         })
         .doOnError(new Consumer<Throwable>() {
           @Override
           public void accept(Throwable throwable) throws Exception {
-            FrodoForFlowable.this.messageManager.printOnError(FrodoForFlowable.this.rxComponentInfo, throwable);
+            messageManager.printOnError(rxComponentInfo, throwable);
           }
         })
         .doOnComplete(new Action() {
           @Override
           public void run() throws Exception {
-            FrodoForFlowable.this.messageManager.printOnCompleted(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printOnComplete(rxComponentInfo);
           }
         })
         .doOnTerminate(new Action() {
           @Override
           public void run() throws Exception {
-            stopWatch.stop();
-            FrodoForFlowable.this.rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            FrodoForFlowable.this.rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-            FrodoForFlowable.this.messageManager.printOnTerminate(FrodoForFlowable.this.rxComponentInfo);
-            FrodoForFlowable.this.messageManager.printItemTimeInfo(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printOnTerminate(rxComponentInfo);
+          }
+        })
+        .doOnRequest(new LongConsumer() {
+          @Override
+          public void accept(long count) throws Exception {
+            messageManager.printOnRequestWithCount(rxComponentInfo, count);
+          }
+        })
+        .doOnCancel(new Action() {
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnCancel(rxComponentInfo);
           }
         })
         .doFinally(new Action() {
           @Override
           public void run() throws Exception {
-            if (FrodoForFlowable.this.rxComponentInfo.observeOnThread() == null) {
-              FrodoForFlowable.this.rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-            }
-            FrodoForFlowable.this.messageManager.printThreadInfo(FrodoForFlowable.this.rxComponentInfo);
-            FrodoForFlowable.this.messageManager.printOnUnsubscribe(FrodoForFlowable.this.rxComponentInfo);
+            stopWatch.stop();
+            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printItemTimeInfo(rxComponentInfo);
+            messageManager.printThreadInfo(rxComponentInfo);
           }
         });
   }

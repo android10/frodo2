@@ -32,14 +32,19 @@ public class MessageManager {
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
+  public <T> void printOnSuccessWithValue(RxComponentInfo rxComponentInfo, T value) {
+    final String message = messageBuilder.buildOnSuccessWithValueMessage(rxComponentInfo, value);
+    this.printMessage(rxComponentInfo.classSimpleName(), message);
+  }
+
   public void printOnError(RxComponentInfo rxComponentInfo,
       Throwable throwable) {
     final String message = messageBuilder.buildOnErrorMessage(rxComponentInfo, throwable.getMessage());
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printOnCompleted(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildOnCompletedMessage(rxComponentInfo);
+  public void printOnComplete(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnCompleteMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
@@ -48,8 +53,18 @@ public class MessageManager {
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 
-  public void printOnUnsubscribe(RxComponentInfo rxComponentInfo) {
-    final String message = messageBuilder.buildOnUnsubscribeMessage(rxComponentInfo);
+  public void printOnDispose(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnDisposeMessage(rxComponentInfo);
+    this.printMessage(rxComponentInfo.classSimpleName(), message);
+  }
+
+  public void printOnRequestWithCount(RxComponentInfo rxComponentInfo, long count) {
+    final String message = messageBuilder.buildOnRequestWithCountMessage(rxComponentInfo, count);
+    this.printMessage(rxComponentInfo.classSimpleName(), message);
+  }
+
+  public void printOnCancel(RxComponentInfo rxComponentInfo) {
+    final String message = messageBuilder.buildOnCancelMessage(rxComponentInfo);
     this.printMessage(rxComponentInfo.classSimpleName(), message);
   }
 

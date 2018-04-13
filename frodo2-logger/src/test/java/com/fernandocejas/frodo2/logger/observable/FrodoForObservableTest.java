@@ -51,10 +51,10 @@ public class FrodoForObservableTest extends UnitTest {
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnSubscribe(any(RxComponentInfo.class));
     verify(messageManager).printOnNextWithValue(any(RxComponentInfo.class), any());
-    verify(messageManager).printOnCompleted(any(RxComponentInfo.class));
+    verify(messageManager).printOnComplete(any(RxComponentInfo.class));
     verify(messageManager).printOnTerminate(any(RxComponentInfo.class));
     verify(messageManager).printItemTimeInfo(any(RxComponentInfo.class));
     verify(messageManager).printThreadInfo(any(RxComponentInfo.class));
-    verify(messageManager).printOnUnsubscribe(any(RxComponentInfo.class));
+    verify(messageManager).printOnDispose(any(RxComponentInfo.class));
   }
 }

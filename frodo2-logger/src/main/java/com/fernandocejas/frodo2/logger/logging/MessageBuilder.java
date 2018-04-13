@@ -1,7 +1,7 @@
 package com.fernandocejas.frodo2.logger.logging;
 
-import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.joinpoint.FrodoJoinPoint;
+import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 
 import java.util.List;
 
@@ -25,16 +25,20 @@ public class MessageBuilder {
   private static final String EMITTED_ELEMENTS_LABEL = LOG_START + "Emitted" + VALUE_SEPARATOR;
   private static final String LABEL_ON_SUBSCRIBE = "onSubscribe()";
   private static final String LABEL_ON_NEXT = "onNext()";
+  private static final String LABEL_ON_SUCCESS = "onSuccess()";
   private static final String LABEL_ON_ERROR = "onError()";
-  private static final String LABEL_ON_COMPLETED = "onCompleted()";
+  private static final String LABEL_ON_COMPLETED = "onComplete()";
   private static final String LABEL_ON_TERMINATE = "onTerminate()";
-  private static final String LABEL_ON_UNSUBSCRIBE = "onUnsubscribe()";
+  private static final String LABEL_ON_DISPOSE = "onDispose()";
+  private static final String LABEL_ON_REQUEST = "onRequest()";
+  private static final String LABEL_ON_CANCEL = "onCancel()";
   private static final String LABEL_SUBSCRIBE_ON = LOG_START + "SubscribeOn" + VALUE_SEPARATOR;
   private static final String LABEL_OBSERVE_ON = LOG_START + "ObserveOn" + VALUE_SEPARATOR;
   private static final String LABEL_ELEMENT_SINGULAR = " element";
   private static final String LABEL_ELEMENT_PLURAL = " elements";
 
-  public MessageBuilder() {}
+  public MessageBuilder() {
+  }
 
   String buildRxComponentInfoMessage(RxComponentInfo rxComponentInfo) {
     final FrodoJoinPoint joinPoint = rxComponentInfo.joinPoint();
@@ -75,6 +79,19 @@ public class MessageBuilder {
     return message.toString();
   }
 
+  <T> String buildOnSuccessWithValueMessage(RxComponentInfo rxComponentInfo, T value) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
+    message.append(METHOD_SEPARATOR);
+    message.append(rxComponentInfo.methodName());
+    message.append(VALUE_SEPARATOR);
+    message.append(LABEL_ON_SUCCESS);
+    message.append(VALUE_SEPARATOR);
+    message.append(String.valueOf(value));
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
   String buildOnErrorMessage(RxComponentInfo rxComponentInfo, String errorMessage) {
     final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
@@ -90,7 +107,7 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildOnCompletedMessage(RxComponentInfo rxComponentInfo) {
+  String buildOnCompleteMessage(RxComponentInfo rxComponentInfo) {
     final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
@@ -112,12 +129,36 @@ public class MessageBuilder {
     return message.toString();
   }
 
-  String buildOnUnsubscribeMessage(RxComponentInfo rxComponentInfo) {
+  String buildOnDisposeMessage(RxComponentInfo rxComponentInfo) {
     final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
     message.append(METHOD_SEPARATOR);
     message.append(rxComponentInfo.methodName());
     message.append(VALUE_SEPARATOR);
-    message.append(LABEL_ON_UNSUBSCRIBE);
+    message.append(LABEL_ON_DISPOSE);
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildOnRequestWithCountMessage(RxComponentInfo rxComponentInfo, long count) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
+    message.append(METHOD_SEPARATOR);
+    message.append(rxComponentInfo.methodName());
+    message.append(VALUE_SEPARATOR);
+    message.append(LABEL_ON_REQUEST);
+    message.append(VALUE_SEPARATOR);
+    message.append(String.valueOf(count));
+    message.append(LOG_ENCLOSING_CLOSE);
+
+    return message.toString();
+  }
+
+  String buildOnCancelMessage(RxComponentInfo rxComponentInfo) {
+    final StringBuilder message = buildRxComponentSB(rxComponentInfo.rxComponentName());
+    message.append(METHOD_SEPARATOR);
+    message.append(rxComponentInfo.methodName());
+    message.append(VALUE_SEPARATOR);
+    message.append(LABEL_ON_CANCEL);
     message.append(LOG_ENCLOSING_CLOSE);
 
     return message.toString();

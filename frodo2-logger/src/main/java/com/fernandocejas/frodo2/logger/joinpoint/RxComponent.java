@@ -3,7 +3,9 @@ package com.fernandocejas.frodo2.logger.joinpoint;
 public enum RxComponent {
   FLOWABLE,
   OBSERVABLE,
-  SINGLE;
+  SINGLE,
+  MAYBE,
+  COMPLETABLE;
 
   @Override public String toString() {
     return capitalize(name());
