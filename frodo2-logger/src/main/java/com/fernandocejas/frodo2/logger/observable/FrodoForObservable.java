@@ -7,7 +7,6 @@ import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
 
-import io.reactivex.Notification;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -41,15 +40,6 @@ class FrodoForObservable {
               public void accept(Disposable disposable) throws Exception {
                 stopWatch.start();
                 messageManager.printOnSubscribe(rxComponentInfo);
-              }
-            })
-            .doOnEach(new Consumer<Notification<T>>() {
-              @Override
-              public void accept(Notification<T> notification) throws Exception {
-                if (rxComponentInfo.subscribeOnThread() == null && (notification.isOnNext()
-                        || notification.isOnError())) {
-                  rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-                }
               }
             })
             .doOnNext(new Consumer<T>() {
