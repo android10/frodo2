@@ -36,11 +36,11 @@ public class TestProceedingJoinPoint implements ProceedingJoinPoint {
     if (returnType == Observable.class) {
       return Observable.just(testJoinPoint.getMethodReturnValue());
     } else if (returnType == Flowable.class) {
-      return Flowable.just(testJoinPoint.getMethodReturnType());
+      return Flowable.just(testJoinPoint.getMethodReturnValue());
     } else if (returnType == Single.class) {
-      return Single.just(testJoinPoint.getMethodReturnType());
+      return Single.just(testJoinPoint.getMethodReturnValue());
     } else if (returnType == Maybe.class) {
-      return Maybe.just(testJoinPoint.getMethodReturnType());
+      return Maybe.just(testJoinPoint.getMethodReturnValue());
     } else if (returnType == Completable.class) {
       return Completable.complete();
     }
