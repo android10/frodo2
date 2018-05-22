@@ -12,7 +12,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-@SuppressWarnings({ "unchecked", "Convert2Lambda" }) class FrodoForObservable {
+@SuppressWarnings({ "unchecked", "Convert2Lambda" })
+class FrodoForObservable {
 
   private final FrodoProceedingJoinPoint joinPoint;
   private final MessageManager messageManager;
@@ -42,8 +43,8 @@ import io.reactivex.functions.Consumer;
         })
         .doOnEach(new Consumer<Notification<T>>() {
           @Override public void accept(Notification<T> notification) throws Exception {
-            if (rxComponentInfo.subscribeOnThread() != null && (notification.isOnNext()
-                || notification.isOnError())) {
+            if (rxComponentInfo.subscribeOnThread() != null &&
+                (notification.isOnNext() || notification.isOnError())) {
               rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
             }
           }
@@ -64,7 +65,7 @@ import io.reactivex.functions.Consumer;
             messageManager.printOnCompleted(rxComponentInfo);
           }
         })
-        .doOnTerminate(new Action() {
+        .doAfterTerminate(new Action() {
           @Override public void run() throws Exception {
             stopWatch.stop();
             rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
@@ -75,9 +76,7 @@ import io.reactivex.functions.Consumer;
         })
         .doFinally(new Action() {
           @Override public void run() throws Exception {
-            if (rxComponentInfo.observeOnThread() != null) {
-              rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
-            }
+            rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
             messageManager.printThreadInfo(rxComponentInfo);
             messageManager.printOnUnsubscribe(rxComponentInfo);
           }

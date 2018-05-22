@@ -37,7 +37,7 @@ import org.reactivestreams.Subscription;
         .doOnSubscribe(new Consumer<Subscription>() {
           @Override public void accept(Subscription subscription) throws Exception {
             stopWatch.start();
-            FrodoForFlowable.this.messageManager.printOnSubscribe(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printOnSubscribe(FrodoForFlowable.this.rxComponentInfo);
           }
         })
         .doOnEach(new Consumer<Notification<T>>() {
@@ -50,26 +50,26 @@ import org.reactivestreams.Subscription;
         .doOnNext(new Consumer<T>() {
           @Override public void accept(T value) throws Exception {
             emittedItems.increment();
-            FrodoForFlowable.this.messageManager.printOnNextWithValue(FrodoForFlowable.this.rxComponentInfo, value);
+            messageManager.printOnNextWithValue(FrodoForFlowable.this.rxComponentInfo, value);
           }
         })
         .doOnError(new Consumer<Throwable>() {
           @Override public void accept(Throwable throwable) throws Exception {
-            FrodoForFlowable.this.messageManager.printOnError(FrodoForFlowable.this.rxComponentInfo,throwable);
+            messageManager.printOnError(FrodoForFlowable.this.rxComponentInfo,throwable);
           }
         })
         .doOnComplete(new Action() {
           @Override public void run() throws Exception {
-            FrodoForFlowable.this.messageManager.printOnCompleted(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printOnCompleted(FrodoForFlowable.this.rxComponentInfo);
           }
         })
         .doOnTerminate(new Action() {
           @Override public void run() throws Exception {
             stopWatch.stop();
-            FrodoForFlowable.this.rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            FrodoForFlowable.this.rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
-            FrodoForFlowable.this.messageManager.printOnTerminate(FrodoForFlowable.this.rxComponentInfo);
-            FrodoForFlowable.this.messageManager.printItemTimeInfo(FrodoForFlowable.this.rxComponentInfo);
+            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printOnTerminate(FrodoForFlowable.this.rxComponentInfo);
+            messageManager.printItemTimeInfo(FrodoForFlowable.this.rxComponentInfo);
           }
         })
         .doFinally(new Action() {
