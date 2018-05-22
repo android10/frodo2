@@ -3,6 +3,7 @@ jdk: oraclejdk8
 sudo: false
 os: linux
 
+before_install: - yes | sdkmanager "platforms;android-27"
 install: ./install_frodo2.sh
 
 android:
