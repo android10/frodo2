@@ -2,7 +2,7 @@
 New Frodo version (TODO: automate these tasks)
 ----------------------------------------------------------
 1. Publish through gradle task:
-- ./gradlew publishFrodo
+- ./gradlew publishFrodo2
 
 2. Upload pom.xml manually (there is an issue with the publishing plugin) and publish on bintray:
 - https://github.com/novoda/bintray-release
@@ -15,7 +15,7 @@ New Frodo version (TODO: automate these tasks)
 
 3. Delete any local frodo repository and try the plugin with a new clean android project.
 - cd ~/.m2/repository/com/fernandocejas
-- rm -rf frodo/
+- rm -rf frodo2/
 
 4. Create a tag on github:
 - git tag
@@ -25,18 +25,18 @@ New Frodo version (TODO: automate these tasks)
 - git push origin v0.9.0
 
 5. Release Notes: and description in both Github and Bintray.
-- Frodo wiki on github: https://github.com/android10/frodo/wiki
+- Frodo wiki on github: https://github.com/android10/frodo2/wiki
 - Bintray description: https://bintray.com/android10/maven
 
 6. Prepare for the next development version:
-- FrodoPlugin class project.dependencies
 - gradle.properties 'version' property
-- Build class in gradle plugin needs version update
+- Build class in gradle plugin needs frodo version update (changes are no pick up automatically)
 - add new version CHANGELOG.txt file
 
 7. Install new version by running either of these tasks:
-- ./install_frodo.sh
-- ./gradlew installFrodoAndroidSample
+- ./install_frodo2.sh
+- ./run_frodo2_android.sh
+- ./run_frodo2_android.sh
 
 8. Promote new version released
 ----------------------------------------------------------
@@ -44,7 +44,7 @@ New Frodo version (TODO: automate these tasks)
 ----------------------------------------------------------
 POSSIBLE ISSUE #1
 ----------------------------------------------------------
-- Installing frodo through './install_frodo.sh' can trigger this exception:
+- Installing frodo through './install_frodo2.sh' can trigger this exception:
 
 FAILURE: Build failed with an exception.
 
