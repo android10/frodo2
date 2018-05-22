@@ -193,9 +193,9 @@ public class MessageBuilder {
     if (subscribeOnThread != null) {
       message.append(LABEL_SUBSCRIBE_ON);
       message.append(subscribeOnThread);
+      message.append(SEPARATOR);
     }
     if (observeOnThread != null) {
-      message.append(SEPARATOR);
       message.append(LABEL_OBSERVE_ON);
       message.append(observeOnThread);
     }
