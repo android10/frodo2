@@ -17,13 +17,10 @@ package com.fernandocejas.example.frodo2;
 
 import com.fernandocejas.frodo2.annotation.RxLogObservable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.ObservableSource;
 import io.reactivex.schedulers.Schedulers;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 class ObservableSample {
 
@@ -46,20 +43,26 @@ class ObservableSample {
 
   @RxLogObservable
   Observable<String> stringItemWithDefer() {
-    return Observable.defer(new Callable<ObservableSource<? extends String>>() {
-      @Override public ObservableSource<? extends String> call() throws Exception {
-        return Observable.create(new ObservableOnSubscribe<String>() {
-          @Override public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-            try {
-              emitter.onNext("String item value");
-              emitter.onComplete();
-            } catch (Exception e) {
-              emitter.onError(e);
-            }
-          }
-        }).subscribeOn(Schedulers.computation());
+    return Observable.defer(() -> Observable.create((ObservableOnSubscribe<String>) emitter -> {
+      try {
+        emitter.onNext("String item value");
+        emitter.onComplete();
+      } catch (Exception e) {
+        emitter.onError(e);
       }
-    });
+    }));
+  }
+
+  @RxLogObservable
+  Observable<String> manualCreation() {
+    return Observable.create((ObservableOnSubscribe<String>) emitter -> {
+      try {
+        emitter.onNext("String value emitted!");
+        emitter.onComplete();
+      } catch (Exception e) {
+        emitter.onError(e);
+      }
+    }).subscribeOn(Schedulers.newThread()).observeOn(Schedulers.single());
   }
 
   @RxLogObservable

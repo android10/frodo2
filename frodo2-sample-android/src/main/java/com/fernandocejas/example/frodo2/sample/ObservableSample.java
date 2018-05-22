@@ -47,7 +47,21 @@ public class ObservableSample {
               emitter.onError(e);
             }
           }
-        }).subscribeOn(Schedulers.computation());
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+      }
+    });
+  }
+
+  @RxLogObservable
+  public Observable<String> manualCreation() {
+    return Observable.create(new ObservableOnSubscribe<String>() {
+      @Override public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+        try {
+          emitter.onNext("String value emitted!");
+          emitter.onComplete();
+        } catch (Exception e) {
+          emitter.onError(e);
+        }
       }
     });
   }

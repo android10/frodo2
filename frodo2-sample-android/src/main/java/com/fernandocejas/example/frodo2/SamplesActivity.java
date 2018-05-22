@@ -29,8 +29,15 @@ public class SamplesActivity extends Activity {
 
   private final ObservableSample observableSample = new ObservableSample();
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  private View.OnClickListener rxLogObservableListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      executeRxObservableSampleOne();
+      executeRxObservableSampleTwo();
+      executeRxObservableSampleThree();
+    }
+  };
+
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_samples);
     this.initialize();
@@ -47,13 +54,7 @@ public class SamplesActivity extends Activity {
     this.btnRxLogObservable = findViewById(R.id.btnRxLogObservable);
     this.btnRxLogSingle = findViewById(R.id.btnRxLogSingle);
 
-    this.btnRxLogObservable.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        executeRxObservableSampleOne();
-//                executeRxObservableSampleTwo();
-      }
-    });
+    this.btnRxLogObservable.setOnClickListener(rxLogObservableListener);
   }
 
   private void toastMessage(String message) {
@@ -67,45 +68,49 @@ public class SamplesActivity extends Activity {
   }
 
   private void executeRxObservableSampleOne() {
-    final Observable<Integer> integers = observableSample.numbers();
-    addDisposable(integers.subscribe());
+    final Observable<Integer> integers = observableSample.numbers()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
+    final MyObserver<Integer> observer = new MyObserver<Integer>() {
+      @Override public void onNext(Integer integer) {
+        toastMessage("onNext() Integer--> " + String.valueOf(integer));
+      }
+    };
+    addDisposable(integers.subscribeWith(observer));
 
-//
-//        final Observable<String> strings = observableSample.strings()
-//                .delay(2, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(Schedulers.newThread());
-//        addDisposable(strings.subscribe());
-//
-//        final Observable<String> error = observableSample.error()
-//                .delay(4, TimeUnit.SECONDS)
-//                .subscribeOn(Schedulers.newThread())
-//                .observeOn(AndroidSchedulers.mainThread());
-//        addDisposable(error.subscribeWith(new MyObserver<>()));
+
+    final Observable<String> strings = observableSample.strings()
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(strings.subscribe());
+
+    final Observable<String> error = observableSample.error();
+    disposables.add(error.subscribeWith(new MyObserver<>()));
   }
 
   private void executeRxObservableSampleTwo() {
-    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer()
-            .delay(6, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.single())
-            .observeOn(Schedulers.computation());
-    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
-
     final Observable<Void> voidObservable = observableSample.doNothing()
-            .delay(8, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io());
+        .subscribeOn(Schedulers.io());
     disposables.add(voidObservable.subscribeWith(new MyObserver<>()));
 
     final Observable<MyDummyClass> dummyClassObservable = observableSample.doSomething()
-            .delay(10, TimeUnit.SECONDS)
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .observeOn(AndroidSchedulers.mainThread());
+        .subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(AndroidSchedulers.mainThread());
     disposables.add(dummyClassObservable.subscribe());
+  }
+
+  private void executeRxObservableSampleThree() {
+    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer();
+    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
+
+    final Observable<String> stringObservable = observableSample.manualCreation()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
+    disposables.add(stringObservable.subscribe());
 
     final Observable<List<MyDummyClass>> listObservable = observableSample.list()
-            .delay(12, TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread());
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
     disposables.add(listObservable.subscribe());
   }
 }

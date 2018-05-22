@@ -23,8 +23,8 @@ class Samples {
   }
 
   void executeRxObservableSampleOne() {
-    final Observable<Integer> integers = observableSample.numbers()
-        .subscribeOn(Schedulers.newThread());
+    final Observable<Integer> integers =
+        observableSample.numbers().subscribeOn(Schedulers.newThread());
     addDisposable(integers.subscribeWith(new MyObserver<>()));
 
     final Observable<String> strings = observableSample.strings()
@@ -38,12 +38,6 @@ class Samples {
   }
 
   void executeRxObservableSampleTwo() {
-    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer()
-        .delay(6, TimeUnit.SECONDS)
-        .subscribeOn(Schedulers.single())
-        .observeOn(Schedulers.computation());
-    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
-
     final Observable<Void> voidObservable =
         observableSample.doNothing().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
     disposables.add(voidObservable.subscribeWith(new MyObserver<>()));
@@ -53,14 +47,20 @@ class Samples {
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.io());
     disposables.add(dummyClassObservable.subscribe());
-
-    final Observable<List<MyDummyClass>> listObservable = observableSample.list()
-        .delay(12, TimeUnit.SECONDS)
-        .subscribeOn(Schedulers.newThread());
-    disposables.add(listObservable.subscribe());
   }
 
-  void disposeSamples() {
-    disposables.dispose();
+  void executeRxObservableSampleThree() {
+    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(Schedulers.single());
+    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
+
+    final Observable<String> stringObservable = observableSample.manualCreation();
+    disposables.add(stringObservable.subscribe());
+
+    final Observable<List<MyDummyClass>> listObservable = observableSample.list()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(Schedulers.single());
+    disposables.add(listObservable.subscribe());
   }
 }
