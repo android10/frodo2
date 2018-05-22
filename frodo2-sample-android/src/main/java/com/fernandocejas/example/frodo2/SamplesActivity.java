@@ -30,6 +30,7 @@ public class SamplesActivity extends Activity {
     @Override public void onClick(View v) {
       executeRxObservableSampleOne();
       executeRxObservableSampleTwo();
+      executeRxObservableSampleThree();
     }
   };
 
@@ -77,36 +78,35 @@ public class SamplesActivity extends Activity {
 
 
     final Observable<String> strings = observableSample.strings()
-        .delay(2, TimeUnit.SECONDS)
         .subscribeOn(Schedulers.io())
         .observeOn(Schedulers.newThread());
     disposables.add(strings.subscribe());
 
-    final Observable<String> error = observableSample.error()
-        .delay(4, TimeUnit.SECONDS);
+    final Observable<String> error = observableSample.error();
     disposables.add(error.subscribeWith(new MyObserver<>()));
   }
 
   private void executeRxObservableSampleTwo() {
-    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer()
-        .delay(6, TimeUnit.SECONDS)
-        .subscribeOn(Schedulers.single())
-        .observeOn(Schedulers.computation());
-    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
-
     final Observable<Void> voidObservable = observableSample.doNothing()
-        .delay(8, TimeUnit.SECONDS)
         .subscribeOn(Schedulers.io());
     disposables.add(voidObservable.subscribeWith(new MyObserver<>()));
 
     final Observable<MyDummyClass> dummyClassObservable = observableSample.doSomething()
-        .delay(10, TimeUnit.SECONDS)
         .subscribeOn(AndroidSchedulers.mainThread())
         .observeOn(AndroidSchedulers.mainThread());
     disposables.add(dummyClassObservable.subscribe());
+  }
+
+  private void executeRxObservableSampleThree() {
+    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer();
+    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
+
+    final Observable<String> stringObservable = observableSample.manualCreation()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
+    disposables.add(stringObservable.subscribe());
 
     final Observable<List<MyDummyClass>> listObservable = observableSample.list()
-        .delay(12, TimeUnit.SECONDS)
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread());
     disposables.add(listObservable.subscribe());

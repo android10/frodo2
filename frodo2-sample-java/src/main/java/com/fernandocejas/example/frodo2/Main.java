@@ -15,14 +15,18 @@
  */
 package com.fernandocejas.example.frodo2;
 
+import java.io.IOException;
+
 public class Main {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     final Samples samples = new Samples();
 
     System.out.println("Frodo2 Java RxObservable Examples...");
     samples.executeRxObservableSampleOne();
     samples.executeRxObservableSampleTwo();
+    samples.executeRxObservableSampleThree();
 
-    samples.disposeSamples();
+    //noinspection ResultOfMethodCallIgnored
+    System.in.read();
   }
 }

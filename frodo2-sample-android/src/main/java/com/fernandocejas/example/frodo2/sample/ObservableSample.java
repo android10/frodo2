@@ -5,6 +5,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,21 @@ public class ObservableSample {
               emitter.onError(e);
             }
           }
-        }).subscribeOn(Schedulers.computation());
+        }).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+      }
+    });
+  }
+
+  @RxLogObservable
+  public Observable<String> manualCreation() {
+    return Observable.create(new ObservableOnSubscribe<String>() {
+      @Override public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+        try {
+          emitter.onNext("String value emitted!");
+          emitter.onComplete();
+        } catch (Exception e) {
+          emitter.onError(e);
+        }
       }
     });
   }
