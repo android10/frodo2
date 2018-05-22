@@ -41,7 +41,7 @@ abstract class Build {
 
   private void setupDependencies() {
     project.dependencies {
-      compile "com.fernandocejas.frodo2:frodo2-api:$FRODO_VERSION"
+      implementation "com.fernandocejas.frodo2:frodo2-api:$FRODO_VERSION"
     }
   }
 

@@ -28,9 +28,9 @@ class AndroidBuild extends Build {
   @Override
   void configure() {
     project.dependencies {
-      debugCompile "org.aspectj:aspectjrt:$ASPECTJ_VERSION"
-      debugCompile "com.fernandocejas.frodo2:frodo2-runtime-android:$FRODO_VERSION"
-      debugCompile "com.fernandocejas.frodo2:frodo2-logger:$FRODO_VERSION"
+      debugImplementation "org.aspectj:aspectjrt:$ASPECTJ_VERSION"
+      debugImplementation "com.fernandocejas.frodo2:frodo2-runtime-android:$FRODO_VERSION"
+      debugImplementation "com.fernandocejas.frodo2:frodo2-logger:$FRODO_VERSION"
     }
 
     final def log = project.logger
@@ -38,10 +38,10 @@ class AndroidBuild extends Build {
     variants.all { variant ->
       if (!variant.buildType.isDebuggable()) {
         log.debug("Skipping non-debuggable build type '${variant.buildType.name}'.")
-        return;
+        return
       } else if (!project.frodo2.enabled) {
         log.debug('Frodo2 is not enabled.')
-        return;
+        return
       }
 
       final JavaCompile javaCompile = variant.javaCompile
