@@ -6,13 +6,13 @@ import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.Counter;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
 import com.fernandocejas.frodo2.logger.logging.StopWatch;
-import io.reactivex.Notification;
+
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-@SuppressWarnings({ "unchecked", "Convert2Lambda" })
+@SuppressWarnings({"unchecked", "Convert2Lambda"})
 class FrodoForObservable {
 
   private final FrodoProceedingJoinPoint joinPoint;
@@ -36,49 +36,54 @@ class FrodoForObservable {
     final Counter emittedItems = new Counter(joinPoint.getMethodName());
     return ((Observable<T>) joinPoint.proceed())
         .doOnSubscribe(new Consumer<Disposable>() {
-          @Override public void accept(Disposable disposable) throws Exception {
+          @Override
+          public void accept(Disposable disposable) throws Exception {
             stopWatch.start();
             messageManager.printOnSubscribe(rxComponentInfo);
           }
         })
-        .doOnEach(new Consumer<Notification<T>>() {
-          @Override public void accept(Notification<T> notification) throws Exception {
-            if (rxComponentInfo.subscribeOnThread() != null &&
-                (notification.isOnNext() || notification.isOnError())) {
-              rxComponentInfo.setSubscribeOnThread(Thread.currentThread().getName());
-            }
-          }
-        })
         .doOnNext(new Consumer<T>() {
-          @Override public void accept(T value) throws Exception {
+          @Override
+          public void accept(T value) throws Exception {
+            if (rxComponentInfo.observeOnThread() == null) {
+              rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
+            }
             emittedItems.increment();
             messageManager.printOnNextWithValue(rxComponentInfo, value);
           }
         })
         .doOnError(new Consumer<Throwable>() {
-          @Override public void accept(Throwable throwable) throws Exception {
+          @Override
+          public void accept(Throwable throwable) throws Exception {
             messageManager.printOnError(rxComponentInfo, throwable);
           }
         })
         .doOnComplete(new Action() {
-          @Override public void run() throws Exception {
-            messageManager.printOnCompleted(rxComponentInfo);
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnComplete(rxComponentInfo);
           }
         })
-        .doAfterTerminate(new Action() {
-          @Override public void run() throws Exception {
-            stopWatch.stop();
-            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
-            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+        .doOnTerminate(new Action() {
+          @Override
+          public void run() throws Exception {
             messageManager.printOnTerminate(rxComponentInfo);
-            messageManager.printItemTimeInfo(rxComponentInfo);
+          }
+        })
+        .doOnDispose(new Action() {
+          @Override
+          public void run() throws Exception {
+            messageManager.printOnDispose(rxComponentInfo);
           }
         })
         .doFinally(new Action() {
-          @Override public void run() throws Exception {
-            rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
+          @Override
+          public void run() throws Exception {
+            stopWatch.stop();
+            rxComponentInfo.setTotalExecutionTime(stopWatch.getTotalTimeMillis());
+            rxComponentInfo.setTotalEmittedItems(emittedItems.tally());
+            messageManager.printItemTimeInfo(rxComponentInfo);
             messageManager.printThreadInfo(rxComponentInfo);
-            messageManager.printOnUnsubscribe(rxComponentInfo);
           }
         });
   }

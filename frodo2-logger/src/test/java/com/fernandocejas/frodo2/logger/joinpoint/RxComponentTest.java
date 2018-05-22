@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RxComponentTest extends UnitTest {
-  private static final int NUMBER_RX_COMPONENTS_SUPPORTED = 3;
+  private static final int NUMBER_RX_COMPONENTS_SUPPORTED = 5;
 
   @Test
   public void shouldReturnNumberRxComponentsSupported() {
@@ -29,5 +29,17 @@ public class RxComponentTest extends UnitTest {
   public void shouldReturnSingleStringLiteral() {
     final String singleName = RxComponent.SINGLE.toString();
     assertThat(singleName).isEqualTo("Single");
+  }
+
+  @Test
+  public void shouldReturnMaybeStringLiteral() {
+    final String singleName = RxComponent.MAYBE.toString();
+    assertThat(singleName).isEqualTo("Maybe");
+  }
+
+  @Test
+  public void shouldReturnCompletableStringLiteral() {
+    final String singleName = RxComponent.COMPLETABLE.toString();
+    assertThat(singleName).isEqualTo("Completable");
   }
 }

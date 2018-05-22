@@ -1,4 +1,4 @@
-package com.fernandocejas.frodo2.logger.observable;
+package com.fernandocejas.frodo2.logger.maybe;
 
 import com.fernandocejas.frodo2.logger.joinpoint.RxComponentInfo;
 import com.fernandocejas.frodo2.logger.logging.MessageManager;
@@ -15,47 +15,45 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 @SuppressWarnings("unchecked")
-public class FrodoForObservableTest extends UnitTest {
+public class FrodoForMaybeTest extends UnitTest {
 
-  @Rule public ObservableRule observableRule = new ObservableRule(this.getClass());
+  @Rule public MaybeRule maybeRule = new MaybeRule(this.getClass());
 
-  private FrodoForObservable frodoObservable;
+  private FrodoForMaybe frodoForMaybe;
   private TestObserver observer;
 
   @Mock private MessageManager messageManager;
 
   @Before
   public void setUp() {
-    frodoObservable = new FrodoForObservable(observableRule.joinPoint(), messageManager);
+    frodoForMaybe = new FrodoForMaybe(maybeRule.joinPoint(), messageManager);
     observer = new TestObserver();
   }
 
   @Test
   public void shouldBuild() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
+    frodoForMaybe.maybe().subscribe(observer);
 
-    observer.assertResult(ObservableRule.OBSERVABLE_STREAM_VALUE);
+    observer.assertResult(MaybeRule.OBSERVABLE_STREAM_VALUE);
     observer.assertNoErrors();
     observer.assertComplete();
   }
 
   @Test
   public void shouldPrintInfo() throws Throwable {
-    frodoObservable.observable();
+    frodoForMaybe.maybe();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
   }
 
   @Test
   public void shouldLogInformation() throws Throwable {
-    frodoObservable.observable().subscribe(observer);
+    frodoForMaybe.maybe().subscribe(observer);
     observer.dispose();
 
     verify(messageManager).printRxComponentInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnSubscribe(any(RxComponentInfo.class));
-    verify(messageManager).printOnNextWithValue(any(RxComponentInfo.class), any());
-    verify(messageManager).printOnComplete(any(RxComponentInfo.class));
-    verify(messageManager).printOnTerminate(any(RxComponentInfo.class));
+    verify(messageManager).printOnSuccessWithValue(any(RxComponentInfo.class), any());
     verify(messageManager).printItemTimeInfo(any(RxComponentInfo.class));
     verify(messageManager).printThreadInfo(any(RxComponentInfo.class));
     verify(messageManager).printOnDispose(any(RxComponentInfo.class));

@@ -1,6 +1,7 @@
 package com.fernandocejas.frodo2.logger.joinpoint;
 
 import com.fernandocejas.frodo2.test.UnitTest;
+
 import org.junit.Test;
 import org.mockito.Mock;
 
@@ -9,7 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class RxComponentInfoTest extends UnitTest {
   private RxComponentInfo rxComponentInfo;
 
-  @Mock private FrodoJoinPoint frodoJoinPoint;
+  @Mock
+  private FrodoJoinPoint frodoJoinPoint;
 
   @Test
   public void shouldReturnFlowableStringLiteral() {
@@ -27,5 +29,17 @@ public class RxComponentInfoTest extends UnitTest {
   public void shouldReturnSingleStringLiteral() {
     rxComponentInfo = new RxComponentInfo(RxComponent.SINGLE, frodoJoinPoint);
     assertThat(rxComponentInfo.rxComponentName()).isEqualTo("Single");
+  }
+
+  @Test
+  public void shouldReturnMaybeStringLiteral() {
+    rxComponentInfo = new RxComponentInfo(RxComponent.MAYBE, frodoJoinPoint);
+    assertThat(rxComponentInfo.rxComponentName()).isEqualTo("Maybe");
+  }
+
+  @Test
+  public void shouldReturnCompletableStringLiteral() {
+    rxComponentInfo = new RxComponentInfo(RxComponent.COMPLETABLE, frodoJoinPoint);
+    assertThat(rxComponentInfo.rxComponentName()).isEqualTo("Completable");
   }
 }
