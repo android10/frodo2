@@ -3,6 +3,7 @@ package com.fernandocejas.example.frodo2;
 import com.fernandocejas.example.frodo2.ObservableSamples.MyDummyClass;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -13,6 +14,7 @@ class JavaSamples {
 
   private final FlowableSamples flowableSamples = new FlowableSamples();
   private final ObservableSamples observableSamples = new ObservableSamples();
+  private final SingleSamples singleSamples = new SingleSamples();
 
   private final CompositeDisposable disposables = new CompositeDisposable();
 
@@ -33,6 +35,18 @@ class JavaSamples {
     executeRxObservableSampleOne();
     executeRxObservableSampleTwo();
     executeRxObservableSampleThree();
+  }
+
+  void runSingleExamples() {
+    executeRxSingleSamples();
+  }
+
+  void runMaybeExamples() {
+    executeRxMaybeSamples();
+  }
+
+  void runCompletableExamples() {
+    executeRxCompletableSamples();
   }
 
   //------------------------------------------------
@@ -107,21 +121,33 @@ class JavaSamples {
   //------------------------------------------------
   // S I N G L E      S A M P L E S
   //------------------------------------------------
-  void runSingleExamples() {
+  private void executeRxSingleSamples() {
+    final Single<Integer> integer =
+        singleSamples.number().subscribeOn(Schedulers.newThread());
+    addDisposable(integer.subscribe());
 
+    final Single<String> string = singleSamples.string()
+        .delay(2, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(string.subscribe());
+
+    final Single<SingleSamples.MyClass> single =
+        singleSamples.singleFromObservable().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
+    disposables.add(single.subscribe());
   }
 
   //------------------------------------------------
   // M A Y B E      S A M P L E S
   //------------------------------------------------
-  void runMaybeExamples() {
+  private void executeRxMaybeSamples() {
 
   }
 
   //------------------------------------------------
   // C O M P L E T A B L E      S A M P L E S
   //------------------------------------------------
-  void runCompletableExamples() {
+  private void executeRxCompletableSamples() {
 
   }
 }

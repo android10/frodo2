@@ -2,6 +2,7 @@ package com.fernandocejas.example.frodo2.sample;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -13,12 +14,14 @@ public class AndroidSamples {
 
   private final FlowableSamples flowableSamples;
   private final ObservableSamples observableSamples;
+  private final SingleSamples singleSamples;
 
   private final CompositeDisposable disposables;
 
   public AndroidSamples() {
     flowableSamples = new FlowableSamples();
     observableSamples = new ObservableSamples();
+    singleSamples = new SingleSamples();
 
     disposables = new CompositeDisposable();
   }
@@ -45,15 +48,15 @@ public class AndroidSamples {
   }
 
   public void runSingleExamples() {
-
+    executeRxSingleSamples();
   }
 
   public void runMaybeExamples() {
-
+    executeRxMaybeSamples();
   }
 
   public void runCompletableExamples() {
-
+    executeRxCompletableSamples();
   }
 
   //------------------------------------------------
@@ -128,5 +131,38 @@ public class AndroidSamples {
         .subscribeOn(Schedulers.newThread())
         .observeOn(AndroidSchedulers.mainThread());
     disposables.add(listObservable.subscribe());
+  }
+
+  //------------------------------------------------
+  // S I N G L E      S A M P L E S
+  //------------------------------------------------
+  private void executeRxSingleSamples() {
+    final Single<Integer> integer =
+        singleSamples.number().subscribeOn(Schedulers.newThread());
+    addDisposable(integer.subscribe());
+
+    final Single<String> string = singleSamples.string()
+        .delay(2, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(string.subscribe());
+
+    final Single<SingleSamples.MyClass> single =
+        singleSamples.singleFromObservable().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
+    disposables.add(single.subscribe());
+  }
+
+  //------------------------------------------------
+  // M A Y B E      S A M P L E S
+  //------------------------------------------------
+  private void executeRxMaybeSamples() {
+
+  }
+
+  //------------------------------------------------
+  // C O M P L E T A B L E      S A M P L E S
+  //------------------------------------------------
+  private void executeRxCompletableSamples() {
+
   }
 }
