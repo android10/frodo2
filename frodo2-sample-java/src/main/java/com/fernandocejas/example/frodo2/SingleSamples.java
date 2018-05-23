@@ -23,7 +23,8 @@ class SingleSamples {
 
   SingleSamples() {}
 
-  @RxLogSingle Single<Integer> number() {
+  @RxLogSingle
+  Single<Integer> number() {
     return Single.just(1);
   }
 

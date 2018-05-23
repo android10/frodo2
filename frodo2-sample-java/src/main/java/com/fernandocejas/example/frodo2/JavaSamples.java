@@ -2,6 +2,7 @@ package com.fernandocejas.example.frodo2;
 
 import com.fernandocejas.example.frodo2.ObservableSamples.MyDummyClass;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
@@ -12,14 +13,20 @@ import java.util.concurrent.TimeUnit;
 
 class JavaSamples {
 
-  private final FlowableSamples flowableSamples = new FlowableSamples();
-  private final ObservableSamples observableSamples = new ObservableSamples();
-  private final SingleSamples singleSamples = new SingleSamples();
+  private final FlowableSamples flowableSamples;
+  private final ObservableSamples observableSamples;
+  private final SingleSamples singleSamples;
+  private final MaybeSamples maybeSamples;
 
-  private final CompositeDisposable disposables = new CompositeDisposable();
+  private final CompositeDisposable disposables;
 
   JavaSamples() {
-    //empty
+    flowableSamples = new FlowableSamples();
+    observableSamples = new ObservableSamples();
+    singleSamples = new SingleSamples();
+    maybeSamples = new MaybeSamples();
+
+    disposables = new CompositeDisposable();
   }
 
   private void addDisposable(Disposable disposable) {
@@ -141,7 +148,19 @@ class JavaSamples {
   // M A Y B E      S A M P L E S
   //------------------------------------------------
   private void executeRxMaybeSamples() {
+    final Maybe<Integer> integer =
+        maybeSamples.number().subscribeOn(Schedulers.newThread());
+    addDisposable(integer.subscribe());
 
+    final Maybe<String> string = maybeSamples.string()
+        .delay(2, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(string.subscribe());
+
+    final Maybe<MaybeSamples.MyClass> maybe =
+        maybeSamples.maybeFromSingle().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
+    disposables.add(maybe.subscribe());
   }
 
   //------------------------------------------------
