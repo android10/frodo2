@@ -1,6 +1,7 @@
 package com.fernandocejas.example.frodo2;
 
 import com.fernandocejas.example.frodo2.ObservableSamples.MyDummyClass;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -8,13 +9,14 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-class Samples {
+class JavaSamples {
 
+  private final FlowableSamples flowableSamples = new FlowableSamples();
   private final ObservableSamples observableSamples = new ObservableSamples();
 
   private final CompositeDisposable disposables = new CompositeDisposable();
 
-  Samples() {
+  JavaSamples() {
     //empty
   }
 
@@ -22,22 +24,44 @@ class Samples {
     disposables.add(disposable);
   }
 
-  //------------------------------------------------
-  // F L O W A B L E      S A M P L E S
-  //------------------------------------------------
   void runFlowableExamples() {
-
+    executeRxFlowableSampleOne();
+    executeRxFlowableSampleTwo();
   }
 
-  //------------------------------------------------
-  // O B S E R V A B L E      S A M P L E S
-  //------------------------------------------------
   void runObservableExamples() {
     executeRxObservableSampleOne();
     executeRxObservableSampleTwo();
     executeRxObservableSampleThree();
   }
 
+  //------------------------------------------------
+  // F L O W A B L E      S A M P L E S
+  //------------------------------------------------
+  private void executeRxFlowableSampleOne() {
+    final Flowable<Integer> integers =
+        flowableSamples.numbers().subscribeOn(Schedulers.newThread());
+    addDisposable(integers.subscribeWith(new MySubscriber<>()));
+
+    final Flowable<String> strings = flowableSamples.strings()
+        .delay(2, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(strings.subscribe());
+  }
+
+  private void executeRxFlowableSampleTwo() {
+    final Flowable<Void> voidFlowable =
+        flowableSamples.doNothing().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
+    disposables.add(voidFlowable.subscribeWith(new MySubscriber<>()));
+
+    final Flowable<String> error = flowableSamples.error().delay(4, TimeUnit.SECONDS);
+    disposables.add(error.subscribeWith(new MySubscriber<>()));
+  }
+
+  //------------------------------------------------
+  // O B S E R V A B L E      S A M P L E S
+  //------------------------------------------------
   private void executeRxObservableSampleOne() {
     final Observable<Integer> integers =
         observableSamples.numbers().subscribeOn(Schedulers.newThread());

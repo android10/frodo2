@@ -16,29 +16,28 @@
 package com.fernandocejas.example.frodo2;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
   public static void main(String[] args) throws IOException {
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    final Samples samples = new Samples();
+    final JavaSamples javaSamples = new JavaSamples();
 
     System.out.println("Choose option: ");
-    System.out.println("1 - FLOWABLE Samples");
-    System.out.println("2 - OBSERVABLE Samples");
-    System.out.println("3 - SINGLE Samples");
-    System.out.println("4 - MAYBE Samples");
-    System.out.println("5 - COMPLETABLE Samples");
+    System.out.println("1 - FLOWABLE JavaSamples");
+    System.out.println("2 - OBSERVABLE JavaSamples");
+    System.out.println("3 - SINGLE JavaSamples");
+    System.out.println("4 - MAYBE JavaSamples");
+    System.out.println("5 - COMPLETABLE JavaSamples");
 
     final String input = reader.readLine();
     switch (input) {
-      case "1": samples.runFlowableExamples();
-      case "2": samples.runObservableExamples();
-      case "3": samples.runSingleExamples();
-      case "4": samples.runMaybeExamples();
-      case "5": samples.runCompletableExamples();
+      case "1": javaSamples.runFlowableExamples();
+      case "2": javaSamples.runObservableExamples();
+      case "3": javaSamples.runSingleExamples();
+      case "4": javaSamples.runMaybeExamples();
+      case "5": javaSamples.runCompletableExamples();
       default: System.exit(0);
     }
   }

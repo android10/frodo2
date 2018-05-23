@@ -47,6 +47,9 @@ class FrodoForFlowable {
         .doOnNext(new Consumer<T>() {
           @Override
           public void accept(T value) throws Exception {
+            if (rxComponentInfo.observeOnThread() == null) {
+              rxComponentInfo.setObserveOnThread(Thread.currentThread().getName());
+            }
             emittedItems.increment();
             messageManager.printOnNextWithValue(rxComponentInfo, value);
           }

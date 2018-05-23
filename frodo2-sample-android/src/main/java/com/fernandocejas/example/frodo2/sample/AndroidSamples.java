@@ -1,19 +1,25 @@
 package com.fernandocejas.example.frodo2.sample;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class AndroidSamples {
 
+  private final FlowableSamples flowableSamples;
   private final ObservableSamples observableSamples;
+
   private final CompositeDisposable disposables;
 
   public AndroidSamples() {
+    flowableSamples = new FlowableSamples();
     observableSamples = new ObservableSamples();
+
     disposables = new CompositeDisposable();
   }
 
@@ -28,7 +34,8 @@ public class AndroidSamples {
   }
 
   public void runFlowableExamples() {
-
+    executeRxFlowableSampleOne();
+    executeRxFlowableSampleTwo();
   }
 
   public void runObservableExamples() {
@@ -50,6 +57,30 @@ public class AndroidSamples {
   }
 
   //------------------------------------------------
+  // F L O W A B L E      S A M P L E S
+  //------------------------------------------------
+  private void executeRxFlowableSampleOne() {
+    final Flowable<Integer> integers =
+        flowableSamples.numbers().subscribeOn(Schedulers.newThread());
+    addDisposable(integers.subscribeWith(new MySubscriber<>()));
+
+    final Flowable<String> strings = flowableSamples.strings()
+        .delay(2, TimeUnit.SECONDS)
+        .subscribeOn(Schedulers.io())
+        .observeOn(Schedulers.newThread());
+    disposables.add(strings.subscribe());
+  }
+
+  private void executeRxFlowableSampleTwo() {
+    final Flowable<Void> voidFlowable =
+        flowableSamples.doNothing().delay(8, TimeUnit.SECONDS).subscribeOn(Schedulers.io());
+    disposables.add(voidFlowable.subscribeWith(new MySubscriber<>()));
+
+    final Flowable<String> error = flowableSamples.error().delay(4, TimeUnit.SECONDS);
+    disposables.add(error.subscribeWith(new MySubscriber<>()));
+  }
+
+  //------------------------------------------------
   // O B S E R V A B L E      S A M P L E S
   //------------------------------------------------
   private void executeRxObservableSampleOne() {
@@ -63,7 +94,6 @@ public class AndroidSamples {
       }
     };
     addDisposable(integers.subscribeWith(observer));
-
 
     final Observable<String> strings = observableSamples.strings()
         .subscribeOn(Schedulers.io())
