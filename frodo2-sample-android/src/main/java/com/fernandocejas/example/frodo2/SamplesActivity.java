@@ -5,35 +5,50 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
-import com.fernandocejas.example.frodo2.sample.MyObserver;
-import com.fernandocejas.example.frodo2.sample.ObservableSample;
-import com.fernandocejas.example.frodo2.sample.ObservableSample.MyDummyClass;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import com.fernandocejas.example.frodo2.sample.AndroidSamples;
 
 public class SamplesActivity extends Activity {
 
   private Button btnRxLogFlowable;
   private Button btnRxLogObservable;
   private Button btnRxLogSingle;
+  private Button btnRxLogMaybe;
+  private Button btnRxLogCompletable;
 
-  private CompositeDisposable disposables = new CompositeDisposable();
+  private final AndroidSamples samples = new AndroidSamples();
 
-  private final ObservableSample observableSample = new ObservableSample();
+  private View.OnClickListener rxLogFlowableListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      toastMessage("Running FLOWABLE Samples: Check LOGCAT!");
+      samples.runFlowableExamples();
+    }
+  };
 
   private View.OnClickListener rxLogObservableListener = new View.OnClickListener() {
     @Override public void onClick(View v) {
-      executeRxObservableSampleOne();
-      executeRxObservableSampleTwo();
-      executeRxObservableSampleThree();
+      toastMessage("Running OBSERVABLE Samples: Check LOGCAT!");
+      samples.runObservableExamples();
+    }
+  };
+
+  private View.OnClickListener rxLogSingleListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      toastMessage("Running SINGLE Samples: Check LOGCAT!");
+      samples.runSingleExamples();
+    }
+  };
+
+  private View.OnClickListener rxLogMaybeListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      toastMessage("Running MAYBE Samples: Check LOGCAT!");
+      samples.runMaybeExamples();
+    }
+  };
+
+  private View.OnClickListener rxLogCompletableListener = new View.OnClickListener() {
+    @Override public void onClick(View v) {
+      toastMessage("Running COMPLETABLE Samples: Check LOGCAT!");
+      samples.runCompletableExamples();
     }
   };
 
@@ -45,7 +60,7 @@ public class SamplesActivity extends Activity {
 
   @Override
   protected void onDestroy() {
-    disposables.dispose();
+    samples.dispose();
     super.onDestroy();
   }
 
@@ -53,64 +68,17 @@ public class SamplesActivity extends Activity {
     this.btnRxLogFlowable = findViewById(R.id.btnRxLogFlowable);
     this.btnRxLogObservable = findViewById(R.id.btnRxLogObservable);
     this.btnRxLogSingle = findViewById(R.id.btnRxLogSingle);
+    this.btnRxLogMaybe = findViewById(R.id.btnRxLogMaybe);
+    this.btnRxLogCompletable = findViewById(R.id.btnRxLogCompletable);
 
+    this.btnRxLogFlowable.setOnClickListener(rxLogFlowableListener);
     this.btnRxLogObservable.setOnClickListener(rxLogObservableListener);
+    this.btnRxLogSingle.setOnClickListener(rxLogSingleListener);
+    this.btnRxLogMaybe.setOnClickListener(rxLogMaybeListener);
+    this.btnRxLogCompletable.setOnClickListener(rxLogCompletableListener);
   }
 
   private void toastMessage(String message) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-  }
-
-  private void addDisposable(Disposable disposable) {
-    if (disposables != null) {
-      disposables.add(disposable);
-    }
-  }
-
-  private void executeRxObservableSampleOne() {
-    final Observable<Integer> integers = observableSample.numbers()
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
-    final MyObserver<Integer> observer = new MyObserver<Integer>() {
-      @Override public void onNext(Integer integer) {
-        toastMessage("onNext() Integer--> " + String.valueOf(integer));
-      }
-    };
-    addDisposable(integers.subscribeWith(observer));
-
-
-    final Observable<String> strings = observableSample.strings()
-        .subscribeOn(Schedulers.io())
-        .observeOn(Schedulers.newThread());
-    disposables.add(strings.subscribe());
-
-    final Observable<String> error = observableSample.error();
-    disposables.add(error.subscribeWith(new MyObserver<>()));
-  }
-
-  private void executeRxObservableSampleTwo() {
-    final Observable<Void> voidObservable = observableSample.doNothing()
-        .subscribeOn(Schedulers.io());
-    disposables.add(voidObservable.subscribeWith(new MyObserver<>()));
-
-    final Observable<MyDummyClass> dummyClassObservable = observableSample.doSomething()
-        .subscribeOn(AndroidSchedulers.mainThread())
-        .observeOn(AndroidSchedulers.mainThread());
-    disposables.add(dummyClassObservable.subscribe());
-  }
-
-  private void executeRxObservableSampleThree() {
-    final Observable<String> stringWithDefer = observableSample.stringItemWithDefer();
-    disposables.add(stringWithDefer.subscribeWith(new MyObserver<>()));
-
-    final Observable<String> stringObservable = observableSample.manualCreation()
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
-    disposables.add(stringObservable.subscribe());
-
-    final Observable<List<MyDummyClass>> listObservable = observableSample.list()
-        .subscribeOn(Schedulers.newThread())
-        .observeOn(AndroidSchedulers.mainThread());
-    disposables.add(listObservable.subscribe());
   }
 }

@@ -49,6 +49,20 @@
       android:text="@string/btn_text_sample_rx_log_single"
       />
 
+  <Button
+      android:id="@+id/btnRxLogMaybe"
+      style="@style/AppButton"
+      android:layout_marginBottom="@dimen/button_vertical_margin"
+      android:text="@string/btn_text_sample_rx_log_maybe"
+      />
+
+  <Button
+      android:id="@+id/btnRxLogCompletable"
+      style="@style/AppButton"
+      android:layout_marginBottom="@dimen/button_vertical_margin"
+      android:text="@string/btn_text_sample_rx_log_completable"
+      />
+
   <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

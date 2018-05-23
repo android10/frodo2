@@ -10,6 +10,8 @@
   <string name="btn_text_sample_rx_log_flowable">Rx Log Flowable</string>
   <string name="btn_text_sample_rx_log_observable">Rx Log Observable</string>
   <string name="btn_text_sample_rx_log_single">Rx Log Single</string>
+  <string name="btn_text_sample_rx_log_maybe">Rx Log Maybe</string>
+  <string name="btn_text_sample_rx_log_completable">Rx Log Completable</string>
 
   <string name="string_tip_logcat">Do not forget to check the logcat to see the samples in action</string>
   <string name="string_contribute">CONTRIBUTE TO ADD MORE FEATURES!!!</string>

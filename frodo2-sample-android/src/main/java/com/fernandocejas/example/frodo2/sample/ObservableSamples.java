@@ -13,29 +13,29 @@ import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ObservableSample {
+class ObservableSamples {
 
-  public ObservableSample() {}
+  ObservableSamples() {}
 
   @RxLogObservable
-  public Observable<Integer> numbers() {
+  Observable<Integer> numbers() {
     return Observable.just(1, 2, 3, 4)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread());
   }
 
   @RxLogObservable
-  public Observable<String> strings() {
+  Observable<String> strings() {
     return Observable.just("Hello", "My", "Name", "Is", "Fernando");
   }
 
   @RxLogObservable
-  public Observable<String> error() {
+  Observable<String> error() {
     return Observable.error(new IllegalArgumentException("My error"));
   }
 
   @RxLogObservable
-  public Observable<String> stringItemWithDefer() {
+  Observable<String> stringItemWithDefer() {
     return Observable.defer(new Callable<ObservableSource<? extends String>>() {
       @Override public ObservableSource<? extends String> call() throws Exception {
         return Observable.create(new ObservableOnSubscribe<String>() {
@@ -67,17 +67,17 @@ public class ObservableSample {
   }
 
   @RxLogObservable
-  public Observable<Void> doNothing() {
+  Observable<Void> doNothing() {
     return Observable.empty();
   }
 
   @RxLogObservable
-  public Observable<MyDummyClass> doSomething() {
+  Observable<MyDummyClass> doSomething() {
     return Observable.just(new MyDummyClass("Fernando"));
   }
 
   @RxLogObservable
-  public Observable<List<MyDummyClass>> list() {
+  Observable<List<MyDummyClass>> list() {
     return Observable.just(buildDummyList());
   }
 
@@ -85,7 +85,7 @@ public class ObservableSample {
     return Arrays.asList(new MyDummyClass("Batman"), new MyDummyClass("Superman"));
   }
 
-  public static final class MyDummyClass {
+  static final class MyDummyClass {
     private final String name;
 
     MyDummyClass(String name) {

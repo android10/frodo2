@@ -15,18 +15,31 @@
  */
 package com.fernandocejas.example.frodo2;
 
+import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
   public static void main(String[] args) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     final Samples samples = new Samples();
 
-    System.out.println("Frodo2 Java RxObservable Examples...");
-    samples.executeRxObservableSampleOne();
-    samples.executeRxObservableSampleTwo();
-    samples.executeRxObservableSampleThree();
+    System.out.println("Choose option: ");
+    System.out.println("1 - FLOWABLE Samples");
+    System.out.println("2 - OBSERVABLE Samples");
+    System.out.println("3 - SINGLE Samples");
+    System.out.println("4 - MAYBE Samples");
+    System.out.println("5 - COMPLETABLE Samples");
 
-    //noinspection ResultOfMethodCallIgnored
-    System.in.read();
+    final String input = reader.readLine();
+    switch (input) {
+      case "1": samples.runFlowableExamples();
+      case "2": samples.runObservableExamples();
+      case "3": samples.runSingleExamples();
+      case "4": samples.runMaybeExamples();
+      case "5": samples.runCompletableExamples();
+      default: System.exit(0);
+    }
   }
 }

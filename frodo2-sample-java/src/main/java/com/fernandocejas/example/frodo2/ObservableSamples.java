@@ -22,9 +22,9 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.Arrays;
 import java.util.List;
 
-class ObservableSample {
+class ObservableSamples {
 
-  ObservableSample() {}
+  ObservableSamples() {}
 
   @RxLogObservable
   Observable<Integer> numbers() {
