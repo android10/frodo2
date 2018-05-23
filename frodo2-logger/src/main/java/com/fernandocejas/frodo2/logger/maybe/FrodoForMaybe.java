@@ -44,19 +44,19 @@ class FrodoForMaybe {
         .doOnSuccess(new Consumer<T>() {
           @Override
           public void accept(T value) throws Exception {
-
+            //nothing for now
           }
         })
         .doOnError(new Consumer<Throwable>() {
           @Override
           public void accept(Throwable throwable) throws Exception {
-
+            //nothing for now
           }
         })
         .doOnComplete(new Action() {
           @Override
           public void run() throws Exception {
-
+            //nothing for now
           }
         })
         .doOnEvent(new BiConsumer<T, Throwable>() {

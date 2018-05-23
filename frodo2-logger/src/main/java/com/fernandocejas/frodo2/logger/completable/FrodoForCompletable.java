@@ -39,6 +39,11 @@ class FrodoForCompletable {
             messageManager.printOnSubscribe(rxComponentInfo);
           }
         })
+        .doOnEvent(new Consumer<Throwable>() {
+          @Override public void accept(Throwable throwable) throws Exception {
+            //do nothing here yet
+          }
+        })
         .doOnComplete(new Action() {
           @Override
           public void run() throws Exception {

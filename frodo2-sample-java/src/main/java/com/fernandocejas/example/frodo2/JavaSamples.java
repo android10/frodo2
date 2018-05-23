@@ -1,6 +1,7 @@
 package com.fernandocejas.example.frodo2;
 
 import com.fernandocejas.example.frodo2.ObservableSamples.MyDummyClass;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -17,6 +18,7 @@ class JavaSamples {
   private final ObservableSamples observableSamples;
   private final SingleSamples singleSamples;
   private final MaybeSamples maybeSamples;
+  private final CompletableSamples completableSamples;
 
   private final CompositeDisposable disposables;
 
@@ -25,6 +27,7 @@ class JavaSamples {
     observableSamples = new ObservableSamples();
     singleSamples = new SingleSamples();
     maybeSamples = new MaybeSamples();
+    completableSamples = new CompletableSamples();
 
     disposables = new CompositeDisposable();
   }
@@ -167,6 +170,14 @@ class JavaSamples {
   // C O M P L E T A B L E      S A M P L E S
   //------------------------------------------------
   private void executeRxCompletableSamples() {
+    final Completable doSomething = completableSamples.doSomething()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(Schedulers.io());
+    disposables.add(doSomething.subscribe());
 
+    final Completable executeOperation = completableSamples.executeOperation()
+        .subscribeOn(Schedulers.single())
+        .observeOn(Schedulers.single());
+    disposables.add(executeOperation.subscribe());
   }
 }

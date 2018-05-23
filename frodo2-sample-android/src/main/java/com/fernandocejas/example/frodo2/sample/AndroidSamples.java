@@ -1,5 +1,6 @@
 package com.fernandocejas.example.frodo2.sample;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -17,6 +18,7 @@ public class AndroidSamples {
   private final ObservableSamples observableSamples;
   private final SingleSamples singleSamples;
   private final MaybeSamples maybeSamples;
+  private final CompletableSamples completableSamples;
 
   private final CompositeDisposable disposables;
 
@@ -25,6 +27,7 @@ public class AndroidSamples {
     observableSamples = new ObservableSamples();
     singleSamples = new SingleSamples();
     maybeSamples = new MaybeSamples();
+    completableSamples = new CompletableSamples();
 
     disposables = new CompositeDisposable();
   }
@@ -178,6 +181,14 @@ public class AndroidSamples {
   // C O M P L E T A B L E      S A M P L E S
   //------------------------------------------------
   private void executeRxCompletableSamples() {
+    final Completable doSomething = completableSamples.doSomething()
+        .subscribeOn(Schedulers.newThread())
+        .observeOn(AndroidSchedulers.mainThread());
+    disposables.add(doSomething.subscribe());
 
+    final Completable executeOperation = completableSamples.executeOperation()
+        .subscribeOn(Schedulers.single())
+        .observeOn(Schedulers.single());
+    disposables.add(executeOperation.subscribe());
   }
 }
