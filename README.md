@@ -149,6 +149,15 @@ frodo2 {
 }
 ```
 
+Experimental
+=========================
+
+- Frodo 2 works only on **Android, Java and Kotlin*** projects using **Gradle** as Build System. 
+
+- In **pure Java/Kotlin projects** all the debug information will be display using `System.out` (**NOT** the case of **Android** which displays on the **logcat**). The idea for future versions is to be able to use different Loggers like **Log4J** or any other alternative for example. 
+
+- Contributions are more than welcome. 
+
 Architecture Overview
 =========================
 
