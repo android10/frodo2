@@ -1,6 +1,6 @@
 
 
-Frodo 2 - WIP - Coming soon! [![Build Status](https://travis-ci.org/android10/frodo2.svg?branch=master)](https://travis-ci.org/android10/frodo2)
+Frodo 2 [![Build Status](https://travis-ci.org/android10/frodo2.svg?branch=master)](https://travis-ci.org/android10/frodo2)
 =========================
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) 
@@ -8,10 +8,27 @@ Frodo 2 - WIP - Coming soon! [![Build Status](https://travis-ci.org/android10/fr
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![Platform](https://img.shields.io/badge/platform-java-orange.svg)](https://docs.oracle.com/javase/8/docs/)
 
-```Frodo 2``` is the second generation version of [Frodo](https://github.com/android10/frodo/), mainly used for making easier debugging [RxJava 2](https://github.com/ReactiveX/RxJava/wiki/What's-different-in-2.0). 
-It generates and weaves code based on annotations only on ```debug``` versions of the application where the plugin is applied, for instance, it is safe to persist any ```Frodo 2``` annotation in the codebase.
+```Frodo 2``` is the second version of [Frodo](https://github.com/android10/frodo/), mainly used to make easier debugging projects where [RxJava 2](https://github.com/ReactiveX/RxJava/wiki/What's-different-in-2.0) is used. 
 
 ![frodo_hug](https://cloud.githubusercontent.com/assets/1360604/10925718/e7ea4318-8290-11e5-91b4-f2bfbde65319.gif)
+
+
+How it works
+=========================
+
+It generates and weaves code based on annotations at compile time (check Main Features Section for more details). This code is injected using [Aspect Oriented Programming with AspectJ](https://www.eclipse.org/aspectj/).
+
+- On Android projects (both Kotlin and Java): It is safe to persist any ```Frodo 2``` annotation in the codebase since the code generator will ONLY work on ```debug``` versions of the application where the plugin is applied.
+
+- On pure Kotlin/Java projects: EXPERIMENTAL, you can keep the annotation in the source code but you have to manually enable/disable the code generation (check Enabling Frodo 2 section).
+
+For more details please check these articles where there is a deeper explanation with implementation details:
+
+- [Debugging RxJava on Android](https://fernandocejas.com/2015/11/05/debugging-rxjava-on-android/)
+
+- [Aspect Oriented Programming in Android](https://fernandocejas.com/2014/08/03/aspect-oriented-programming-in-android/)
+
+![aspectweaving](https://user-images.githubusercontent.com/1360604/40504693-4adf5a5e-5f92-11e8-89b3-e45c04b78745.png)
 
 
 Main Features
@@ -87,7 +104,7 @@ https://github.com/android10/java-code-styles
 License
 =========================
 
-    Copyright 2017 Fernando Cejas
+    Copyright 2018 Fernando Cejas
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
